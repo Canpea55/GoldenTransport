@@ -1,0 +1,46 @@
+:root {
+    -unity-font-definition: url("project://database/Assets/Fonts/NotoSansThai/NotoSansThai-VariableFont_wdth,wght.ttf?fileID=12800000&guid=f124e94c3c760374bb91274ea46243f0&type=3#NotoSansThai-VariableFont_wdth,wght");
+}
+
+.panel {
+    background-color: rgb(116, 185, 255);
+}
+
+.menu {
+    align-items: center;
+    left: auto;
+    width: 80%;
+    align-self: center;
+    height: auto;
+    flex-direction: row;
+    flex-grow: 1;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+}
+
+.menu-button {
+    flex-grow: 1;
+    max-width: 50%;
+    min-width: 30px;
+    background-color: rgb(9, 132, 227);
+    transition-duration: 0.2s;
+    transition-timing-function: ease-out;
+}
+
+.menu-button:hover {
+    transition-property: translate, rotate;
+    transition-timing-function: ease-out, ease-out;
+    transition-duration: 0.2s, 0.2s;
+    translate: 0 -4px;
+    rotate: 0 0 -1 0.5deg;
+}
+
+.unity-label {
+}
+
+.menu-group-label {
+    -unity-font-style: bold;
+    -unity-text-align: upper-left;
+    font-size: 32px;
+    color: rgb(9, 132, 227);
+}
