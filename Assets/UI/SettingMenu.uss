@@ -1,5 +1,6 @@
 :root {
-    -unity-font-definition: url("project://database/Assets/Fonts/NotoSansThai/NotoSansThai-VariableFont_wdth,wght.ttf?fileID=12800000&guid=f124e94c3c760374bb91274ea46243f0&type=3#NotoSansThai-VariableFont_wdth,wght");
+    -unity-font-definition: url("project://database/Assets/Fonts/NotoSansThai-SDF.asset?fileID=11400000&guid=b8d9f82d2eedf9b4f946a4210a7eb9b9&type=2#NotoSansThai-SDF");
+    -unity-font-style: normal;
 }
 
 .panel {
@@ -9,9 +10,7 @@
 .menu {
     align-items: center;
     left: auto;
-    width: 80%;
     align-self: center;
-    height: auto;
     flex-direction: row;
     flex-grow: 1;
     flex-wrap: nowrap;
@@ -33,6 +32,7 @@
     transition-duration: 0.2s, 0.2s;
     translate: 0 -4px;
     rotate: 0 0 -1 0.5deg;
+    scale: 1 1.06;
 }
 
 .unity-label {
@@ -40,7 +40,19 @@
 
 .menu-group-label {
     -unity-font-style: bold;
-    -unity-text-align: upper-left;
-    font-size: 32px;
+    -unity-text-align: middle-left;
+    font-size: 16px;
     color: rgb(9, 132, 227);
+}
+
+.btn-anim {
+    transition-duration: 0.2s;
+    transition-timing-function: ease-out;
+}
+
+.btn-anim:hover {
+    transition-duration: 0.2s;
+    rotate: 16deg;
+    transition-timing-function: ease-out;
+    scale: 1.2 1.2 1.2;
 }
