@@ -27,6 +27,6 @@ public class SettingMenuController : MonoBehaviour
 
     private void OnDisplayMenuClicked()
     {
-        Debug.Log("Display!");
+        Debug.Log("Display");
     }
 }
