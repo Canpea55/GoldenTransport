@@ -19,35 +19,41 @@ public class DisplaySettingsController : MonoBehaviour
 
     private void OnEnable()
     {
-        vsync = ui.Query<Toggle>("VsyncToggle");
         framrateSelector = ui.Q<DropdownField>("FramerateSelector");
-        if (vsync.value)
+        if (PlayerPrefs.HasKey("FramerateLimit"))
         {
-            FrameLimiter.SetVSync(vsync.value);
-        } else
-        {
-            SetFramerateLimitor(framrateSelector.value);
+            framrateSelector.value = PlayerPrefs.GetString("FramerateLimit");
         }
+        else
+        {
+            SetFramerateLimitor("60");
+        }
+
+        vsync = ui.Query<Toggle>("VsyncToggle");
+        if (PlayerPrefs.HasKey("VSync"))
+        {
+            vsync.value = PlayerPrefs.GetInt("VSync") != 0;
+            SetVSync(vsync.value, framrateSelector);
+        } 
+        else
+        {
+            vsync.value = true;
+            SetVSync(vsync.value, framrateSelector);
+        }
+
         vsync.RegisterValueChangedCallback(evt => {
-            FrameLimiter.SetVSync(vsync.value);
-            if (vsync.value)
-            {
-                framrateSelector.SetEnabled(false);
-            }
-            else
-            {
-                framrateSelector.SetEnabled(true);
-            }
+            SetVSync(vsync.value, framrateSelector);
         });
+
         framrateSelector.RegisterValueChangedCallback(evt =>
         {
             SetFramerateLimitor(framrateSelector.value);
         });
     }
 
-    private void SetFramerateLimitor(string choice)
+    private void SetFramerateLimitor(string value)
     {
-        switch (choice)
+        switch (value)
         {
             default:
                 FrameLimiter.SetTarget(60);
@@ -76,6 +82,21 @@ public class DisplaySettingsController : MonoBehaviour
             case "Unlimited":
                 FrameLimiter.SetTarget(-1);
                 break;
+        }
+        PlayerPrefs.SetString("FramerateLimit", value);
+    }
+
+    private void SetVSync(bool value, DropdownField frameselecetor)
+    {
+        FrameLimiter.SetVSync(value);
+        PlayerPrefs.SetInt("VSync", value ? 1 : 0);
+        if (value)
+        {
+            framrateSelector.SetEnabled(false);
+        }
+        else
+        {
+            framrateSelector.SetEnabled(true);
         }
     }
 }

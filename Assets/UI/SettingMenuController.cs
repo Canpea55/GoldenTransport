@@ -70,14 +70,17 @@ public class SettingMenuController : MonoBehaviour
         }
         else
         {
-            currentMenu.SetEnabled(false);
-            currentMenu.schedule.Execute(() =>
+            if(currentMenu != toSettings)
             {
-                currentMenu.style.display = DisplayStyle.None;
-                currentMenu = toSettings;
-                currentMenu.style.display = DisplayStyle.Flex;
-                currentMenu.SetEnabled(true);
-            }).StartingIn(250);
+                currentMenu.SetEnabled(false);
+                currentMenu.schedule.Execute(() =>
+                {
+                    currentMenu.style.display = DisplayStyle.None;
+                    currentMenu = toSettings;
+                    currentMenu.style.display = DisplayStyle.Flex;
+                    currentMenu.SetEnabled(true);
+                }).StartingIn(250);
+            }
         }
     }
 }

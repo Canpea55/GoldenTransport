@@ -14,7 +14,7 @@ PlayerSettings:
   accelerometerFrequency: 60
   companyName: DefaultCompany
   productName: GoldenTransport
-  defaultCursor: {fileID: 2800000, guid: abff9e73b8bace348ad80a44271f19a5, type: 3}
+  defaultCursor: {fileID: 2800000, guid: 346f82c600f909d4a92af135b3d1d29b, type: 3}
   cursorHotspot: {x: 0, y: 0}
   m_SplashScreenBackgroundColor: {r: 0.13725491, g: 0.12156863, b: 0.1254902, a: 1}
   m_ShowUnitySplashScreen: 0
