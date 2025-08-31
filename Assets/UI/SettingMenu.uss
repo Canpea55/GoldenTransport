@@ -5,6 +5,8 @@
 
 .panel {
     background-color: rgb(116, 185, 255);
+    display: flex;
+    transition: opacity 0.3s ease-out;
 }
 
 .menu {
@@ -35,9 +37,6 @@
     scale: 1 1.06;
 }
 
-.unity-label {
-}
-
 .menu-group-label {
     -unity-font-style: bold;
     -unity-text-align: middle-left;
@@ -65,6 +64,65 @@
 }
 
 .btn-active:inactive {
+    transition-property: all;
+    transition-duration: 0.1s;
+    transition-timing-function: ease-out;
+}
+
+.hover-anim {
+    transition-duration: 0.2s;
+    transition-timing-function: ease-out;
+    transition-property: translate;
+    translate: 0 0;
+}
+
+.hover-anim:hover {
+    transition-duration: 0.2s;
+    transition-timing-function: ease-out;
+    transition-property: translate;
+    translate: 0 -4px;
+}
+
+.settings {
+}
+
+.settings:enabled {
+    opacity: 1;
+    transition-property: opacity, translate;
+    transition-duration: 0.2s, 0.2s;
+    transition-timing-function: ease-in-out, ease-out;
+}
+
+.settings:disabled {
+    opacity: 0;
+    transition-property: opacity, translate;
+    transition-duration: 0.2s, 0.2s;
+    transition-timing-function: ease-in, ease-in;
+    translate: 0 8px;
+}
+
+.textfield-anim:focus {
+    scale: 1.05 1.05 1.05;
+    transition-duration: 0.075s;
+    transition-timing-function: ease-out;
+    transition-property: scale;
+}
+
+.textfield-anim:hover {
+    transition-duration: 0.2s;
+    rotate: 16deg;
+    transition-timing-function: ease-out;
+    scale: 1.2 1.2 1.2;
+}
+
+.textfield-anim:active {
+    scale: 0.95 0.95 0.95;
+    transition-duration: 0.075s;
+    transition-timing-function: ease-out;
+    transition-property: scale;
+}
+
+.textfield-anim:inactive {
     transition-property: all;
     transition-duration: 0.1s;
     transition-timing-function: ease-out;
