@@ -13,6 +13,7 @@ public class SettingMenuController : MonoBehaviour
 
     public VisualElement displaySettings;
     public VisualElement databaseSettings;
+    public VisualElement stickersManager;
 
     public Button displayMenuBtn;
     public Button databaseMenuBtn;
@@ -31,6 +32,8 @@ public class SettingMenuController : MonoBehaviour
         settingsList.Add(displaySettings);
         databaseSettings = ui.Q<VisualElement>("DatabaseSettings");
         settingsList.Add(databaseSettings);
+        stickersManager = ui.Q<VisualElement>("StickersManager");
+        settingsList.Add(stickersManager);
 
         //Auto hide other tab then the display tab (first setting tab)
         for(int i = 0; i <  settingsList.Count; i++)
@@ -49,6 +52,9 @@ public class SettingMenuController : MonoBehaviour
 
         databaseMenuBtn = ui.Q<Button>("Database");
         databaseMenuBtn.clicked += OnDatabaseMenuClicked;
+
+        stickerManageMenuBtn = ui.Q<Button>("Stickers");
+        stickerManageMenuBtn.clicked += OnStickerMenuClicked;
     }
 
     private void OnDisplayMenuClicked()
@@ -58,6 +64,10 @@ public class SettingMenuController : MonoBehaviour
     private void OnDatabaseMenuClicked()
     {
         SetActiveSettings(databaseSettings);
+    }
+    private void OnStickerMenuClicked()
+    {
+        SetActiveSettings(stickersManager);
     }
 
     public void SetActiveSettings(VisualElement toSettings)

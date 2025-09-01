@@ -151,7 +151,7 @@
 }
 
 .unity-text-element--inner-input-field-component {
-    color: rgb(9, 132, 227);
+    color: rgb(223, 230, 233);
     font-size: 16px;
     -unity-font-style: bold;
 }

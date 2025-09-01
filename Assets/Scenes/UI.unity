@@ -474,6 +474,7 @@ GameObject:
   - component: {fileID: 1925241973}
   - component: {fileID: 1925241974}
   - component: {fileID: 1925241975}
+  - component: {fileID: 1925241976}
   m_Layer: 5
   m_Name: Setting
   m_TagString: Untagged
@@ -546,6 +547,7 @@ MonoBehaviour:
   scrollClass: smooth-scroll
   scrollSpeed: 32
   lerpSpeed: 8
+  dragSensitivity: 1
 --- !u!114 &1925241973
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -582,6 +584,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a92c20bbc80a75643a2f063e8bb12bbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
+--- !u!114 &1925241976
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1925241968}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f44f4055a2d9dc341a6a74567fd525d9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TableExample
+  uiDoc: {fileID: 1925241969}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
