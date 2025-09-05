@@ -204,7 +204,6 @@
 }
 
 .unity-multi-column-header__column-resize-handle__drag-area {
-    background-color: rgb(9, 132, 227);
 }
 
 .unity-list-view__footer {

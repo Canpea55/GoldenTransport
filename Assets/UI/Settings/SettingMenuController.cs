@@ -8,6 +8,8 @@ using Button = UnityEngine.UIElements.Button;
 
 public class SettingMenuController : MonoBehaviour
 {
+    public CanvasManager canvasManager;
+
     public VisualElement ui;
     public VisualElement currentMenu;
 
@@ -15,12 +17,12 @@ public class SettingMenuController : MonoBehaviour
     public VisualElement databaseSettings;
     public VisualElement stickersManager;
 
+    public Button close;
     public Button displayMenuBtn;
     public Button databaseMenuBtn;
     public Button stickerManageMenuBtn;
     public Button vehManageMenuBtn;
     public Button driverManageMenuBtn;
-
 
     private void Awake()
     {
@@ -55,6 +57,15 @@ public class SettingMenuController : MonoBehaviour
 
         stickerManageMenuBtn = ui.Q<Button>("Stickers");
         stickerManageMenuBtn.clicked += OnStickerMenuClicked;
+
+        close = ui.Q<Button>("CloseSettingMenu");
+        close.clicked += OnCloseButtonClicked;
+    }
+
+    private void OnCloseButtonClicked()
+    {
+        //temporary
+        StartCoroutine(canvasManager.DisableScreen("settings", 300));
     }
 
     private void OnDisplayMenuClicked()
@@ -67,7 +78,12 @@ public class SettingMenuController : MonoBehaviour
     }
     private void OnStickerMenuClicked()
     {
-        SetActiveSettings(stickersManager);
+        StickerTable stkTable = GetComponent<StickerTable>();
+        if (stkTable != null)
+        {
+            stkTable.StartTable();
+            SetActiveSettings(stickersManager);
+        }
     }
 
     public void SetActiveSettings(VisualElement toSettings)

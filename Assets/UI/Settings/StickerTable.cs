@@ -15,7 +15,7 @@ public class StickerTable : MonoBehaviour
     private TextField searchField;
     private bool isDataLoaded = false;
 
-    void OnEnable()
+    public void StartTable()
     {
         uiDoc = GetComponent<UIDocument>();
         var root = uiDoc.rootVisualElement;

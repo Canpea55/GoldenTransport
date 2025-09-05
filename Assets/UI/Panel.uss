@@ -1,0 +1,15 @@
+.panel {
+    transition-duration: 0.3s;
+}
+
+.panel:enabled {
+    transition-duration: 0.3s;
+    transition-timing-function: ease-out;
+}
+
+.panel:disabled {
+    transition-timing-function: ease-in;
+    transition-duration: 0.3s;
+    opacity: 0;
+    transition-property: opacity;
+}
