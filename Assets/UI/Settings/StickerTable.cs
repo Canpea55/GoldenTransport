@@ -17,17 +17,25 @@ public class StickerTable : MonoBehaviour
 
     public void StartTable()
     {
-        uiDoc = GetComponent<UIDocument>();
-        var root = uiDoc.rootVisualElement;
-        table = root.Q<MultiColumnListView>("StickersTable");
-        searchField = root.Q<TextField>("SearchBox");
+        if (isDataLoaded)
+        {
+            StartCoroutine(api.GetStickers(serverIp, OnStickersLoaded));
+            table.Rebuild();
+        }
+        else
+        {
+            uiDoc = GetComponent<UIDocument>();
+            var root = uiDoc.rootVisualElement;
+            table = root.Q<MultiColumnListView>("StickersTable");
+            searchField = root.Q<TextField>("SearchBox");
 
-        // Initialize the table setup
-        SetupTable();
+            // Initialize the table setup
+            SetupTable();
 
-        // Load data from server
-        serverIp = PlayerPrefs.GetString("ServerIP");
-        StartCoroutine(api.GetStickers(serverIp, OnStickersLoaded));
+            // Load data from server
+            serverIp = PlayerPrefs.GetString("ServerIP");
+            StartCoroutine(api.GetStickers(serverIp, OnStickersLoaded));
+        }
     }
 
     void SetupTable()

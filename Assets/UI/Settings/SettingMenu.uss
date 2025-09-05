@@ -17,6 +17,9 @@
     flex-grow: 1;
     flex-wrap: nowrap;
     justify-content: flex-start;
+    transition-duration: 0.3s;
+    transition-timing-function: ease-out;
+    transition-delay: 0.1s;
 }
 
 .menu-button {
@@ -91,6 +94,7 @@
     transition-property: opacity, translate;
     transition-duration: 0.2s, 0.2s;
     transition-timing-function: ease-in-out, ease-out;
+    transition-delay: 0.3s, 0.3s;
 }
 
 .settings:disabled {
@@ -130,4 +134,69 @@
 
 .menu-lable {
     color: rgb(255, 255, 255);
+}
+
+.menu:disabled {
+    opacity: 0;
+    translate: -8px 0;
+    transition-property: opacity, translate;
+    transition-duration: 0.25s, 0.25s;
+    transition-timing-function: ease-in, ease-in;
+    transition-delay: 0s, 0s;
+}
+
+.header-title {
+}
+
+.header-title:enabled {
+    transition-timing-function: ease-out;
+    transition-duration: 0.3s;
+    transition-delay: 0.5s;
+}
+
+.header-title:disabled {
+    translate: 0 -8px;
+    opacity: 0;
+    transition-property: opacity, translate;
+    transition-duration: 0.3s, 0.3s;
+    transition-timing-function: ease-in, ease-in;
+}
+
+.header-close_btn {
+}
+
+.header-close_btn:enabled {
+    transition-timing-function: ease-out, ease;
+    transition-duration: 0.22s, 0.22s;
+    transition-delay: 0s, 0s;
+    transition-property: opacity, scale;
+}
+
+.header-close_btn:disabled {
+    scale: 0.5 0.5 0.5;
+    transition-property: scale, opacity;
+    transition-duration: 0.25s, 0.28s;
+    transition-timing-function: ease-in, ease-in;
+    opacity: 0;
+}
+
+.header-close_btn:hover {
+    scale: 1.2 1.2 1.2;
+    transition-property: scale, rotate;
+    transition-duration: 0.25s, 0.5s;
+    transition-timing-function: ease-out, ease-out;
+    rotate: 20deg;
+}
+
+.header-close_btn:active {
+    scale: 0.9 0.9 0.9;
+    transition-property: scale;
+    transition-duration: 0.075s;
+    transition-timing-function: ease-out;
+}
+
+.header-close_btn:inactive {
+    transition-duration: 0.5s, 0.25s;
+    transition-timing-function: ease-out, ease-out;
+    transition-property: rotate, scale;
 }
