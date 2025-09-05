@@ -23,8 +23,8 @@ public class MainMenuController : MonoBehaviour
 
     private void OnSettingsMenuClicked()
     {
-        Debug.Log("start setting menu");
         StartCoroutine(canvasManager.EnableScreen("settings"));
+        StartCoroutine(canvasManager.DisableScreen("main", 300));
     }
 
     // Update is called once per frame

@@ -3,7 +3,7 @@
     <Style src="project://database/Assets/UI/Settings/MinimalScrollbar.uss?fileID=7433441132597879392&amp;guid=b554c6c073890804683345682da32b24&amp;type=3#MinimalScrollbar" />
     <Style src="project://database/Assets/UI/Settings/OverrideDefault.uss?fileID=7433441132597879392&amp;guid=b7bdbf2def6a4d84ca837d2df13fc550&amp;type=3#OverrideDefault" />
     <Style src="project://database/Assets/UI/Panel.uss?fileID=7433441132597879392&amp;guid=2269da2f2b1e03147bd7dc9fcc8eff51&amp;type=3#Panel" />
-    <ui:VisualElement name="Panel" enabled="true" class="panel" style="flex-grow: 1; flex-direction: column; background-color: rgb(255, 255, 255); display: flex;">
+    <ui:VisualElement name="Panel" enabled="true" class="panel" style="flex-grow: 1; flex-direction: column; background-color: rgba(255, 255, 255, 0.8); display: flex;">
         <ui:VisualElement name="SettingsContainer" class="settings-container" style="flex-grow: 1; width: 90%; flex-direction: column; align-items: center; align-self: center;">
             <ui:VisualElement name="Header" style="flex-grow: 1; min-width: 100%; min-height: 0%; max-height: 10%; justify-content: space-between; flex-direction: row; align-self: center; align-content: center; align-items: center; margin-top: 16px; margin-bottom: 8px;">
                 <ui:VisualElement style="flex-grow: 1; width: 90%; justify-content: center; align-self: flex-start; height: 100%; flex-direction: row; align-items: center;">

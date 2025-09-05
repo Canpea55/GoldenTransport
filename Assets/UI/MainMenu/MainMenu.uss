@@ -1,4 +1,5 @@
 :root {
+    -unity-font-definition: url("project://database/Assets/Fonts/NotoSansThai-SDF.asset?fileID=11400000&guid=b8d9f82d2eedf9b4f946a4210a7eb9b9&type=2#NotoSansThai-SDF");
 }
 
 .settingBtn {
@@ -20,17 +21,48 @@
     transition-timing-function: ease-out;
 }
 
-.panel {
+.main_prog_btn_bg {
+    background-color: rgb(225, 112, 85);
+    transition-timing-function: ease-out;
+    transition-duration: 0.3s;
+    height: 70%;
+    max-width: 24%;
 }
 
-.panel:enabled {
-    transition-duration: 0.2s;
+.main_prog_btn_bg:hover {
+    transition-duration: 0.3s, 0.3s, 0.3s;
+    transition-timing-function: ease-out, ease-out-back, ease-out-back;
+    transition-property: background-color, max-width, height;
+    max-width: 28%;
+    height: 75%;
+}
+
+.main_prog_btn_label {
+    font-size: 16px;
+    -unity-font-style: bold;
+    color: rgb(255, 255, 255);
+    -unity-text-align: middle-center;
+    transition-duration: 0.3s;
     transition-timing-function: ease-out;
 }
 
-.panel:disabled {
-    transition-timing-function: ease-in;
-    transition-duration: 0.2s;
-    opacity: 0;
-    translate: 0 8px;
+.main_prog_btn_label:hover {
+    scale: 1.1 1.1 1.1;
+    transition-property: scale;
+    transition-duration: 0.3s;
+    transition-timing-function: ease-out;
+}
+
+.main_prog_btn {
+    transition-duration: 0.3s;
+    transition-timing-function: ease-out;
+    transition-delay: 0s;
+}
+
+.main_prog_btn:hover {
+    transition-duration: 0.3s;
+    transition-timing-function: ease-out-back;
+    transition-delay: 0s;
+    translate: 0 -8px;
+    transition-property: translate;
 }
