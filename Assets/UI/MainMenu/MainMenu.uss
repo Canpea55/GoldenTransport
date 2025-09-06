@@ -47,22 +47,121 @@
 }
 
 .main_prog_btn_label:hover {
-    scale: 1.1 1.1 1.1;
-    transition-property: scale;
+    transition-property: translate;
     transition-duration: 0.3s;
-    transition-timing-function: ease-out;
+    transition-timing-function: ease-out-back;
+    translate: 0 -4px;
+    transition-delay: 0.1s;
 }
 
 .main_prog_btn {
-    transition-duration: 0.3s;
-    transition-timing-function: ease-out;
-    transition-delay: 0s;
 }
 
 .main_prog_btn:hover {
     transition-duration: 0.3s;
     transition-timing-function: ease-out-back;
     transition-delay: 0s;
+    translate: 0 -16px;
+    transition-property: translate;
+}
+
+.main_prog_btn:active {
+    scale: 0.9 0.9;
+    transition-property: scale;
+    transition-duration: 0.3s;
+    transition-timing-function: ease-out-back;
+}
+
+.main_prog_btn:inactive {
+    transition-property: all;
+    transition-timing-function: ease-out-back;
+    transition-duration: 0.3s;
+}
+
+.inventory_btn_label {
+    -unity-font-definition: url("project://database/Assets/Fonts/NotoSansThai-SDF.asset?fileID=11400000&guid=b8d9f82d2eedf9b4f946a4210a7eb9b9&type=2#NotoSansThai-SDF");
+    font-size: 16px;
+    -unity-font-style: bold;
+    color: rgb(255, 255, 255);
+    -unity-text-align: lower-center;
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: -32px;
+    margin-left: 0;
+    padding-top: 0;
+    padding-right: 0;
+    padding-bottom: 0;
+    padding-left: 0;
+    flex-grow: 1;
+    transition-duration: 0.3s;
+    transition-timing-function: ease-out;
+    width: 100%;
+}
+
+.inventory_btn_label:hover {
     translate: 0 -8px;
     transition-property: translate;
+    transition-duration: 0.3s;
+    transition-timing-function: ease-out-back;
+    transition-delay: 0.1s;
+}
+
+.inventory_btn_bg {
+    flex-grow: 1;
+    background-color: rgb(253, 203, 110);
+    height: 50%;
+    max-width: 20%;
+    align-self: center;
+    align-content: center;
+    align-items: center;
+    justify-content: center;
+    margin-right: 8px;
+    border-top-left-radius: 32px;
+    border-top-right-radius: 16px;
+    border-bottom-right-radius: 16px;
+    border-bottom-left-radius: 32px;
+    transition-duration: 0.3s;
+    transition-timing-function: ease-out-circ;
+}
+
+.inventory_btn_bg:hover {
+    height: 55%;
+    max-width: 25%;
+    transition-property: height, max-width;
+    transition-timing-function: ease-out-back, ease-out-back;
+    transition-duration: 0.3s, 0.3s;
+}
+
+.inventory_btn {
+    background-image: url("project://database/Assets/Textures/The%20Thiings%20Collection/WarehouseShelf.png?fileID=2800000&guid=6733698c21817f44e92e67b9772ae39d&type=3#WarehouseShelf");
+    background-color: rgba(0, 0, 0, 0);
+    -unity-background-scale-mode: scale-to-fit;
+    width: 128px;
+    height: 128px;
+    border-left-color: rgba(0, 0, 0, 0);
+    border-right-color: rgba(0, 0, 0, 0);
+    border-top-color: rgba(0, 0, 0, 0);
+    border-bottom-color: rgba(0, 0, 0, 0);
+    border-top-width: 0;
+    border-right-width: 0;
+    border-bottom-width: 0;
+    border-left-width: 0;
+    flex-shrink: 1;
+    overflow: visible;
+    transition-duration: 0.3s;
+    transition-timing-function: ease-out;
+}
+
+.inventory_btn:hover {
+    transition-duration: 0.3s;
+    transition-property: scale;
+    transition-timing-function: ease-out-back;
+    scale: 0.95 0.95;
+}
+
+.inventory_btn:active {
+    scale: 0.8 0.8;
+    transition-property: scale;
+    transition-duration: 0.3s;
+    transition-timing-function: ease-out-back;
 }
