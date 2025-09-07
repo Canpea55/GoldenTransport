@@ -1,0 +1,20 @@
+:root {
+}
+
+.transport_detail_panel {
+    transition-duration: 0.3s;
+    transition-timing-function: ease-out;
+}
+
+.transport_detail_panel:enabled {
+    transition-duration: 0.3s;
+    transition-timing-function: ease-out-back;
+}
+
+.transport_detail_panel:disabled {
+    translate: 16px 0;
+    transition-property: translate, opacity;
+    transition-duration: 0.3s, 0.3s;
+    opacity: 0;
+    transition-timing-function: ease-in-circ, ease-in-circ;
+}

@@ -9,6 +9,7 @@ public class MainMenuController : MonoBehaviour
     public VisualElement ui;
 
     public Button settingMenu;
+    public Button transportation;
 
     private void Awake()
     {
@@ -19,12 +20,21 @@ public class MainMenuController : MonoBehaviour
     {
         settingMenu = ui.Q<Button>("SettingBtn");
         settingMenu.clicked += OnSettingsMenuClicked;
+        
+        transportation = ui.Q<Button>("MainBtn");
+        transportation.clicked += OnTransportationClicked;
+    }
+
+    private void OnTransportationClicked()
+    {
+        StartCoroutine(canvasManager.DisableScreen("main", 500));
+        StartCoroutine(canvasManager.EnableScreen("transportation"));
     }
 
     private void OnSettingsMenuClicked()
     {
         StartCoroutine(canvasManager.EnableScreen("settings"));
-        StartCoroutine(canvasManager.DisableScreen("main", 300));
+        StartCoroutine(canvasManager.DisableScreen("main", 500));
     }
 
     // Update is called once per frame

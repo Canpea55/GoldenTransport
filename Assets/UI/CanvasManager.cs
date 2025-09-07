@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Device;
 using UnityEngine.UIElements;
 
 [Serializable]
@@ -20,14 +21,27 @@ public class CanvasManager : MonoBehaviour
         //setup
         foreach (Screen screen in screens)
         {
-            var uidoc = screen.screenObject.GetComponent<UIDocument>();
-            if (uidoc != null)
+            if(screen.screenObject.activeSelf)
             {
-                var root = uidoc.rootVisualElement;
-                var panel = root.Q<VisualElement>("Panel");
-                panel.style.display = DisplayStyle.None;
-                panel.SetEnabled(false);
+                SetupManager(screen);
             }
+            else
+            {
+                screen.screenObject.SetActive(true);
+                SetupManager(screen);
+            }
+        }
+    }
+
+    void SetupManager(Screen screen)
+    {
+        var uidoc = screen.screenObject.GetComponent<UIDocument>();
+        if (uidoc != null)
+        {
+            var root = uidoc.rootVisualElement;
+            var panel = root.Q<VisualElement>("Panel");
+            panel.style.display = DisplayStyle.None;
+            panel.SetEnabled(false);
         }
     }
 

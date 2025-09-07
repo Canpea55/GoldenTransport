@@ -65,7 +65,7 @@ public class SettingMenuController : MonoBehaviour
     private void OnCloseButtonClicked()
     {
         //temporary
-        StartCoroutine(canvasManager.DisableScreen("settings", 300));
+        StartCoroutine(canvasManager.DisableScreen("settings", 500));
         StartCoroutine(canvasManager.EnableScreen("main"));
     }
 

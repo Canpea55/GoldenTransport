@@ -1,0 +1,7 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI/TransportationUI/TransportationUI.uss?fileID=7433441132597879392&amp;guid=2a5662158be43744fb993a4cc6b2e7b7&amp;type=3#TransportationUI" />
+    <Style src="project://database/Assets/UI/Panel.uss?fileID=7433441132597879392&amp;guid=2269da2f2b1e03147bd7dc9fcc8eff51&amp;type=3#Panel" />
+    <ui:VisualElement name="Panel" enabled="true" class="panel" style="flex-grow: 1;">
+        <ui:VisualElement name="TransportDetail" class="transport_detail_panel" style="flex-grow: 1; background-color: rgb(253, 203, 110); align-self: flex-end; border-top-left-radius: 0; border-bottom-left-radius: 0; width: 65%;" />
+    </ui:VisualElement>
+</ui:UXML>
