@@ -2,12 +2,15 @@
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class SplitScreen : MonoBehaviour
+public class CameraRectManager : MonoBehaviour
 {
     public CanvasManager canvasManager;
     public Camera mainCamera;  // 3D Camera
-    public float cameraRectWidth = 0.3f;
-    //public Camera uiCamera;    // UI Camera
+    [Header("Camera Rect Settings")]
+    [Range(0f, 1f)] public float cameraRectX = 0f;
+    [Range(0f, 1f)] public float cameraRectY = 0f;
+    [Range(0f, 1f)] public float cameraRectWidth = 0.4f;
+    [Range(0f, 1f)] public float cameraRectHeight = 1f;
 
     private void Start()
     {
@@ -32,10 +35,6 @@ public class SplitScreen : MonoBehaviour
 
     void Update()
     {
-        // 30% for 3D on left side
-        mainCamera.rect = new Rect(0f, 0f, cameraRectWidth, 1f);
-
-        // 70% for UI on right side
-        //uiCamera.rect = new Rect(0.3f, 0f, 0.7f, 1f);
+        mainCamera.rect = new Rect(cameraRectX, cameraRectY, cameraRectWidth, cameraRectHeight);
     }
 }
