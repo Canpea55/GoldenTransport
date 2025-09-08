@@ -36,7 +36,7 @@ public class DragInputController : InputAxisControllerBase<DragInputController.D
     {
         if (!Application.isPlaying) return;
 
-        HandleZoomInput();
+        //HandleZoomInput();
         UpdateControllers(); // required to update InputAxisControllerBase
     }
 

@@ -1,4 +1,5 @@
 :root {
+    -unity-font-definition: url("project://database/Assets/Fonts/NotoSansThai-SDF.asset?fileID=11400000&guid=b8d9f82d2eedf9b4f946a4210a7eb9b9&type=2#NotoSansThai-SDF");
 }
 
 .transport_detail_panel {
@@ -7,14 +8,19 @@
 }
 
 .transport_detail_panel:enabled {
-    transition-duration: 0.3s;
-    transition-timing-function: ease-out-back;
+    transition-duration: 0.5s, 0.3s;
+    transition-timing-function: ease-out-back, ease-out;
+    transition-property: translate, opacity;
 }
 
 .transport_detail_panel:disabled {
-    translate: 16px 0;
+    translate: 64px 0;
     transition-property: translate, opacity;
     transition-duration: 0.3s, 0.3s;
     opacity: 0;
-    transition-timing-function: ease-in-circ, ease-in-circ;
+    transition-timing-function: ease-in-back, ease-in-circ;
+}
+
+.SeeTestcolor {
+    color: rgb(9, 132, 227);
 }

@@ -94,7 +94,7 @@
     transition-property: opacity, translate;
     transition-duration: 0.2s, 0.2s;
     transition-timing-function: ease-in-out, ease-out;
-    transition-delay: 0.3s, 0.3s;
+    transition-delay: 0s, 0s;
 }
 
 .settings:disabled {
