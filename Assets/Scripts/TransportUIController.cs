@@ -23,8 +23,9 @@ public class TransportUIController : MonoBehaviour
 
     private void OnCloseClicked()
     {
-        StartCoroutine(canvasManager.DisableScreen("transportation", 500));
-        StartCoroutine(canvasManager.EnableScreen("main"));
+        //StartCoroutine(canvasManager.DisableScreen("transportation", 1000));
+        //StartCoroutine(canvasManager.EnableScreen("main"));
+        StartCoroutine(canvasManager.SwitchScreen("main", 900));
     }
 
     // Update is called once per frame

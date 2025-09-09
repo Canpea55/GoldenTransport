@@ -1,0 +1,77 @@
+:root {
+}
+
+.transport-table {
+    transition-duration: 0.3s;
+    transition-timing-function: ease-in-out;
+}
+
+.transport-table:disabled {
+    opacity: 0;
+    translate: 0 8px;
+    transition-property: opacity, translate;
+    transition-timing-function: ease-in, ease-in;
+    transition-duration: 0.2s, 0.2s;
+    transition-delay: 0s, 0s;
+}
+
+.transport-table:enabled {
+    transition-duration: 0.2s;
+    transition-property: all;
+    transition-timing-function: ease-out;
+    transition-delay: 0.5s;
+}
+
+.header-details {
+}
+
+.header-details:disabled {
+    translate: 0 8px;
+    opacity: 0;
+    transition-property: translate, opacity;
+    transition-duration: 0.2s, 0.2s;
+    transition-delay: 0.2s, 0.2s;
+    transition-timing-function: ease-in, ease-in;
+}
+
+.header-details:enabled {
+    transition-duration: 0.2s;
+    transition-timing-function: ease-out;
+    transition-delay: 0.2s;
+}
+
+.header-title {
+}
+
+.header-title:disabled {
+    translate: 0 8px;
+    opacity: 0;
+    transition-property: translate, opacity;
+    transition-duration: 0.2s, 0.2s;
+    transition-delay: 0.5s, 0.5s;
+    transition-timing-function: ease-in, ease-in;
+}
+
+.header-title:enabled {
+    transition-duration: 0.5s;
+    transition-timing-function: ease-out;
+}
+
+.header-title-title {
+}
+
+.header-title-title:disabled {
+    opacity: 0;
+    translate: 0 -8px;
+    transition-property: opacity, translate;
+    transition-duration: 0.3s, 0.3s;
+    transition-timing-function: ease-in, ease-in;
+    transition-delay: 1s, 1s;
+}
+
+.header-title-title:enabled {
+    transition-duration: 0.3s, 0.3s;
+    transition-timing-function: ease-out, ease-out-bounce;
+    transition-delay: 1s, 1s;
+    transition-property: opacity, translate;
+}

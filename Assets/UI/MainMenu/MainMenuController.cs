@@ -27,14 +27,12 @@ public class MainMenuController : MonoBehaviour
 
     private void OnTransportationClicked()
     {
-        StartCoroutine(canvasManager.DisableScreen("main", 500));
-        StartCoroutine(canvasManager.EnableScreen("transportation"));
+        StartCoroutine(canvasManager.SwitchScreen("transportation", 300));
     }
 
     private void OnSettingsMenuClicked()
     {
-        StartCoroutine(canvasManager.EnableScreen("settings"));
-        StartCoroutine(canvasManager.DisableScreen("main", 500));
+        StartCoroutine(canvasManager.SwitchScreen("settings", 300));
     }
 
     // Update is called once per frame
