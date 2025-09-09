@@ -504,6 +504,9 @@ MonoBehaviour:
     screenObject: {fileID: 923729874}
   - screenName: transportation
     screenObject: {fileID: 659673240}
+  previousScreen:
+    screenName: 
+    screenObject: {fileID: 0}
 --- !u!4 &357986821
 Transform:
   m_ObjectHideFlags: 0

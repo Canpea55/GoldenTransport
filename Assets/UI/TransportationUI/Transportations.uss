@@ -75,3 +75,82 @@
     transition-delay: 1s, 1s;
     transition-property: opacity, translate;
 }
+
+.transportation-order-button {
+    transition-duration: 0.3s;
+    transition-timing-function: ease-out;
+    transition-property: translate;
+}
+
+.transportation-order-button:hover {
+    translate: -8px 0;
+}
+
+.transportation-order-button:active {
+    scale: 0.98 0.98;
+    transition-property: scale;
+    transition-duration: 0.3s;
+    transition-timing-function: ease-out-back;
+}
+
+.transportation-order-button:inactive {
+    transition-property: translate, scale;
+    transition-duration: 0.3s, 0.5s;
+    transition-timing-function: ease-out-back, ease-out-elastic;
+}
+
+.transportation-delivery-button {
+    flex-shrink: 1;
+    flex-grow: 1;
+    width: 96%;
+    margin-top: 8px;
+    margin-right: 8px;
+    margin-bottom: 8px;
+    margin-left: 8px;
+    padding-top: 0;
+    padding-right: 0;
+    padding-bottom: 0;
+    padding-left: 0;
+    background-color: rgba(0, 0, 0, 0);
+    align-self: flex-start;
+    -unity-text-align: upper-left;
+    border-top-left-radius: 16px;
+    border-top-right-radius: 16px;
+    border-bottom-right-radius: 16px;
+    border-bottom-left-radius: 16px;
+    border-top-width: 4px;
+    border-right-width: 4px;
+    border-bottom-width: 4px;
+    border-left-width: 4px;
+    border-left-color: rgba(9, 132, 227, 0);
+    border-right-color: rgba(9, 132, 227, 0);
+    border-top-color: rgba(9, 132, 227, 0);
+    border-bottom-color: rgba(9, 132, 227, 0);
+    transition-duration: 0.2s;
+    transition-timing-function: ease-out;
+}
+
+.transportation-delivery-button:hover {
+    background-color: rgba(0, 0, 0, 0);
+    border-top-left-radius: 16px;
+    border-top-right-radius: 16px;
+    border-bottom-right-radius: 16px;
+    border-bottom-left-radius: 16px;
+    border-top-width: 4px;
+    border-right-width: 4px;
+    border-bottom-width: 4px;
+    border-left-width: 4px;
+    border-left-color: rgba(9, 132, 227, 0.5);
+    border-right-color: rgba(9, 132, 227, 0.5);
+    border-top-color: rgba(9, 132, 227, 0.5);
+    border-bottom-color: rgba(9, 132, 227, 0.5);
+    transition-duration: 0.3s;
+    transition-timing-function: ease-out-back;
+    translate: 0 -4px;
+}
+
+.transportation-delivery-button:active {
+    transition-duration: 0.3s;
+    transition-timing-function: ease-out-back;
+    scale: 0.98 0.98;
+}

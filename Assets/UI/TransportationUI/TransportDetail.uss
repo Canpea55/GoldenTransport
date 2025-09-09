@@ -20,3 +20,34 @@
     opacity: 0;
     transition-timing-function: ease-in-back, ease-in-circ;
 }
+
+.transportation-delivery-button {
+    flex-shrink: 1;
+    flex-grow: 1;
+    width: 90%;
+    margin-top: 8px;
+    margin-right: 8px;
+    margin-bottom: 8px;
+    margin-left: 8px;
+    padding-top: 0;
+    padding-right: 0;
+    padding-bottom: 0;
+    padding-left: 0;
+    background-color: rgba(0, 0, 0, 0);
+    align-self: flex-start;
+    -unity-text-align: upper-left;
+    border-top-left-radius: 16px;
+    border-top-right-radius: 16px;
+    border-bottom-right-radius: 16px;
+    border-bottom-left-radius: 16px;
+    border-top-width: 4px;
+    border-right-width: 4px;
+    border-bottom-width: 4px;
+    border-left-width: 4px;
+    border-left-color: rgba(9, 132, 227, 0);
+    border-right-color: rgba(9, 132, 227, 0);
+    border-top-color: rgba(9, 132, 227, 0);
+    border-bottom-color: rgba(9, 132, 227, 0);
+    transition-duration: 0.2s;
+    transition-timing-function: ease-out;
+}

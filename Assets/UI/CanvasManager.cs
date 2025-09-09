@@ -15,6 +15,7 @@ public class Screen
 public class CanvasManager : MonoBehaviour
 {
     public List<Screen> screens;
+    public Screen previousScreen;
 
     private void Awake()
     {
@@ -49,6 +50,7 @@ public class CanvasManager : MonoBehaviour
     {
         //enable main screen first
         StartCoroutine(EnableScreen("main"));
+        previousScreen = screens[0];
     }
 
     public IEnumerator EnableScreen(string name)
@@ -119,6 +121,7 @@ public class CanvasManager : MonoBehaviour
         // find screens
         Screen fromScreen = screens.Find(s => s.screenName == fromName);
         Screen toScreen = screens.Find(s => s.screenName == toName);
+        previousScreen = fromScreen;
 
         if (toScreen == null)
         {
