@@ -20,7 +20,3 @@
     opacity: 0;
     transition-timing-function: ease-in-back, ease-in-circ;
 }
-
-.SeeTestcolor {
-    color: rgb(9, 132, 227);
-}
