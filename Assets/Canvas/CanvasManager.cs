@@ -15,6 +15,7 @@ public class Screen
 public class CanvasManager : MonoBehaviour
 {
     public List<Screen> screens;
+    public List<Screen> overlays;
     public Screen previousScreen;
 
     private void Awake()
@@ -104,6 +105,56 @@ public class CanvasManager : MonoBehaviour
         }
     }
 
+    public IEnumerator EnableOverlay(string name)
+    {
+        foreach (Screen overlay in overlays)
+        {
+            if (overlay.screenName == name)
+            {
+                var uidoc = overlay.screenObject.GetComponent<UIDocument>();
+                if (uidoc != null)
+                {
+                    var root = uidoc.rootVisualElement;
+                    var panel = root.Q<VisualElement>("Panel");
+
+                    panel.style.display = DisplayStyle.Flex;
+                    panel.SetEnabled(true);
+                }
+                else
+                {
+                    Debug.LogError($"Overlay : '{name}' not found!");
+                    yield break;
+                }
+            }
+        }
+    }
+
+    public IEnumerator DisableOverlay(string name, long duration)
+    {
+        foreach (Screen overlay in overlays)
+        {
+            if (overlay.screenName == name)
+            {
+                var uidoc = overlay.screenObject.GetComponent<UIDocument>();
+                if (uidoc != null)
+                {
+                    var root = uidoc.rootVisualElement;
+                    var panel = root.Q<VisualElement>("Panel");
+
+                    panel.SetEnabled(false);
+                    panel.schedule.Execute(() =>
+                    {
+                        panel.style.display = DisplayStyle.None;
+                    }).StartingIn(duration);
+                }
+                else
+                {
+                    Debug.LogError($"Screen : '{name}' not found!");
+                    yield break;
+                }
+            }
+        }
+    }
     // ---------------------------
     // SWITCH SCREEN
     // ---------------------------

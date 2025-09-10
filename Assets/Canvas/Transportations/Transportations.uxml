@@ -1,11 +1,10 @@
 <ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
-    <Style src="project://database/Assets/UI/TransportationUI/TransportDetail.uss?fileID=7433441132597879392&amp;guid=2a5662158be43744fb993a4cc6b2e7b7&amp;type=3#TransportDetail" />
-    <Style src="project://database/Assets/UI/Panel.uss?fileID=7433441132597879392&amp;guid=2269da2f2b1e03147bd7dc9fcc8eff51&amp;type=3#Panel" />
-    <Style src="project://database/Assets/UI/Settings/MinimalScrollbar.uss?fileID=7433441132597879392&amp;guid=b554c6c073890804683345682da32b24&amp;type=3#MinimalScrollbar" />
-    <Style src="project://database/Assets/UI/Settings/OverrideDefault.uss?fileID=7433441132597879392&amp;guid=b7bdbf2def6a4d84ca837d2df13fc550&amp;type=3#OverrideDefault" />
-    <Style src="project://database/Assets/UI/TransportationUI/Transportations.uss?fileID=7433441132597879392&amp;guid=f9cd8c75a84e0d047a249090d16af36e&amp;type=3#Transportations" />
+    <Style src="project://database/Assets/Canvas/Transportations/TransportDetail.uss?fileID=7433441132597879392&amp;guid=2a5662158be43744fb993a4cc6b2e7b7&amp;type=3#TransportDetail" />
+    <Style src="project://database/Assets/Canvas/Panel.uss?fileID=7433441132597879392&amp;guid=2269da2f2b1e03147bd7dc9fcc8eff51&amp;type=3#Panel" />
+    <Style src="project://database/Assets/Canvas/Settings/MinimalScrollbar.uss?fileID=7433441132597879392&amp;guid=b554c6c073890804683345682da32b24&amp;type=3#MinimalScrollbar" />
+    <Style src="project://database/Assets/Canvas/Settings/OverrideDefault.uss?fileID=7433441132597879392&amp;guid=b7bdbf2def6a4d84ca837d2df13fc550&amp;type=3#OverrideDefault" />
+    <Style src="project://database/Assets/Canvas/Transportations/Transportations.uss?fileID=7433441132597879392&amp;guid=f9cd8c75a84e0d047a249090d16af36e&amp;type=3#Transportations" />
     <ui:VisualElement name="Panel" enabled="true" class="panel" style="flex-grow: 1;">
-        <ui:VisualElement name="TransportDetail" enabled="true" class="transport_detail_panel" style="flex-grow: 1; background-color: rgb(253, 203, 110); align-self: flex-end; border-top-left-radius: 16px; border-bottom-left-radius: 16px; width: 65%; border-top-right-radius: 0; border-bottom-right-radius: 0; display: none;" />
         <ui:VisualElement name="Tranportations" enabled="true" style="flex-grow: 1; border-top-left-radius: 0; border-top-right-radius: 0; border-bottom-right-radius: 0; border-bottom-left-radius: 0; background-color: rgb(255, 255, 255); margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 16px; padding-right: 5%; padding-bottom: 8px; padding-left: 5%; align-items: flex-start; display: flex;">
             <ui:VisualElement name="Header" style="flex-grow: 1; height: auto; width: 100%; align-items: flex-start; align-self: center; overflow: visible; max-height: 148px; justify-content: space-between; min-height: 128px;">
                 <ui:VisualElement name="Title" class="header-title" style="flex-grow: 1; width: 100%; justify-content: center; align-self: flex-start; height: auto; flex-direction: row; align-items: center; min-height: 24px; max-height: 32px; margin-top: 8px; margin-right: 0; margin-bottom: 8px; margin-left: 0;">

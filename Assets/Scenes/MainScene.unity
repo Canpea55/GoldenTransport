@@ -394,14 +394,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb9d15e0b610c3b4fb97b635b0c6e4e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  canvasManager: {fileID: 357986820}
-  mainCamera: {fileID: 330585545}
-  animator: {fileID: 0}
-  shrink: 0
-  cameraRectX: 0
-  cameraRectY: 0
-  cameraRectWidth: 1
-  cameraRectHeight: 1
 --- !u!114 &330585550
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -504,6 +496,7 @@ MonoBehaviour:
     screenObject: {fileID: 923729874}
   - screenName: transportation
     screenObject: {fileID: 659673240}
+  overlays: []
   previousScreen:
     screenName: 
     screenObject: {fileID: 0}
@@ -699,7 +692,7 @@ GameObject:
   - component: {fileID: 659673243}
   - component: {fileID: 659673244}
   m_Layer: 0
-  m_Name: Transportation
+  m_Name: Transportations
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
