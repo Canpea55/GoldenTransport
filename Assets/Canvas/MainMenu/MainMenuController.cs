@@ -9,7 +9,7 @@ public class MainMenuController : MonoBehaviour
     public VisualElement ui;
 
     public Button settingMenu;
-    public Button transportation;
+    public Button transportations;
 
     private void Awake()
     {
@@ -20,14 +20,14 @@ public class MainMenuController : MonoBehaviour
     {
         settingMenu = ui.Q<Button>("SettingBtn");
         settingMenu.clicked += OnSettingsMenuClicked;
-        
-        transportation = ui.Q<Button>("MainBtn");
-        transportation.clicked += OnTransportationClicked;
+
+        transportations = ui.Q<Button>("MainBtn");
+        transportations.clicked += OnTransportationClicked;
     }
 
     private void OnTransportationClicked()
     {
-        StartCoroutine(canvasManager.SwitchScreen("transportation", 300));
+        StartCoroutine(canvasManager.SwitchScreen("transportations", 300));
     }
 
     private void OnSettingsMenuClicked()

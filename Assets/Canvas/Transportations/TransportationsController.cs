@@ -23,8 +23,6 @@ public class TransportationsController : MonoBehaviour
 
     private void OnCloseClicked()
     {
-        //StartCoroutine(canvasManager.DisableScreen("transportation", 1000));
-        //StartCoroutine(canvasManager.EnableScreen("main"));
         StartCoroutine(canvasManager.SwitchScreen("main", 900));
     }
 
