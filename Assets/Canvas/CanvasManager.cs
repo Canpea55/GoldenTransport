@@ -61,7 +61,7 @@ public class CanvasManager : MonoBehaviour
     private void Start()
     {
         //enable main screen first
-        StartCoroutine(EnableScreen("main"));
+        StartCoroutine(EnableScreen(screens[0].screenName));
         previousScreen = screens[0];
     }
 
