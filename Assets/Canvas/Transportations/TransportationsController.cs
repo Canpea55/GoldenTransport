@@ -2,9 +2,9 @@ using System;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class TransportationsController : MonoBehaviour
+public class TransportationsController : CanvasController
 {
-    public CanvasManager canvasManager;
+    CanvasManager canvasManager;
 
     public VisualElement ui;
 
@@ -15,10 +15,20 @@ public class TransportationsController : MonoBehaviour
         ui = GetComponent<UIDocument>().rootVisualElement;
     }
 
+    private void Start()
+    {
+        canvasManager = CanvasManager.Instance;
+    }
+
     private void OnEnable()
     {
         close = ui.Q<Button>("Close");
         close.clicked += OnCloseClicked;
+
+        Button DEL11192568 = ui.Q<Button>(name: "DEL11192568");
+        DEL11192568.clicked += () => {
+            StartCoroutine(canvasManager.SwitchScreen("shipment", 900));
+        };
     }
 
     private void OnCloseClicked()

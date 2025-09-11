@@ -1,16 +1,41 @@
 using UnityEngine;
+using UnityEngine.UIElements;
 
-public class ShipmentController : MonoBehaviour
+public class ShipmentController : CanvasController
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    CanvasManager canvasManager;
+    public VisualElement ui;
+
+    public Camera cam;
+
+    public Button close;
+
+    void Awake()
     {
-        
+        ui = GetComponent<UIDocument>().rootVisualElement;
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Start()
     {
-        
+        canvasManager = CanvasManager.Instance;
     }
+
+    private void OnEnable()
+    {
+        close = ui.Q<Button>("Close");
+        close.clicked += () =>
+        {
+            StartCoroutine(canvasManager.SwitchScreen(canvasManager.previousScreen.screenName, 300));
+        };
+    }
+
+    public override void OnCanvasLoaded()
+    {
+        cam.enabled = true;
+    }
+
+    public override void OnCanvasUnloaded()
+    {
+        cam.enabled = false;
+    }   
 }

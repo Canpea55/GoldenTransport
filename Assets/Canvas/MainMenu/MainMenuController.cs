@@ -2,9 +2,9 @@ using System;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class MainMenuController : MonoBehaviour
+public class MainMenuController : CanvasController
 {
-    public CanvasManager canvasManager;
+    CanvasManager canvasManager;
 
     public VisualElement ui;
 
@@ -14,6 +14,11 @@ public class MainMenuController : MonoBehaviour
     private void Awake()
     {
         ui = GetComponent<UIDocument>().rootVisualElement;
+    }
+
+    private void Start()
+    {
+        canvasManager = CanvasManager.Instance;
     }
 
     private void OnEnable()

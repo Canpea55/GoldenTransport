@@ -6,9 +6,9 @@ using UnityEngine.UI;
 using UnityEngine.UIElements;
 using Button = UnityEngine.UIElements.Button;
 
-public class SettingMenuController : MonoBehaviour
+public class SettingMenuController : CanvasController
 {
-    public CanvasManager canvasManager;
+    CanvasManager canvasManager;
 
     public VisualElement ui;
     public VisualElement currentMenu;
@@ -23,6 +23,11 @@ public class SettingMenuController : MonoBehaviour
     public Button stickerManageMenuBtn;
     public Button vehManageMenuBtn;
     public Button driverManageMenuBtn;
+
+    private void Start()
+    {
+        canvasManager = CanvasManager.Instance;
+    }
 
     private void Awake()
     {

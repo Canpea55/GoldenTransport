@@ -14,12 +14,23 @@ public class Screen
 
 public class CanvasManager : MonoBehaviour
 {
+    public static CanvasManager Instance { get; private set; }
+
     public List<Screen> screens;
     public List<Screen> overlays;
     public Screen previousScreen;
 
     private void Awake()
     {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);  // Destroy duplicate
+            return;
+        }
+
+        Instance = this;
+        DontDestroyOnLoad(gameObject);  // Optional: keep across scenes
+
         //setup
         foreach (Screen screen in screens)
         {
@@ -68,6 +79,7 @@ public class CanvasManager : MonoBehaviour
 
                     panel.style.display = DisplayStyle.Flex;
                     panel.SetEnabled(true);
+                    screen.screenObject.GetComponent<CanvasController>().OnCanvasLoaded();
                 }
                 else
                 {
@@ -94,6 +106,7 @@ public class CanvasManager : MonoBehaviour
                     panel.schedule.Execute(() =>
                     {
                         panel.style.display = DisplayStyle.None;
+                        screen.screenObject.GetComponent<CanvasController>().OnCanvasUnloaded();
                     }).StartingIn(duration);
                 }
                 else
