@@ -16,9 +16,13 @@ public class CanvasManager : MonoBehaviour
 {
     public static CanvasManager Instance { get; private set; }
 
+    [Header("Debug")]
+    public bool startWithOverlay = false;
+    public Screen previousScreen;
+    [Header("Canvas")]
     public List<Screen> screens;
     public List<Screen> overlays;
-    public Screen previousScreen;
+    
 
     private void Awake()
     {
@@ -44,6 +48,18 @@ public class CanvasManager : MonoBehaviour
                 SetupManager(screen);
             }
         }
+        foreach (Screen o in overlays)
+        {
+            if(o.screenObject.activeSelf)
+            {
+                SetupManager(o);
+            }
+            else
+            {
+                o.screenObject.SetActive(true);
+                SetupManager(o);
+            }
+        }
     }
 
     void SetupManager(Screen screen)
@@ -60,9 +76,15 @@ public class CanvasManager : MonoBehaviour
 
     private void Start()
     {
-        //enable main screen first
-        StartCoroutine(EnableScreen(screens[0].screenName));
-        previousScreen = screens[0];
+        if (!startWithOverlay)
+        {
+            StartCoroutine(EnableScreen(screens[0].screenName));
+            previousScreen = screens[0];
+        } else
+        {
+            StartCoroutine(EnableScreen(overlays[0].screenName));
+            previousScreen = overlays[0];
+        }
     }
 
     public IEnumerator EnableScreen(string name)
@@ -77,9 +99,9 @@ public class CanvasManager : MonoBehaviour
                     var root = uidoc.rootVisualElement;
                     var panel = root.Q<VisualElement>("Panel");
 
+                    screen.screenObject.GetComponent<CanvasController>().OnCanvasLoaded();
                     panel.style.display = DisplayStyle.Flex;
                     panel.SetEnabled(true);
-                    screen.screenObject.GetComponent<CanvasController>().OnCanvasLoaded();
                 }
                 else
                 {
@@ -105,8 +127,8 @@ public class CanvasManager : MonoBehaviour
                     panel.SetEnabled(false);
                     panel.schedule.Execute(() =>
                     {
-                        panel.style.display = DisplayStyle.None;
                         screen.screenObject.GetComponent<CanvasController>().OnCanvasUnloaded();
+                        panel.style.display = DisplayStyle.None;
                     }).StartingIn(duration);
                 }
                 else

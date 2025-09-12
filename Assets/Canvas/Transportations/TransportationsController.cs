@@ -25,9 +25,16 @@ public class TransportationsController : CanvasController
         close = ui.Q<Button>("Close");
         close.clicked += OnCloseClicked;
 
+        //A Transport
         Button DEL11192568 = ui.Q<Button>(name: "DEL11192568");
         DEL11192568.clicked += () => {
             StartCoroutine(canvasManager.SwitchScreen("shipment", 900));
+        };
+
+        //A Order
+        Button DEL11192568_1 = ui.Q<Button>(name: "DEL11192568_1");
+        DEL11192568_1.clicked += () => {
+            StartCoroutine(canvasManager.EnableOverlay("orderDetails"));
         };
     }
 

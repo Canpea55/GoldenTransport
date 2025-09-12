@@ -1,0 +1,65 @@
+:root {
+    -unity-font-definition: url("project://database/Assets/Fonts/NotoSansThai/NotoSansThai-Regular%20SDF.asset?fileID=11400000&guid=35ff02505386d8649978d20eac70a2da&type=2#NotoSansThai-Regular SDF");
+}
+
+.panel {
+    transition-duration: 0.3s;
+}
+
+.panel:enabled {
+    transition-duration: 0.3s;
+    transition-timing-function: ease-out;
+}
+
+.panel:disabled {
+    transition-timing-function: ease-in, ease-in, ease-in-back, ease-in-back, ease-in-back, ease-in-back;
+    transition-duration: 0.3s, 0.3s, 0.3s, 0.3s, 0.3s, 0.3s;
+    opacity: 0;
+    transition-property: opacity, scale, border-top-left-radius, border-top-right-radius, border-bottom-right-radius, border-bottom-left-radius;
+    scale: 1 1;
+    border-top-left-radius: 16px;
+    border-top-right-radius: 16px;
+    border-bottom-right-radius: 16px;
+    border-bottom-left-radius: 16px;
+    transition-delay: 0.6s, 0.6s, 0s, 0s, 0s, 0s;
+}
+
+.container {
+    transition-timing-function: ease-out;
+    transition-duration: 0s;
+}
+
+.container:enabled {
+    transition-duration: 0.3s, 0.3s;
+    transition-timing-function: ease-out-back, ease-out;
+    transition-property: translate, opacity;
+    transition-delay: 0.2s, 0.2s;
+}
+
+.container:disabled {
+    opacity: 0;
+    transition-property: opacity, translate;
+    transition-duration: 0.3s, 0.3s;
+    transition-timing-function: ease-in, ease-in;
+    translate: 0 8px;
+    transition-delay: 0.3s, 0.3s;
+}
+
+.header-title {
+}
+
+.header-title:enabled {
+    transition-duration: 0.3s, 0.3s;
+    transition-timing-function: ease-out, ease-out-back;
+    transition-delay: 0.4s, 0.4s;
+    transition-property: opacity, translate;
+}
+
+.header-title:disabled {
+    translate: 0 8px;
+    transition-property: translate, opacity;
+    opacity: 0;
+    transition-duration: 0.3s, 0.3s;
+    transition-delay: 0s, 0s;
+    transition-timing-function: ease-in-back, ease-in-back;
+}
