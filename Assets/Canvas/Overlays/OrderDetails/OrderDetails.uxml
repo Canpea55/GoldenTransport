@@ -1,6 +1,7 @@
 <ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
     <Style src="project://database/Assets/Canvas/Overlays/OrderDetails/OrderDetails.uss?fileID=7433441132597879392&amp;guid=084c6381613caf84396c5698f1998298&amp;type=3#OrderDetails" />
     <Style src="project://database/Assets/Canvas/Settings/MinimalScrollbar.uss?fileID=7433441132597879392&amp;guid=b554c6c073890804683345682da32b24&amp;type=3#MinimalScrollbar" />
+    <Style src="project://database/Assets/Canvas/Overlays/OrderDetails/CustomTextField.uss?fileID=7433441132597879392&amp;guid=28bc1f33527f89947a2ab2c7deab6122&amp;type=3#CustomTextField" />
     <ui:VisualElement name="Panel" enabled="true" class="panel" style="flex-grow: 1; align-items: center; justify-content: center; align-content: center; background-color: rgba(9, 132, 227, 0.5);">
         <ui:VisualElement name="Container" class="container" style="flex-grow: 1; background-color: rgb(255, 255, 255); border-top-left-radius: 16px; border-top-right-radius: 16px; border-bottom-right-radius: 16px; border-bottom-left-radius: 16px; width: 90%; max-height: 90%; padding-top: 16px; padding-right: 16px; padding-bottom: 16px; padding-left: 16px;">
             <ui:VisualElement name="Title" class="header-title" style="flex-grow: 1; width: 100%; justify-content: center; align-self: flex-start; height: auto; flex-direction: row; align-items: center; min-height: 24px; max-height: 32px; margin-top: 8px; margin-right: 0; margin-bottom: 8px; margin-left: 0;">
@@ -10,10 +11,14 @@
             </ui:VisualElement>
             <ui:VisualElement name="Form" style="flex-grow: 1; flex-direction: row; padding-top: 8px; padding-right: 8px; padding-bottom: 8px; padding-left: 8px;">
                 <ui:VisualElement name="Main" style="flex-grow: 1; background-color: rgb(9, 132, 227); margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; border-top-left-radius: 16px; border-top-right-radius: 16px; border-bottom-right-radius: 16px; border-bottom-left-radius: 16px; max-width: 30%; padding-top: 16px; padding-right: 16px; padding-bottom: 16px; padding-left: 16px; justify-content: flex-start; min-width: 30%;">
-                    <ui:Label text="ชื่อลูกค้า" style="color: rgb(178, 190, 195); margin-top: 0; margin-right: 8px; margin-bottom: 0; margin-left: 8px; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0;" />
-                    <ui:TextField placeholder-text="ชื่อลูกค้า" name="Custname" style="padding-bottom: 16px; margin-left: 0; margin-right: 0;" />
                     <ui:Label text="เลขที่บิล" style="color: rgb(178, 190, 195); margin-top: 0; margin-right: 8px; margin-bottom: 0; margin-left: 8px; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0;" />
-                    <ui:TextField placeholder-text="เลขที่บิล" name="Docuno" style="padding-bottom: 16px; margin-left: 0; margin-right: 0;" />
+                    <ui:TextField placeholder-text="SC680900158" name="Docuno" style="padding-bottom: 16px; margin-left: 0; margin-right: 0;" />
+                    <ui:Label text="ชื่อผู้รับ" style="color: rgb(178, 190, 195); margin-top: 0; margin-right: 8px; margin-bottom: 0; margin-left: 8px; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0;" />
+                    <ui:TextField placeholder-text="เรืองโรจน์การยาง" name="Custname" style="padding-bottom: 16px; margin-left: 0; margin-right: 0;" />
+                    <ui:Label text="หมายเหตุเพิ่มเติม" name="Label" style="color: rgb(178, 190, 195); margin-top: 0; margin-right: 8px; margin-bottom: 0; margin-left: 8px; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0;" />
+                    <ui:TextField placeholder-text="Wasabi ดกหาฟด่กห ่าดกห่เ้พำรน ก่หสาฟดวำไ หดำไ หฟดกหฟดำดห ดำ ฟ " name="RemarkExtra" style="padding-bottom: 0; margin-left: 0; margin-right: 0; flex-grow: 1; padding-top: 0; padding-right: 0; padding-left: 0;" />
+                    <ui:VisualElement name="Grow" style="flex-grow: 1; flex-shrink: 1;" />
+                    <ui:Button text="บันทึก" style="border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0; border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; background-color: rgb(116, 185, 255); color: rgb(255, 255, 255);" />
                 </ui:VisualElement>
                 <ui:VisualElement name="OrderItems" style="flex-grow: 1; padding-top: 0; padding-right: 16px; padding-bottom: 0; padding-left: 16px; margin-top: 0; margin-bottom: 0;">
                     <ui:VisualElement name="Header" style="flex-grow: 1; margin-top: 0; margin-bottom: 32px;">
@@ -110,7 +115,7 @@
                     <ui:VisualElement name="Footer" style="flex-grow: 1; display: flex; margin-top: 8px; margin-bottom: 8px;">
                         <ui:VisualElement name="Remark" style="flex-grow: 1; width: 100%; flex-direction: row; align-items: center; -unity-text-align: middle-left;">
                             <ui:Label text="หมายเหตุ" name="Label" style="padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; margin-top: 4px; margin-right: 4px; margin-bottom: 4px; margin-left: 4px; color: rgb(9, 132, 227); flex-grow: 1; height: 100%; min-width: 60px; -unity-font-style: bold; max-width: 60px; -unity-text-align: upper-center; font-size: 12px;" />
-                            <ui:Label text="[ N ]&#10;โอน 8398 ยอด 10000 @30" name="Details" style="padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; margin-top: 4px; margin-right: 4px; margin-bottom: 4px; margin-left: 4px; color: rgb(9, 132, 227); flex-grow: 1; -unity-text-align: upper-left; height: 100%; font-size: 12px;" />
+                            <ui:Label text="[ N ]&#10;โอน 8398 ยอด 10000 @30/8/2568" name="Details" style="padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; margin-top: 4px; margin-right: 4px; margin-bottom: 4px; margin-left: 4px; color: rgb(9, 132, 227); flex-grow: 1; -unity-text-align: upper-left; height: 100%; font-size: 12px;" />
                         </ui:VisualElement>
                         <ui:VisualElement name="Shipment" style="flex-grow: 1; width: 100%; flex-direction: row; align-items: center; -unity-text-align: middle-left; max-height: none; justify-content: space-between;">
                             <ui:VisualElement name="Transportation" style="flex-grow: 1; flex-direction: row; height: 100%; align-items: center;">

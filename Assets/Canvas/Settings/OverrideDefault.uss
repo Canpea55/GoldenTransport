@@ -49,8 +49,35 @@
     flex-grow: 1;
 }
 
-.pct-field__row {
-    justify-content: space-between;
+.unity-base-text-field__input {
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+    padding-top: 0;
+    padding-right: 0;
+    padding-bottom: 0;
+    padding-left: 0;
+    border-left-color: rgba(0, 0, 0, 0);
+    border-right-color: rgba(0, 0, 0, 0);
+    border-top-color: rgba(0, 0, 0, 0);
+    border-bottom-color: rgba(0, 0, 0, 0);
+    border-top-width: 0;
+    border-right-width: 0;
+    border-bottom-width: 0;
+    border-left-width: 0;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+    border-bottom-left-radius: 8px;
+    background-color: rgb(116, 185, 255);
+    flex-grow: 1;
+}
+
+.unity-text-element--inner-input-field-component {
+    color: rgb(223, 230, 233);
+    font-size: 16px;
+    -unity-font-style: bold;
 }
 
 .unity-base-popup-field__input {
@@ -76,6 +103,10 @@
     flex-direction: row;
     padding-top: 8px;
     padding-bottom: 8px;
+}
+
+.pct-field__row {
+    justify-content: space-between;
 }
 
 .unity-text-element {
@@ -123,37 +154,6 @@
 }
 
 .unity-label {
-}
-
-.unity-base-text-field__input {
-    margin-top: 0;
-    margin-right: 0;
-    margin-bottom: 0;
-    margin-left: 0;
-    padding-top: 0;
-    padding-right: 0;
-    padding-bottom: 0;
-    padding-left: 0;
-    border-left-color: rgba(0, 0, 0, 0);
-    border-right-color: rgba(0, 0, 0, 0);
-    border-top-color: rgba(0, 0, 0, 0);
-    border-bottom-color: rgba(0, 0, 0, 0);
-    border-top-width: 0;
-    border-right-width: 0;
-    border-bottom-width: 0;
-    border-left-width: 0;
-    border-top-left-radius: 8px;
-    border-top-right-radius: 8px;
-    border-bottom-right-radius: 8px;
-    border-bottom-left-radius: 8px;
-    background-color: rgb(116, 185, 255);
-    flex-grow: 1;
-}
-
-.unity-text-element--inner-input-field-component {
-    color: rgb(223, 230, 233);
-    font-size: 16px;
-    -unity-font-style: bold;
 }
 
 .unity-placeholder {
