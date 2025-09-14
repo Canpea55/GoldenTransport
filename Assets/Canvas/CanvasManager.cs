@@ -10,6 +10,7 @@ public class Screen
 {
     public string screenName;
     public GameObject screenObject;
+    public int sortOrder;
 }
 
 public class CanvasManager : MonoBehaviour
@@ -33,36 +34,36 @@ public class CanvasManager : MonoBehaviour
         }
 
         Instance = this;
-        DontDestroyOnLoad(gameObject);  // Optional: keep across scenes
+        //DontDestroyOnLoad(gameObject);  // Optional: keep across scenes
 
         //setup
         foreach (Screen screen in screens)
         {
             if(screen.screenObject.activeSelf)
             {
-                SetupManager(screen);
+                SetupManager(screen, false);
             }
             else
             {
                 screen.screenObject.SetActive(true);
-                SetupManager(screen);
+                SetupManager(screen, false);
             }
         }
         foreach (Screen o in overlays)
         {
             if(o.screenObject.activeSelf)
             {
-                SetupManager(o);
+                SetupManager(o, true);
             }
             else
             {
                 o.screenObject.SetActive(true);
-                SetupManager(o);
+                SetupManager(o, true);
             }
         }
     }
 
-    void SetupManager(Screen screen)
+    void SetupManager(Screen screen, bool isOverlay)
     {
         var uidoc = screen.screenObject.GetComponent<UIDocument>();
         if (uidoc != null)
@@ -70,6 +71,14 @@ public class CanvasManager : MonoBehaviour
             var root = uidoc.rootVisualElement;
             var panel = root.Q<VisualElement>("Panel");
             panel.style.display = DisplayStyle.None;
+            if (!isOverlay)
+            {
+                uidoc.sortingOrder = screen.sortOrder;
+            }
+            else
+            {
+                uidoc.sortingOrder = screen.sortOrder + 1024;
+            }
             panel.SetEnabled(false);
         }
     }
