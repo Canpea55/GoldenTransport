@@ -42,28 +42,59 @@ public class DateGroup {
 
 public class TransportationsController : CanvasController
 {
-    public string apiUrl = "http://localhost:8000/api/shipments-json"; // <-- change to your URL
+    private string apiUrl;
     private VisualElement ui;
     private ScrollView scroll;
 
-    void Awake()
+    public override void OnCanvasLoaded()
     {
-        ui = GetComponent<UIDocument>().rootVisualElement;
-    }
-
-    private void OnEnable()
-    {
+        apiUrl = "http://" + PlayerPrefs.GetString("ServerIP") + "/api/shipments"; // <-- change to your URL
+        Debug.Log(apiUrl);
+        base.OnCanvasLoaded();
         // wire existing controls if any
         var close = ui.Q<Button>("Close");
         if (close != null) close.clicked += OnCloseClicked;
 
         var addShipment = ui.Q<Button>("AddShipment");
+        var data = new Dictionary<string, object>
+        {
+            { "type", "add" }
+        };
         if (addShipment != null) addShipment.clicked += () => {
-            StartCoroutine(CanvasManager.Instance.SwitchScreen("shipmentForm", 900));
+            StartCoroutine(CanvasManager.Instance.SwitchScreen("shipmentForm", 900, data));
         };
 
         // start loading
         StartCoroutine(LoadAndPopulate());
+    }
+
+    public override void OnCanvasUnloaded()
+    {
+        base.OnCanvasUnloaded();
+        var tableData = ui.Q<VisualElement>("TableData");
+        if (tableData == null)
+        {
+            Debug.LogError("TableData element not found in UXML.");
+            return;
+        }
+
+        // find existing ScrollView inside TableData (from your UXML)
+        scroll = tableData.Q<ScrollView>();
+        if (scroll == null)
+        {
+            // create one if not present
+            scroll = new ScrollView();
+            scroll.style.flexGrow = 1;
+            tableData.Add(scroll);
+        }
+
+        // clear previous content
+        scroll.contentContainer.Clear();
+    }
+
+    void Awake()
+    {
+        ui = GetComponent<UIDocument>().rootVisualElement;
     }
 
     private IEnumerator LoadAndPopulate()
@@ -73,13 +104,9 @@ public class TransportationsController : CanvasController
             req.timeout = 10;
             yield return req.SendWebRequest();
 
-#if UNITY_2020_1_OR_NEWER
             if (req.result == UnityWebRequest.Result.ConnectionError || req.result == UnityWebRequest.Result.ProtocolError)
-#else
-            if (req.isNetworkError || req.isHttpError)
-#endif
             {
-                Debug.LogError("Failed to fetch shipments: " + req.error);
+                Debug.LogError($"Failed to fetch shipments: {apiUrl} " + req.error);
                 yield break;
             }
 
@@ -162,7 +189,6 @@ public class TransportationsController : CanvasController
 
                 // remark label
                 var remarkLabel = new Label(SafeText(shipment.remark));
-                Debug.Log(remarkLabel.text);
                 remarkLabel.name = "remark";
                 remarkLabel.AddToClassList("shipment_vehicle_remark");
                 deliveryBtn.Add(remarkLabel);

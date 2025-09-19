@@ -96,7 +96,7 @@ public class CanvasManager : MonoBehaviour
         }
     }
 
-    public IEnumerator EnableScreen(string name)
+    public IEnumerator EnableScreen(string name, object data = null)
     {
         foreach (Screen screen in screens)
         {
@@ -108,9 +108,19 @@ public class CanvasManager : MonoBehaviour
                     var root = uidoc.rootVisualElement;
                     var panel = root.Q<VisualElement>("Panel");
 
-                    screen.screenObject.GetComponent<CanvasController>().OnCanvasLoaded();
+                    var controller = screen.screenObject.GetComponent<CanvasController>();
+                    // deliver data BEFORE calling OnCanvasLoaded so the controller can use it during setup
+                    if (controller != null && data != null)
+                    {
+                        try { controller.OnReceiveData(data); }
+                        catch (Exception ex) { Debug.LogError($"OnReceiveData error for '{name}': {ex}"); }
+                    }
+                    if (controller != null)
+                        controller.OnCanvasLoaded();
+
                     panel.style.display = DisplayStyle.Flex;
                     panel.SetEnabled(true);
+                    yield break;
                 }
                 else
                 {
@@ -119,6 +129,7 @@ public class CanvasManager : MonoBehaviour
                 }
             }
         }
+        Debug.LogError($"EnableScreen: screen '{name}' not registered in CanvasManager.screens");
     }
 
     public IEnumerator DisableScreen(string name, long duration)
@@ -149,20 +160,29 @@ public class CanvasManager : MonoBehaviour
         }
     }
 
-    public IEnumerator EnableOverlay(string name)
+    public IEnumerator EnableOverlay(string name, object data = null)
     {
         foreach (Screen overlay in overlays)
         {
             if (overlay.screenName == name)
             {
                 var uidoc = overlay.screenObject.GetComponent<UIDocument>();
+                var controller = overlay.screenObject.GetComponent<CanvasController>();
+
                 if (uidoc != null)
                 {
                     var root = uidoc.rootVisualElement;
                     var panel = root.Q<VisualElement>("Panel");
 
+                    if (controller != null && data != null)
+                    {
+                        try { controller.OnReceiveData(data); }
+                        catch (Exception ex) { Debug.LogError($"OnReceiveData error for overlay '{name}': {ex}"); }
+                    }
+
                     panel.style.display = DisplayStyle.Flex;
                     panel.SetEnabled(true);
+                    yield break;
                 }
                 else
                 {
@@ -171,6 +191,7 @@ public class CanvasManager : MonoBehaviour
                 }
             }
         }
+        Debug.LogError($"EnableOverlay: overlay '{name}' not registered in CanvasManager.overlays");
     }
 
     public IEnumerator DisableOverlay(string name, long duration)
@@ -211,7 +232,7 @@ public class CanvasManager : MonoBehaviour
     /// disableDelayMs is in milliseconds (matches StartingIn()).
     /// Usage: StartCoroutine(SwitchScreen("transportation", "main", 1000));
     /// </summary>
-    public IEnumerator SwitchScreen(string fromName, string toName, long disableDelayMs)
+    public IEnumerator SwitchScreen(string fromName, string toName, long disableDelayMs, object data = null)
     {
         // find screens
         Screen fromScreen = screens.Find(s => s.screenName == fromName);
@@ -228,7 +249,7 @@ public class CanvasManager : MonoBehaviour
         if (fromScreen == null)
         {
             Debug.LogWarning($"SwitchScreen: from screen '{fromName}' not found. Enabling target directly.");
-            yield return StartCoroutine(EnableScreen(toName));
+            yield return StartCoroutine(EnableScreen(toName, data));
             yield break;
         }
 
@@ -240,7 +261,7 @@ public class CanvasManager : MonoBehaviour
         if (fromUidoc == null)
         {
             Debug.LogError($"SwitchScreen: UIDocument missing on from screen '{fromName}'. Enabling target.");
-            yield return StartCoroutine(EnableScreen(toName));
+            yield return StartCoroutine(EnableScreen(toName, data));
             yield break;
         }
 
@@ -249,7 +270,7 @@ public class CanvasManager : MonoBehaviour
         if (fromPanel == null)
         {
             Debug.LogError($"SwitchScreen: Panel element on from screen '{fromName}' not found. Enabling target.");
-            yield return StartCoroutine(EnableScreen(toName));
+            yield return StartCoroutine(EnableScreen(toName, data));
             yield break;
         }
 
@@ -271,7 +292,7 @@ public class CanvasManager : MonoBehaviour
         }
 
         // Finally enable the target screen
-        yield return StartCoroutine(EnableScreen(toName));
+        yield return StartCoroutine(EnableScreen(toName, data));
     }
 
     /// <summary>
@@ -279,7 +300,7 @@ public class CanvasManager : MonoBehaviour
     /// The currently visible screen is determined by checking Panel.resolvedStyle.display == Flex.
     /// Usage: StartCoroutine(SwitchScreen("main", 1000));
     /// </summary>
-    public IEnumerator SwitchScreen(string toName, long disableDelayMs)
+    public IEnumerator SwitchScreen(string toName, long disableDelayMs, object data = null)
     {
         // find the currently visible screen (first one with Panel.resolvedStyle.display == Flex)
         Screen current = null;
@@ -300,11 +321,11 @@ public class CanvasManager : MonoBehaviour
         if (current == null)
         {
             // No visible screen found -> enable directly
-            yield return StartCoroutine(EnableScreen(toName));
+            yield return StartCoroutine(EnableScreen(toName, data));
             yield break;
         }
 
-        yield return StartCoroutine(SwitchScreen(current.screenName, toName, disableDelayMs));
+        yield return StartCoroutine(SwitchScreen(current.screenName, toName, disableDelayMs, data));
     }
 
 }

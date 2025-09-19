@@ -364,7 +364,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 330585543}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.272111, y: 0.15327013, z: -0.0439495, w: 0.9489639}
+  m_LocalRotation: {x: 0.2725955, y: 0.14241442, z: -0.040836677, w: 0.95065355}
   m_LocalPosition: {x: -3, y: 5.239354, z: -3.7843847}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -770,7 +770,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fb2f1714a9002324eaa388ed4786d141, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  apiUrl: http://localhost:8000/api/shipments-json
 --- !u!114 &659673244
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2216,7 +2215,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1728363682}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.272111, y: 0.1532701, z: -0.04394949, w: 0.9489639}
+  m_LocalRotation: {x: 0.2725955, y: 0.14241442, z: -0.04083667, w: 0.9506536}
   m_LocalPosition: {x: -3, y: -2.7606459, z: 6.2156153}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0

@@ -11,4 +11,8 @@ public abstract class CanvasController : MonoBehaviour
     {
         //Debug.Log("Canvas Unnnnnloadded!");
     }
+
+    public virtual void OnReceiveData(object data) 
+    { 
+    }
 }
