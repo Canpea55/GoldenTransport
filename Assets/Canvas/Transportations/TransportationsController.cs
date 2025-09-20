@@ -66,6 +66,7 @@ public class TransportationsController : CanvasController
 
         // start loading
         StartCoroutine(LoadAndPopulate());
+        StartCoroutine(CanvasManager.Instance.EnableOverlay("loading"));
     }
 
     public override void OnCanvasUnloaded()
@@ -114,6 +115,7 @@ public class TransportationsController : CanvasController
             List<DateGroup> groups = JsonUtilityWrapper.FromJsonList<DateGroup>(json);
             BuildUI(groups);
         }
+        StartCoroutine(CanvasManager.Instance.DisableOverlay("loading", 300));
     }
 
     private void BuildUI(List<DateGroup> groups)

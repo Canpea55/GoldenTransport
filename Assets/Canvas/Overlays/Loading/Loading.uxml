@@ -1,0 +1,8 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/Canvas/Overlays/Loading/Loading.uss?fileID=7433441132597879392&amp;guid=cddef6371acbdfc43b46f26c1bd9b4a2&amp;type=3#Loading" />
+    <ui:VisualElement name="Panel" style="flex-grow: 1; background-color: rgba(99, 110, 114, 0.5);">
+        <ui:VisualElement name="Container" style="flex-grow: 1; align-content: center; align-self: center; justify-content: center; align-items: center; width: 100%;">
+            <ui:VisualElement name="LoadingAnim" style="flex-grow: 1; max-width: 128px; max-height: 128px; min-height: 128px; min-width: 128px; background-image: resource(&apos;Textures/Fric/fricloading_0000&apos;); background-position-y: center; -unity-background-scale-mode: scale-to-fit;" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

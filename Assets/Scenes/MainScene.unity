@@ -364,7 +364,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 330585543}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.2725955, y: 0.14241442, z: -0.040836677, w: 0.95065355}
+  m_LocalRotation: {x: 0.27211505, y: 0.15318353, z: -0.043924678, w: 0.9489778}
   m_LocalPosition: {x: -3, y: 5.239354, z: -3.7843847}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -516,6 +516,9 @@ MonoBehaviour:
     screenObject: {fileID: 1854466137}
     sortOrder: 0
   overlays:
+  - screenName: loading
+    screenObject: {fileID: 2039593564}
+    sortOrder: 0
   - screenName: orderDetails
     screenObject: {fileID: 2129330233}
     sortOrder: 0
@@ -1923,6 +1926,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2129330234}
+  - {fileID: 2039593565}
   m_Father: {fileID: 357986821}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1531247610
@@ -2215,7 +2219,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1728363682}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.2725955, y: 0.14241442, z: -0.04083667, w: 0.9506536}
+  m_LocalRotation: {x: 0.27211502, y: 0.15318352, z: -0.04392467, w: 0.9489778}
   m_LocalPosition: {x: -3, y: -2.7606459, z: 6.2156153}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -2664,6 +2668,107 @@ Transform:
   - {fileID: 1071057817}
   m_Father: {fileID: 868936943}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2039593564
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2039593565}
+  - component: {fileID: 2039593568}
+  - component: {fileID: 2039593567}
+  - component: {fileID: 2039593566}
+  - component: {fileID: 2039593569}
+  m_Layer: 0
+  m_Name: Loading
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &2039593565
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2039593564}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1430225886}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2039593566
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2039593564}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 289928bccdc9a4246afe49091660ed96, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SmoothScrolls
+  scrollClass: smooth-scroll
+  scrollSpeed: 32
+  lerpSpeed: 8
+  dragSensitivity: 1
+--- !u!114 &2039593567
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2039593564}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b42563ab34787bd49a706bbd673c2e08, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LoadingController
+--- !u!114 &2039593568
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2039593564}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 19102, guid: 0000000000000000e000000000000000, type: 0}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.dll::UnityEngine.UIElements.UIDocument
+  m_PanelSettings: {fileID: 11400000, guid: ffcf602a0daf96244b1a9414402e4d01, type: 2}
+  m_ParentUI: {fileID: 0}
+  sourceAsset: {fileID: 9197481963319205126, guid: 32bb65d534d93504d90e3315eb7e6556, type: 3}
+  m_SortingOrder: 2
+  m_Position: 0
+  m_WorldSpaceSizeMode: 1
+  m_WorldSpaceWidth: 1920
+  m_WorldSpaceHeight: 1080
+  m_PivotReferenceSize: 0
+  m_Pivot: 0
+  m_WorldSpaceCollider: {fileID: 0}
+--- !u!114 &2039593569
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2039593564}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5a0d65dfe5050f945ad79b52b1162e43, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UITKFrameAnimator
+  framesPath: Textures/Fric
+  frameRate: 0.1
+  loop: 1
 --- !u!1 &2062435527
 GameObject:
   m_ObjectHideFlags: 0
