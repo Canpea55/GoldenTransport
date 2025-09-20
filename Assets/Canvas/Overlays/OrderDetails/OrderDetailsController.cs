@@ -18,6 +18,7 @@ public class OrderDetailsController : CanvasController
     private void OnEnable()
     {
         close = ui.Q<Button>("Close");
+        erease = ui.Q<Button>("Erease");
         close.clicked += () =>
         {
             StartCoroutine(CanvasManager.Instance.DisableOverlay("orderDetails", 600));
@@ -40,9 +41,11 @@ public class OrderDetailsController : CanvasController
                 {
                     case "add":
                         submit.text = "เพิ่ม";
+                        erease.style.display = DisplayStyle.None;
                         break;
                     default:
                         submit.text = "บันทึก";
+                        erease.style.display = DisplayStyle.Flex;
                         break;
                 }
             }

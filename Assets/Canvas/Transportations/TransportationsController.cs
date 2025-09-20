@@ -8,36 +8,9 @@ using UnityEngine.Networking;
 using UnityEngine.UIElements;
 
 [Serializable]
-public class PivotData {
-    public int shipment_id;
-    public int order_id;
-    public int list_number;
-}
-
-[Serializable]
-public class OrderData {
-    public int id;
-    public string docuno;
-    public string custname;
-    public string remark;
-    public string status;
-    public PivotData pivot;
-}
-
-[Serializable]
-public class ShipmentData {
-    public int id;
-    public string remark;
-    public string vehicle_name;
-    public string vehicle_color_hex;
-    public string driver_name;
-    public List<OrderData> orders;
-}
-
-[Serializable]
 public class DateGroup {
     public string date;
-    public List<ShipmentData> shipments;
+    public List<Shipment> shipments;
 }
 
 public class TransportationsController : CanvasController
@@ -66,7 +39,6 @@ public class TransportationsController : CanvasController
 
         // start loading
         StartCoroutine(LoadAndPopulate());
-        StartCoroutine(CanvasManager.Instance.EnableOverlay("loading"));
     }
 
     public override void OnCanvasUnloaded()
@@ -100,6 +72,7 @@ public class TransportationsController : CanvasController
 
     private IEnumerator LoadAndPopulate()
     {
+        StartCoroutine(CanvasManager.Instance.EnableOverlay("loading"));
         using (UnityWebRequest req = UnityWebRequest.Get(apiUrl))
         {
             req.timeout = 10;
@@ -115,7 +88,7 @@ public class TransportationsController : CanvasController
             List<DateGroup> groups = JsonUtilityWrapper.FromJsonList<DateGroup>(json);
             BuildUI(groups);
         }
-        StartCoroutine(CanvasManager.Instance.DisableOverlay("loading", 300));
+        StartCoroutine(CanvasManager.Instance.DisableOverlay("loading", 600));
     }
 
     private void BuildUI(List<DateGroup> groups)

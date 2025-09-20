@@ -7,7 +7,7 @@
 }
 
 .panel:enabled {
-    transition-duration: 0.3s;
+    transition-duration: 0.2s;
     transition-timing-function: ease-out;
 }
 
@@ -21,7 +21,7 @@
     border-top-right-radius: 16px;
     border-bottom-right-radius: 16px;
     border-bottom-left-radius: 16px;
-    transition-delay: 0.6s, 0.6s, 0s, 0s, 0s, 0s;
+    transition-delay: 0.3s, 0.3s, 0s, 0s, 0s, 0s;
 }
 
 .container {
@@ -62,4 +62,47 @@
     transition-duration: 0.3s, 0.3s;
     transition-delay: 0s, 0s;
     transition-timing-function: ease-in-back, ease-in-back;
+}
+
+.loadinganim {
+    flex-grow: 1;
+    max-width: 128px;
+    max-height: 128px;
+    min-height: 128px;
+    min-width: 128px;
+    background-image: resource('Textures/Fric/fricloading_0000');
+    background-position-y: center;
+    -unity-background-scale-mode: scale-to-fit;
+}
+
+.loadinganim:enabled {
+    flex-grow: 1;
+    max-width: 128px;
+    max-height: 128px;
+    min-height: 128px;
+    min-width: 128px;
+    background-image: resource('Textures/Fric/fricloading_0000');
+    background-position-y: center;
+    -unity-background-scale-mode: scale-to-fit;
+    translate: 0 0;
+    transition-property: translate, opacity;
+    transition-duration: 0.2s, 0.1s;
+    transition-timing-function: ease-out-back, ease-out;
+    transition-delay: 0.2s, 0.2s;
+}
+
+.loadinganim:disabled {
+    flex-grow: 1;
+    max-width: 128px;
+    max-height: 128px;
+    min-height: 128px;
+    min-width: 128px;
+    background-image: resource('Textures/Fric/fricloading_0000');
+    background-position-y: center;
+    -unity-background-scale-mode: scale-to-fit;
+    translate: 0 8px;
+    opacity: 0;
+    transition-property: opacity, translate;
+    transition-duration: 0.3s, 0.3s;
+    transition-timing-function: ease-in, ease-in;
 }

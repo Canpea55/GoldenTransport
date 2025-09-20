@@ -8,25 +8,6 @@ using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UIElements;
 
-[Serializable]
-public class Driver
-{
-    public int id;
-    public string name;
-    public string vehicle_id;
-}
-
-[Serializable]
-public class Vehicles
-{
-    public int id;
-    public string name;
-    public string model;
-    public string color_hex;
-    public float capacity;
-}
-
-
 public class ShipmentFormController : CanvasController
 {
     CanvasManager canvasManager;
@@ -40,6 +21,7 @@ public class ShipmentFormController : CanvasController
 
     private IEnumerator LoadTransportationData()
     {
+        StartCoroutine(CanvasManager.Instance.EnableOverlay("loading"));
         var date = ui.Q<TextField>("Date");
         date.value = DateTime.Today.ToString("yyyy-MM-dd");
 
@@ -80,7 +62,7 @@ public class ShipmentFormController : CanvasController
             vehicle.choices = veh.Select(d => d.name).ToList();
             vehicle.index = 0;
         }
-
+        StartCoroutine(CanvasManager.Instance.DisableOverlay("loading", 600));
     }
 
     void Awake()
