@@ -160,7 +160,7 @@ public class CanvasManager : MonoBehaviour
         }
     }
 
-    public IEnumerator EnableOverlay(string name, object data = null)
+    public IEnumerator EnableOverlay(string name, object data = null, Action<Dictionary<string, object>> onSubmit = null)
     {
         foreach (Screen overlay in overlays)
         {
@@ -168,6 +168,11 @@ public class CanvasManager : MonoBehaviour
             {
                 var uidoc = overlay.screenObject.GetComponent<UIDocument>();
                 var controller = overlay.screenObject.GetComponent<CanvasController>();
+
+                if (overlay is IOverlayWithSubmit submitOverlay)
+                {
+                    submitOverlay.SetSubmitCallback(onSubmit);
+                }
 
                 if (uidoc != null)
                 {

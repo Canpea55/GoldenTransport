@@ -1,14 +1,20 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class OrderDetailsController : CanvasController
+public class OrderDetailsController : CanvasController, IOverlayWithSubmit
 {
     public VisualElement ui;
 
     public Button close;
     public Button submit;
     public Button erease;
+
+    Dictionary<string, object> payload = null;
+
+    private Action<Dictionary<string, object>> submitCallback; // <-- Store callback
+
 
     void Awake()
     {
@@ -27,7 +33,7 @@ public class OrderDetailsController : CanvasController
 
     public override void OnReceiveData(object data)
     {
-        Dictionary<string, object> payload = data as Dictionary<string, object>;
+        payload = data as Dictionary<string, object>;
 
         if (ui != null && payload != null)
         {
@@ -50,29 +56,31 @@ public class OrderDetailsController : CanvasController
                 }
             }
 
-            //// clear old listeners if needed
-            //submit.clicked -= OnSubmitClicked;
-            //submit.clicked += () =>
-            //{
-            //    if (payload == null)
-            //    {
-            //        Debug.LogWarning("No data received for this overlay.");
-            //        return;
-            //    }
-
-            //    // Now read values safely
-            //    if (payload.TryGetValue("overlayType", out var overlayType))
-            //    {
-            //        Debug.Log("Overlay Type: " + overlayType);
-            //    }
-
-            //    if (payload.TryGetValue("other", out var otherValue))
-            //    {
-            //        Debug.Log("Other Value: " + otherValue);
-            //    }
-
-            //    // Example: send to backend or close overlay here
-            //};
+            // clear old listeners if needed
+            submit.clicked -= OnSubmit;
+            submit.clicked += OnSubmit;
         }
+    }
+
+    public void OnSubmit()
+    {
+        if (payload == null)
+        {
+            Debug.LogWarning("No data received for this overlay.");
+            return;
+        }
+
+        // Example: Add new field to send back
+        payload["newOrderData"] = new { id = 123, name = "Order A" };
+
+        // Call callback to send data back to ShipmentFormController
+        submitCallback?.Invoke(payload);
+
+        StartCoroutine(CanvasManager.Instance.DisableOverlay("orderDetails", 600));
+    }
+
+    public void SetSubmitCallback(Action<Dictionary<string, object>> callback)
+    {
+        submitCallback = callback;
     }
 }

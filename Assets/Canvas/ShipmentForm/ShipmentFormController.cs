@@ -11,9 +11,10 @@ using UnityEngine.UIElements;
 public class ShipmentFormController : CanvasController
 {
     CanvasManager canvasManager;
-    public VisualElement ui;
-
+    VisualElement ui;
     public Camera cam;
+
+    public OrderList orders;
 
     public Button close;
     public Button addOrder;
@@ -79,6 +80,10 @@ public class ShipmentFormController : CanvasController
     {
         close = ui.Q<Button>("Close");
         addOrder = ui.Q<Button>("AddOrder");
+        close.clicked -= () =>
+        {
+            StartCoroutine(canvasManager.SwitchScreen(canvasManager.previousScreen.screenName, 300));
+        };
         close.clicked += () =>
         {
             StartCoroutine(canvasManager.SwitchScreen(canvasManager.previousScreen.screenName, 300));
@@ -89,7 +94,13 @@ public class ShipmentFormController : CanvasController
             { "overlayType", "add" }
         };
         addOrder.clicked += () => {
-            StartCoroutine(CanvasManager.Instance.EnableOverlay("orderDetails", data));
+            StartCoroutine(CanvasManager.Instance.EnableOverlay("orderDetails", data, (result) =>
+            {
+                // This runs after Submit in OrderDetailsController
+                Debug.Log("Data returned: " + result["newOrderData"]);
+                // Add order to UI or process as needed
+                //orders.Add(result["newOrderData"]);
+            }));
         };
     }
 
