@@ -15,6 +15,9 @@ public class OrderDetailsController : CanvasController, IOverlayWithSubmit
 
     private Action<Dictionary<string, object>> submitCallback; // <-- Store callback
 
+    public TextField docuno;
+    public TextField custname;
+    public TextField remark;
 
     void Awake()
     {
@@ -29,6 +32,9 @@ public class OrderDetailsController : CanvasController, IOverlayWithSubmit
         {
             StartCoroutine(CanvasManager.Instance.DisableOverlay("orderDetails", 600));
         };
+        docuno = ui.Q<TextField>("Docuno");
+        custname = ui.Q<TextField>("Custname");
+        remark = ui.Q<TextField>("Remark");
     }
 
     public override void OnReceiveData(object data)
@@ -71,7 +77,11 @@ public class OrderDetailsController : CanvasController, IOverlayWithSubmit
         }
 
         // Example: Add new field to send back
-        payload["newOrderData"] = new { id = 123, name = "Order A" };
+        payload["newOrderData"] = new {
+            docuno = docuno.value,
+            custname = custname.value,
+            remark = remark.value
+        };
 
         // Call callback to send data back to ShipmentFormController
         submitCallback?.Invoke(payload);

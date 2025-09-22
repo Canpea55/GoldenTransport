@@ -14,7 +14,7 @@ public class ShipmentFormController : CanvasController
     VisualElement ui;
     public Camera cam;
 
-    public OrderList orders;
+    public List<Order> orders = new List<Order>();
 
     public Button close;
     public Button addOrder;
@@ -80,28 +80,11 @@ public class ShipmentFormController : CanvasController
     {
         close = ui.Q<Button>("Close");
         addOrder = ui.Q<Button>("AddOrder");
-        close.clicked -= () =>
-        {
-            StartCoroutine(canvasManager.SwitchScreen(canvasManager.previousScreen.screenName, 300));
-        };
-        close.clicked += () =>
-        {
-            StartCoroutine(canvasManager.SwitchScreen(canvasManager.previousScreen.screenName, 300));
-        };
+        close.clicked -= Close;
+        close.clicked += Close;
 
-        var data = new Dictionary<string, object>
-        {
-            { "overlayType", "add" }
-        };
-        addOrder.clicked += () => {
-            StartCoroutine(CanvasManager.Instance.EnableOverlay("orderDetails", data, (result) =>
-            {
-                // This runs after Submit in OrderDetailsController
-                Debug.Log("Data returned: " + result["newOrderData"]);
-                // Add order to UI or process as needed
-                //orders.Add(result["newOrderData"]);
-            }));
-        };
+        addOrder.clicked -= AddOrder;
+        addOrder.clicked += AddOrder;
     }
 
     public override void OnReceiveData(object data)
@@ -144,5 +127,33 @@ public class ShipmentFormController : CanvasController
             var itemsContainer = body.Q<VisualElement>("Items");
             itemsContainer.Clear();
         }
+    }
+
+    public void Close()
+    {
+        StartCoroutine(canvasManager.SwitchScreen(canvasManager.previousScreen.screenName, 300));
+    }
+
+    public void AddOrder()
+    {
+        var data = new Dictionary<string, object>
+        {
+            { "overlayType", "add" }
+        };
+
+        StartCoroutine(CanvasManager.Instance.EnableOverlay("orderDetails", data, (result) =>
+        {
+            var newOrder = result["newOrderData"];
+            string docuno = (string)newOrder.GetType().GetProperty("docuno").GetValue(newOrder);
+            string custname = (string)newOrder.GetType().GetProperty("custname").GetValue(newOrder);
+            string remark = (string)newOrder.GetType().GetProperty("remark").GetValue(newOrder);
+
+            Order a = new Order();
+            a.docuno = docuno;
+            a.custname = custname;
+            a.remark = remark;
+
+            orders.Add(a);
+        }));
     }
 }

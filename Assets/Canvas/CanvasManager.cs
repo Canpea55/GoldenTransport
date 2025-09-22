@@ -169,7 +169,8 @@ public class CanvasManager : MonoBehaviour
                 var uidoc = overlay.screenObject.GetComponent<UIDocument>();
                 var controller = overlay.screenObject.GetComponent<CanvasController>();
 
-                if (overlay is IOverlayWithSubmit submitOverlay)
+                var submitOverlay = overlay.screenObject.GetComponent<IOverlayWithSubmit>();
+                if (submitOverlay != null)
                 {
                     submitOverlay.SetSubmitCallback(onSubmit);
                 }

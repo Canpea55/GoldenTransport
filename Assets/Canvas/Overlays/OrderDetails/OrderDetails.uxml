@@ -16,7 +16,7 @@
                     <ui:Label text="ชื่อผู้รับ" style="color: rgb(178, 190, 195); margin-top: 0; margin-right: 8px; margin-bottom: 0; margin-left: 8px; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0;" />
                     <ui:TextField name="Custname" style="padding-bottom: 16px; margin-left: 0; margin-right: 0;" />
                     <ui:Label text="หมายเหตุ" name="Label" style="color: rgb(178, 190, 195); margin-top: 0; margin-right: 8px; margin-bottom: 0; margin-left: 8px; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0;" />
-                    <ui:TextField name="RemarkExtra" style="padding-bottom: 0; margin-left: 0; margin-right: 0; flex-grow: 1; padding-top: 0; padding-right: 0; padding-left: 0;" />
+                    <ui:TextField name="Remark" style="padding-bottom: 0; margin-left: 0; margin-right: 0; flex-grow: 1; padding-top: 0; padding-right: 0; padding-left: 0;" />
                     <ui:VisualElement name="Grow" style="flex-grow: 1; flex-shrink: 1;" />
                     <ui:VisualElement style="flex-grow: 1; flex-direction: row; width: 100%; max-height: 40px; min-height: 40px; flex-shrink: 0; align-items: center; justify-content: space-around; align-self: center; align-content: center;">
                         <ui:Button text="บันทึก" name="Submit" style="border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0; background-color: rgb(116, 185, 255); color: rgb(255, 255, 255); width: auto; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; flex-grow: 1; border-top-left-radius: 4px; border-top-right-radius: 0; border-bottom-right-radius: 0; border-bottom-left-radius: 4px;" />

@@ -17,9 +17,3 @@ public class PivotData {
     public int order_id;
     public int list_number;
 }
-
-[Serializable]
-public class OrderList
-{
-    public Order[] orders;
-}
