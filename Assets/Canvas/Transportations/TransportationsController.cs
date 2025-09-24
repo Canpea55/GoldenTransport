@@ -22,7 +22,6 @@ public class TransportationsController : CanvasController
     public override void OnCanvasLoaded()
     {
         apiUrl = "http://" + PlayerPrefs.GetString("ServerIP") + "/api/shipments"; // <-- change to your URL
-        Debug.Log(apiUrl);
         base.OnCanvasLoaded();
         // wire existing controls if any
         var close = ui.Q<Button>("Close");

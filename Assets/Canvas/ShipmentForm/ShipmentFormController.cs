@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -80,10 +81,8 @@ public class ShipmentFormController : CanvasController
     {
         close = ui.Q<Button>("Close");
         addOrder = ui.Q<Button>("AddOrder");
-        close.clicked -= Close;
-        close.clicked += Close;
 
-        addOrder.clicked -= AddOrder;
+        close.clicked += Close;
         addOrder.clicked += AddOrder;
     }
 
@@ -93,13 +92,14 @@ public class ShipmentFormController : CanvasController
         payload.TryGetValue("type", out object uiType);
         if (ui != null)
         {
-            var body = ui.Q<VisualElement>("Body");
-            var itemsContainer = body.Q<VisualElement>("Items");
+            var itemsContainer = ui.Q<VisualElement>("Items");
             itemsContainer.Clear();
             if (payload != null)
             {
                 if (uiType == "add")
                 {
+                    orders.Clear();
+                    UpdateUI();
                     addOrder.SetEnabled(true);
                     addOrder.style.display = DisplayStyle.Flex;
                     StartCoroutine(LoadTransportationData());
@@ -121,17 +121,12 @@ public class ShipmentFormController : CanvasController
     public override void OnCanvasUnloaded()
     {
         cam.enabled = false;
-        if (ui != null)
-        {
-            var body = ui.Q<VisualElement>("Body");
-            var itemsContainer = body.Q<VisualElement>("Items");
-            itemsContainer.Clear();
-        }
     }
 
     public void Close()
     {
         StartCoroutine(canvasManager.SwitchScreen(canvasManager.previousScreen.screenName, 300));
+        orders.Clear();
     }
 
     public void AddOrder()
@@ -154,6 +149,129 @@ public class ShipmentFormController : CanvasController
             a.remark = remark;
 
             orders.Add(a);
+            UpdateUI();
         }));
+    }
+
+    public void UpdateUI()
+    {
+        var items = ui.Q<VisualElement>("Items");
+        if (items != null)
+        {
+            items.Clear();
+
+            if (orders.Count > 0)
+            {
+                var counter = 1;
+                foreach (var order in orders)
+                {
+                    // --- Main Item Container ---
+                    var item = new VisualElement();
+                    item.name = $"Item{counter}";
+                    item.AddToClassList("item"); // your USS class
+                    items.Add(item);
+
+                    // --- Details Button ---
+                    var detailsBtn = new Button();
+                    detailsBtn.name = $"Details{counter}";
+                    detailsBtn.AddToClassList("item-details_button");
+                    item.Add(detailsBtn);
+
+                    // Header
+                    var header = new VisualElement { name = "Header" };
+                    header.AddToClassList("item-details-header");
+                    detailsBtn.Add(header);
+
+                    var headerLeft = new VisualElement();
+                    headerLeft.style.flexShrink = 1;
+                    headerLeft.style.flexGrow = 1;
+                    header.Add(headerLeft);
+
+                    var detailTitle = new Label($"{order.custname}") { name = "Detail_Title" };
+                    detailTitle.AddToClassList("item-details-header-title");
+                    detailTitle.style.fontSize = 16;
+                    detailTitle.style.unityTextAlign = TextAnchor.UpperLeft;
+                    detailTitle.style.whiteSpace = WhiteSpace.Normal;
+                    headerLeft.Add(detailTitle);
+
+                    var detailSubtitle = new Label($"{order.docuno}") { name = "Detail_Subtitle" };
+                    detailSubtitle.AddToClassList("item-details-header-subtitle");
+                    detailSubtitle.style.fontSize = 14;
+                    detailSubtitle.style.unityTextAlign = TextAnchor.UpperLeft;
+                    detailSubtitle.style.whiteSpace = WhiteSpace.Normal;
+                    headerLeft.Add(detailSubtitle);
+
+                    var detailRemark = new Label($"{order.remark}") { name = "Detail_Remark" };
+                    detailRemark.AddToClassList("item-details-header-remark");
+                    detailRemark.style.fontSize = 12;
+                    detailRemark.style.unityTextAlign = TextAnchor.UpperLeft;
+                    detailRemark.style.whiteSpace = WhiteSpace.Normal;
+                    headerLeft.Add(detailRemark);
+
+                    var listNo = new Label($"{counter}\n") { name = "ListNo" };
+                    listNo.AddToClassList("item-details-header-list_no");
+                    listNo.style.fontSize = 32;
+                    listNo.style.unityFontStyleAndWeight = FontStyle.Bold;
+                    listNo.style.unityTextAlign = TextAnchor.MiddleCenter;
+                    listNo.style.whiteSpace = WhiteSpace.NoWrap;
+
+                    header.Add(listNo);
+
+                    //// Body
+                    //var body = new VisualElement { name = "Body" };
+                    //body.AddToClassList("item-details-body");
+                    //detailsBtn.Add(body);
+
+                    //for (int i = 0; i < 3; i++) // 3 items
+                    //{
+                    //    var itemRow = new VisualElement { name = "Item" };
+                    //    body.Add(itemRow);
+
+                    //    var listNum = new Label("1") { name = "List_Number" };
+                    //    itemRow.Add(listNum);
+
+                    //    var name = new Label("ยางนอก BS 225/75R15 R624") { name = "Name" };
+                    //    itemRow.Add(name);
+
+                    //    var amountUnit = new Label("4 เส้น") { name = "AmountNUnit" };
+                    //    itemRow.Add(amountUnit);
+                    //}
+
+                    //// Footer
+                    //var footer = new VisualElement { name = "Footer" };
+                    //footer.AddToClassList("item-details-footer");
+                    //detailsBtn.Add(footer);
+
+                    //var shipment = new VisualElement { name = "Shipment" };
+                    //footer.Add(shipment);
+
+                    //var transportation = new VisualElement { name = "Transportation" };
+                    //shipment.Add(transportation);
+
+                    //var transportLabel = new Label("ขนส่งโดย") { name = "List_Number" };
+                    //transportation.Add(transportLabel);
+
+                    //var transportName = new Label("บ้านแพง (สาย3)") { name = "Name" };
+                    //transportation.Add(transportName);
+
+                    //var sticker = new VisualElement { name = "Sticker" };
+                    //shipment.Add(sticker);
+
+                    //var stickerDetail = new Label("เล็ก1 - 13 : 8 ชิ้น") { name = "Detail" };
+                    //sticker.Add(stickerDetail);
+
+                    //var stickerIcon = new VisualElement { name = "Icon" };
+                    //sticker.Add(stickerIcon);
+
+                    // Remove Button
+                    var removeBtn = new Button();
+                    removeBtn.name = $"Remove{counter}";
+                    removeBtn.AddToClassList("item-remove_button");
+                    item.Add(removeBtn);
+
+                    counter++;
+                }
+            }
+        }
     }
 }
