@@ -15,4 +15,8 @@ public abstract class CanvasController : MonoBehaviour
     public virtual void OnReceiveData(object data) 
     { 
     }
+
+    public virtual void Submit()
+    {
+    }
 }

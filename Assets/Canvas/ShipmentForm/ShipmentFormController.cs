@@ -15,11 +15,19 @@ public class ShipmentFormController : CanvasController
     VisualElement ui;
     public Camera cam;
 
+    public List<Vehicles> vehicles = new List<Vehicles>();
+    public List<Driver> drivers = new List<Driver>();
     public List<Order> orders = new List<Order>();
+
+    public Shipment shipment = new Shipment();
 
     public Button close;
     public Button addOrder;
-    public Button submitTransportation;
+    public Button submitShipment;
+
+    public TextField date;
+    public DropdownField vehicle;
+    public DropdownField driver;
 
     private IEnumerator LoadTransportationData()
     {
@@ -39,9 +47,9 @@ public class ShipmentFormController : CanvasController
             }
 
             string json = req.downloadHandler.text;
-            List<Driver> drivers = JsonUtilityWrapper.FromJsonList<Driver>(json);
+            drivers = JsonUtilityWrapper.FromJsonList<Driver>(json);
 
-            var driver = ui.Q<DropdownField>("Driver");
+            driver = ui.Q<DropdownField>("Driver");
             driver.choices = drivers.Select(d => d.name).ToList();
             driver.index = 0;
         }
@@ -58,10 +66,10 @@ public class ShipmentFormController : CanvasController
             }
 
             string json = req.downloadHandler.text;
-            List<Vehicles> veh = JsonUtilityWrapper.FromJsonList<Vehicles>(json);
+            vehicles = JsonUtilityWrapper.FromJsonList<Vehicles>(json);
 
-            var vehicle = ui.Q<DropdownField>("Vehicle");
-            vehicle.choices = veh.Select(d => d.name).ToList();
+            vehicle = ui.Q<DropdownField>("Vehicle");
+            vehicle.choices = vehicles.Select(d => d.name).ToList();
             vehicle.index = 0;
         }
         StartCoroutine(CanvasManager.Instance.DisableOverlay("loading", 600));
@@ -81,9 +89,81 @@ public class ShipmentFormController : CanvasController
     {
         close = ui.Q<Button>("Close");
         addOrder = ui.Q<Button>("AddOrder");
+        submitShipment = ui.Q<Button>("Submit");
 
         close.clicked += Close;
         addOrder.clicked += AddOrder;
+        submitShipment.clicked += Submit;
+    }
+
+    public override void Submit()
+    {
+        base.Submit();
+        //shipment.remark = remark.value;
+        shipment.vehicle_id = vehicles[vehicle.index].id;
+        shipment.driver_id = drivers[driver.index].id;
+        
+        StartCoroutine(PostShipment(shipment));
+    }
+
+    [Serializable]
+    class NewShipment { 
+        public string remark; 
+        public int vehicle_id; 
+        public int driver_id; 
+        public string delivery_date; 
+        public List<NewOrder> orders; 
+    }
+
+    [Serializable]
+    class NewOrder { 
+        public string docuno; 
+        public string custname; 
+        public string remark; 
+        public string status; 
+        public NewOrder(string docno, string custn, string rema, string stat) 
+        { 
+            docuno = docno; 
+            custname = custn; 
+            remark = rema; 
+            status = stat; 
+        } 
+    }
+
+    IEnumerator PostShipment(Shipment shipment)
+    {
+        NewShipment s = new NewShipment(); 
+        s.remark = shipment.remark; 
+        s.vehicle_id = shipment.vehicle_id; 
+        s.driver_id = shipment.driver_id; 
+        s.delivery_date = shipment.delivery_date; 
+        s.orders = new List<NewOrder>(); 
+        foreach (var or in shipment.orders) 
+        { 
+            s.orders.Add(new NewOrder(or.docuno, or.custname, or.remark, or.status)); 
+        }
+        
+        using (UnityWebRequest req = new UnityWebRequest("http://:" + PlayerPrefs("") + "/api/shipments", "POST"))
+        {
+            string json = JsonUtility.ToJson(s); // s = NewShipment object
+            byte[] bodyRaw = Encoding.UTF8.GetBytes(json);
+
+            req.uploadHandler = new UploadHandlerRaw(bodyRaw);
+            req.downloadHandler = new DownloadHandlerBuffer();
+            req.SetRequestHeader("Content-Type", "application/json");
+
+            yield return req.SendWebRequest();
+
+            if (req.result == UnityWebRequest.Result.ConnectionError ||
+                req.result == UnityWebRequest.Result.ProtocolError)
+            {
+                Debug.LogError("Error posting shipment: " + req.error + " - " + req.downloadHandler.text);
+            }
+            else
+            {
+                Debug.Log("Shipment posted successfully: " + req.downloadHandler.text);
+            }
+        }
     }
 
     public override void OnReceiveData(object data)
