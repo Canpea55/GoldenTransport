@@ -153,6 +153,12 @@ public class ShipmentFormController : CanvasController
         }));
     }
 
+    public void RemoveOrder(Order item)
+    {
+        orders.Remove(item);
+        UpdateUI();
+    }
+
     public void UpdateUI()
     {
         var items = ui.Q<VisualElement>("Items");
@@ -268,6 +274,7 @@ public class ShipmentFormController : CanvasController
                     removeBtn.name = $"Remove{counter}";
                     removeBtn.AddToClassList("item-remove_button");
                     item.Add(removeBtn);
+                    removeBtn.clicked += () => RemoveOrder(order);
 
                     counter++;
                 }
