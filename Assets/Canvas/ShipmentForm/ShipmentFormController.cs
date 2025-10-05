@@ -15,11 +15,11 @@ public class ShipmentFormController : CanvasController
     VisualElement ui;
     public Camera cam;
 
+    public SettingController settingController;
+
     public List<Vehicles> vehicles = new List<Vehicles>();
     public List<Driver> drivers = new List<Driver>();
     public List<Order> orders = new List<Order>();
-
-    public Shipment shipment = new Shipment();
 
     public Button close;
     public Button addOrder;
@@ -32,10 +32,10 @@ public class ShipmentFormController : CanvasController
     private IEnumerator LoadTransportationData()
     {
         StartCoroutine(CanvasManager.Instance.EnableOverlay("loading"));
-        var date = ui.Q<TextField>("Date");
+        date = ui.Q<TextField>("Date");
         date.value = DateTime.Today.ToString("yyyy-MM-dd");
 
-        using (UnityWebRequest req = UnityWebRequest.Get("http://" + PlayerPrefs.GetString("ServerIP") + "/api/drivers"))
+        using (UnityWebRequest req = UnityWebRequest.Get("http://" + settingController.getServerIP() + "/api/drivers"))
         {
             req.timeout = 10;
             yield return req.SendWebRequest();
@@ -54,7 +54,7 @@ public class ShipmentFormController : CanvasController
             driver.index = 0;
         }
 
-        using (UnityWebRequest req = UnityWebRequest.Get("http://" + PlayerPrefs.GetString("ServerIP") + "/api/vehicles"))
+        using (UnityWebRequest req = UnityWebRequest.Get("http://" + settingController.getServerIP() + "/api/vehicles"))
         {
             req.timeout = 10;
             yield return req.SendWebRequest();
@@ -100,8 +100,11 @@ public class ShipmentFormController : CanvasController
     {
         base.Submit();
         //shipment.remark = remark.value;
+        Shipment shipment = new Shipment();
         shipment.vehicle_id = vehicles[vehicle.index].id;
         shipment.driver_id = drivers[driver.index].id;
+        shipment.delivery_date = date.value;
+        shipment.orders = orders;
         
         StartCoroutine(PostShipment(shipment));
     }
@@ -112,7 +115,7 @@ public class ShipmentFormController : CanvasController
         public int vehicle_id; 
         public int driver_id; 
         public string delivery_date; 
-        public List<NewOrder> orders; 
+        public List<NewOrder> orders = new List<NewOrder>(); 
     }
 
     [Serializable]
@@ -143,9 +146,10 @@ public class ShipmentFormController : CanvasController
             s.orders.Add(new NewOrder(or.docuno, or.custname, or.remark, or.status)); 
         }
         
-        using (UnityWebRequest req = new UnityWebRequest("http://:" + PlayerPrefs("") + "/api/shipments", "POST"))
+        using (UnityWebRequest req = new UnityWebRequest("http://" + settingController.getServerIP() + "/api/shipments", "POST"))
         {
-            string json = JsonUtility.ToJson(s); // s = NewShipment object
+            string json = JsonUtility.ToJson(s);
+            Debug.Log(json);
             byte[] bodyRaw = Encoding.UTF8.GetBytes(json);
 
             req.uploadHandler = new UploadHandlerRaw(bodyRaw);

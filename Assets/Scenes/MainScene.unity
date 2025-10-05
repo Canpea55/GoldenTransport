@@ -364,7 +364,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 330585543}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.27211756, y: 0.15312923, z: -0.043909103, w: 0.9489866}
+  m_LocalRotation: {x: 0.27211505, y: 0.15318353, z: -0.043924678, w: 0.9489778}
   m_LocalPosition: {x: -3, y: 5.239354, z: -3.7843847}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -2219,7 +2219,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1728363682}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.27211753, y: 0.15312922, z: -0.04390909, w: 0.9489866}
+  m_LocalRotation: {x: 0.27211502, y: 0.15318353, z: -0.04392467, w: 0.9489778}
   m_LocalPosition: {x: -3, y: -2.7606459, z: 6.2156153}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -2455,6 +2455,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ShipmentFormController
   cam: {fileID: 330585545}
+  settingController: {fileID: 923729880}
+  vehicles: []
+  drivers: []
   orders: []
 --- !u!1 &1961395902
 GameObject:

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -52,11 +52,11 @@ public class OrderDetailsController : CanvasController, IOverlayWithSubmit
                 switch (overlayType)
                 {
                     case "add":
-                        submit.text = "����";
+                        submit.text = "เพิ่ม";
                         erease.style.display = DisplayStyle.None;
                         break;
                     default:
-                        submit.text = "�ѹ�֡";
+                        submit.text = "บันทึก";
                         erease.style.display = DisplayStyle.Flex;
                         break;
                 }
