@@ -364,7 +364,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 330585543}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.27211505, y: 0.15318353, z: -0.043924678, w: 0.9489778}
+  m_LocalRotation: {x: 0.27211756, y: 0.15312922, z: -0.0439091, w: 0.9489866}
   m_LocalPosition: {x: -3, y: 5.239354, z: -3.7843847}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -499,29 +499,47 @@ MonoBehaviour:
     screenName: 
     screenObject: {fileID: 0}
     sortOrder: 0
+    disablingDuration: 300
+  currentScreen:
+    screenName: 
+    screenObject: {fileID: 0}
+    sortOrder: 0
+    disablingDuration: 300
+  currentOverlay:
+    screenName: 
+    screenObject: {fileID: 0}
+    sortOrder: 0
+    disablingDuration: 300
   screens:
   - screenName: main
     screenObject: {fileID: 1961395902}
     sortOrder: 32
+    disablingDuration: 300
   - screenName: settings
     screenObject: {fileID: 923729874}
     sortOrder: 3
+    disablingDuration: 300
   - screenName: transportations
     screenObject: {fileID: 659673240}
     sortOrder: 2
+    disablingDuration: 300
   - screenName: shipment
     screenObject: {fileID: 1295497023}
     sortOrder: 1
+    disablingDuration: 300
   - screenName: shipmentForm
     screenObject: {fileID: 1854466137}
     sortOrder: 0
+    disablingDuration: 300
   overlays:
   - screenName: loading
     screenObject: {fileID: 2039593564}
     sortOrder: 0
+    disablingDuration: 300
   - screenName: orderDetails
     screenObject: {fileID: 2129330233}
     sortOrder: 0
+    disablingDuration: 600
 --- !u!4 &357986821
 Transform:
   m_ObjectHideFlags: 0
@@ -1179,6 +1197,7 @@ GameObject:
   - component: {fileID: 923729877}
   - component: {fileID: 923729876}
   - component: {fileID: 923729875}
+  - component: {fileID: 923729883}
   m_Layer: 5
   m_Name: Setting
   m_TagString: Untagged
@@ -1301,6 +1320,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 357986821}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &923729883
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 923729874}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc694619bce1bf44096db271828deed1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
 --- !u!1 &932686289
 GameObject:
   m_ObjectHideFlags: 0
@@ -2219,7 +2250,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1728363682}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.27211502, y: 0.15318353, z: -0.04392467, w: 0.9489778}
+  m_LocalRotation: {x: 0.27211753, y: 0.15312919, z: -0.043909084, w: 0.9489866}
   m_LocalPosition: {x: -3, y: -2.7606459, z: 6.2156153}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0

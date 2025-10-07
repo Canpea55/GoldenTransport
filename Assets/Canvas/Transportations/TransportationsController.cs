@@ -3,8 +3,10 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
+using System.Text;
 using UnityEngine;
 using UnityEngine.Networking;
+using UnityEngine.Profiling;
 using UnityEngine.UIElements;
 
 [Serializable]
@@ -206,10 +208,50 @@ public class TransportationsController : CanvasController
                     orderBtn.Add(orderRemark);
 
                     int capturedOrderId = order.id;
-                    orderBtn.clicked += () => {
-                        Debug.Log($"Order clicked: {capturedOrderId} (shipment {shipment.id})");
-                        StartCoroutine(CanvasManager.Instance.EnableOverlay("orderDetails"));
-                        // TODO: pass order id to overlay controller
+                    var data = new Dictionary<string, object>
+                    {
+                        { "overlayType", "edit" },
+                        { "order", order },
+                    };
+                    orderBtn.clicked += () =>
+                    {
+                        StartCoroutine(CanvasManager.Instance.EnableOverlay("orderDetails", data, (result) =>
+                        {
+                            var orderData = result["orderData"];
+                            var type = orderData.GetType();
+
+                            // Check if property "delete" exists
+                            var deleteProp = type.GetProperty("delete");
+
+                            if (deleteProp != null && (bool)deleteProp.GetValue(orderData))
+                            {
+                                // --- Delete Order ---
+                                int id = (int)type.GetProperty("id").GetValue(orderData);
+                                Order o = new Order { id = id };
+
+                                StartCoroutine(DeleteOrder(o));
+                                StartCoroutine(LoadAndPopulate());
+                            }
+                            else
+                            {
+                                // --- Update Order ---
+                                int id = (int)type.GetProperty("id").GetValue(orderData);
+                                string docuno = (string)type.GetProperty("docuno").GetValue(orderData);
+                                string custname = (string)type.GetProperty("custname").GetValue(orderData);
+                                string remark = (string)type.GetProperty("remark").GetValue(orderData);
+
+                                Order o = new Order
+                                {
+                                    id = id,
+                                    docuno = docuno,
+                                    custname = custname,
+                                    remark = remark
+                                };
+
+                                StartCoroutine(UpdateOrder(o));
+                                StartCoroutine(LoadAndPopulate());
+                            }
+                        }));
                     };
 
                     right.Add(orderBtn);
@@ -223,6 +265,58 @@ public class TransportationsController : CanvasController
 
             // add whole date block to scroll content
             scroll.contentContainer.Add(dateBlock);
+        }
+    }
+
+    IEnumerator DeleteOrder(Order order)
+    {
+        using (UnityWebRequest req = new UnityWebRequest("http://" + SettingsManager.Instance.GetServerIP() + "/api/order", "DELETE"))
+        {
+            string json = JsonUtility.ToJson(order);
+            Debug.Log(json);
+            byte[] bodyRaw = Encoding.UTF8.GetBytes(json);
+
+            req.uploadHandler = new UploadHandlerRaw(bodyRaw);
+            req.downloadHandler = new DownloadHandlerBuffer();
+            req.SetRequestHeader("Content-Type", "application/json");
+
+            yield return req.SendWebRequest();
+
+            if (req.result == UnityWebRequest.Result.ConnectionError ||
+                req.result == UnityWebRequest.Result.ProtocolError)
+            {
+                Debug.LogError("Error deleting order: " + req.error + " - " + req.downloadHandler.text);
+            }
+            else
+            {
+                Debug.Log("Order deleted successfully: " + req.downloadHandler.text);
+            }
+        }
+    }
+
+    IEnumerator UpdateOrder(Order order)
+    {
+        using (UnityWebRequest req = new UnityWebRequest("http://" + SettingsManager.Instance.GetServerIP() + "/api/order", "POST"))
+        {
+            string json = JsonUtility.ToJson(order);
+            Debug.Log(json);
+            byte[] bodyRaw = Encoding.UTF8.GetBytes(json);
+
+            req.uploadHandler = new UploadHandlerRaw(bodyRaw);
+            req.downloadHandler = new DownloadHandlerBuffer();
+            req.SetRequestHeader("Content-Type", "application/json");
+
+            yield return req.SendWebRequest();
+
+            if (req.result == UnityWebRequest.Result.ConnectionError ||
+                req.result == UnityWebRequest.Result.ProtocolError)
+            {
+                Debug.LogError("Error posting order: " + req.error + " - " + req.downloadHandler.text);
+            }
+            else
+            {
+                Debug.Log("Order updated successfully: " + req.downloadHandler.text);
+            }
         }
     }
 

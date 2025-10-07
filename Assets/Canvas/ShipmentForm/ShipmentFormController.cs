@@ -11,7 +11,7 @@ using UnityEngine.UIElements;
 
 public class ShipmentFormController : CanvasController
 {
-    CanvasManager canvasManager;
+    CanvasManager cm;
     VisualElement ui;
     public Camera cam;
 
@@ -82,7 +82,7 @@ public class ShipmentFormController : CanvasController
 
     private void Start()
     {
-        canvasManager = CanvasManager.Instance;
+        cm = CanvasManager.Instance;
     }
 
     private void OnEnable()
@@ -107,6 +107,7 @@ public class ShipmentFormController : CanvasController
         shipment.orders = orders;
         
         StartCoroutine(PostShipment(shipment));
+        StartCoroutine(cm.SwitchScreen(cm.previousScreen.screenName, cm.currentScreen.disablingDuration));
     }
 
     [Serializable]
@@ -146,7 +147,7 @@ public class ShipmentFormController : CanvasController
             s.orders.Add(new NewOrder(or.docuno, or.custname, or.remark, or.status)); 
         }
         
-        using (UnityWebRequest req = new UnityWebRequest("http://" + settingController.getServerIP() + "/api/shipments", "POST"))
+        using (UnityWebRequest req = new UnityWebRequest("http://" + SettingsManager.Instance.GetServerIP() + "/api/shipment", "POST"))
         {
             string json = JsonUtility.ToJson(s);
             Debug.Log(json);
@@ -209,7 +210,7 @@ public class ShipmentFormController : CanvasController
 
     public void Close()
     {
-        StartCoroutine(canvasManager.SwitchScreen(canvasManager.previousScreen.screenName, 300));
+        StartCoroutine(cm.SwitchScreen(cm.previousScreen.screenName, cm.currentScreen.disablingDuration));
         orders.Clear();
     }
 
@@ -252,6 +253,8 @@ public class ShipmentFormController : CanvasController
 
             if (orders.Count > 0)
             {
+                submitShipment.SetEnabled(true);
+
                 var counter = 1;
                 foreach (var order in orders)
                 {
@@ -362,6 +365,8 @@ public class ShipmentFormController : CanvasController
 
                     counter++;
                 }
+            } else {
+                submitShipment.SetEnabled(false);
             }
         }
     }

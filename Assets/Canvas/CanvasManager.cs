@@ -11,6 +11,7 @@ public class Screen
     public string screenName;
     public GameObject screenObject;
     public int sortOrder;
+    public long disablingDuration = 300;
 }
 
 public class CanvasManager : MonoBehaviour
@@ -20,10 +21,34 @@ public class CanvasManager : MonoBehaviour
     [Header("Debug")]
     public bool startWithOverlay = false;
     public Screen previousScreen;
+    public Screen currentScreen;
+    public Screen currentOverlay;
     [Header("Canvas")]
     public List<Screen> screens;
     public List<Screen> overlays;
-    
+
+    public long GetDisablingDuration(string screenName)
+    {
+        foreach(Screen screen in screens)
+        {
+            if (screen.screenName == screenName)
+            {
+                return screen.disablingDuration;
+            }            
+        }
+        foreach (Screen overlay in overlays)
+        {
+            if (overlay.screenName == screenName)
+            {
+                return overlay.disablingDuration;
+            }
+        }
+        return 300;
+    }
+    public long GetDisablingDuration()
+    {
+        return GetDisablingDuration(currentScreen.screenName);
+    }
 
     private void Awake()
     {
@@ -89,10 +114,14 @@ public class CanvasManager : MonoBehaviour
         {
             StartCoroutine(EnableScreen(screens[0].screenName));
             previousScreen = screens[0];
-        } else
+            currentScreen = screens[0];
+            currentOverlay = null;
+        }
+        else
         {
             StartCoroutine(EnableScreen(overlays[0].screenName));
             previousScreen = overlays[0];
+            currentOverlay = overlays[0];
         }
     }
 
@@ -188,6 +217,7 @@ public class CanvasManager : MonoBehaviour
 
                     panel.style.display = DisplayStyle.Flex;
                     panel.SetEnabled(true);
+                    currentOverlay = overlay;
                     yield break;
                 }
                 else
@@ -195,6 +225,7 @@ public class CanvasManager : MonoBehaviour
                     Debug.LogError($"Overlay : '{name}' not found!");
                     yield break;
                 }
+
             }
         }
         Debug.LogError($"EnableOverlay: overlay '{name}' not registered in CanvasManager.overlays");
@@ -217,6 +248,18 @@ public class CanvasManager : MonoBehaviour
                     {
                         panel.style.display = DisplayStyle.None;
                     }).StartingIn(duration);
+                    foreach (Screen o in overlays)
+                    {
+                        if (o.screenObject.GetComponent<UIDocument>() != null)
+                        {
+                            var p = uidoc.rootVisualElement.Q<VisualElement>("Panel");
+                            if (p.enabledSelf)
+                            {
+                                currentOverlay = o;
+                            }
+                        }
+                    }
+                    yield break;
                 }
                 else
                 {
@@ -226,10 +269,11 @@ public class CanvasManager : MonoBehaviour
             }
         }
     }
+
+
     // ---------------------------
     // SWITCH SCREEN
     // ---------------------------
-
     /// <summary>
     /// Switch from one screen to another WITHOUT crossfade.
     /// It calls DisableScreen(fromName, disableDelayMs) (which schedules hiding),
@@ -243,6 +287,7 @@ public class CanvasManager : MonoBehaviour
         // find screens
         Screen fromScreen = screens.Find(s => s.screenName == fromName);
         Screen toScreen = screens.Find(s => s.screenName == toName);
+        currentScreen = toScreen;
         previousScreen = fromScreen;
 
         if (toScreen == null)
