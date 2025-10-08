@@ -2,6 +2,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using UnityEngine;
@@ -10,7 +11,8 @@ using UnityEngine.Profiling;
 using UnityEngine.UIElements;
 
 [Serializable]
-public class DateGroup {
+public class DateGroup
+{
     public string date;
     public List<Shipment> shipments;
 }
@@ -20,11 +22,13 @@ public class TransportationsController : CanvasController
     private string apiUrl;
     private VisualElement ui;
     private ScrollView scroll;
+    private List<DateGroup> allGroups; // To store all the data from the server
 
     public override void OnCanvasLoaded()
     {
         apiUrl = "http://" + PlayerPrefs.GetString("ServerIP") + "/api/shipments"; // <-- change to your URL
         base.OnCanvasLoaded();
+
         // wire existing controls if any
         var close = ui.Q<Button>("Close");
         if (close != null) close.clicked += OnCloseClicked;
@@ -37,6 +41,14 @@ public class TransportationsController : CanvasController
         if (addShipment != null) addShipment.clicked += () => {
             StartCoroutine(CanvasManager.Instance.SwitchScreen("shipmentForm", 900, data));
         };
+
+        // Search Box logic
+        var searchTextField = ui.Q<TextField>("SearchTextField");
+        if (searchTextField != null)
+        {
+            searchTextField.RegisterValueChangedCallback(evt => FilterAndBuildUI(evt.newValue));
+        }
+
 
         // start loading
         StartCoroutine(LoadAndPopulate());
@@ -86,10 +98,69 @@ public class TransportationsController : CanvasController
             }
 
             string json = req.downloadHandler.text;
-            List<DateGroup> groups = JsonUtilityWrapper.FromJsonList<DateGroup>(json);
-            BuildUI(groups);
+            allGroups = JsonUtilityWrapper.FromJsonList<DateGroup>(json); // Store in allGroups
+            BuildUI(allGroups);
         }
         StartCoroutine(CanvasManager.Instance.DisableOverlay("loading", 600));
+    }
+
+    private void FilterAndBuildUI(string searchText)
+    {
+        if (string.IsNullOrEmpty(searchText))
+        {
+            BuildUI(allGroups);
+            return;
+        }
+
+        var filteredGroups = new List<DateGroup>();
+        var lowerSearchText = searchText.ToLower();
+
+        foreach (var group in allGroups)
+        {
+            if (group.date.ToLower().Contains(lowerSearchText))
+            {
+                filteredGroups.Add(group);
+            }
+            else
+            {
+                var matchingShipments = new List<Shipment>();
+                foreach (var shipment in group.shipments)
+                {
+                    bool shipmentMatch = false;
+                    if (shipment.driver_name.ToLower().Contains(lowerSearchText) ||
+                        shipment.vehicle_name.ToLower().Contains(lowerSearchText))
+                    {
+                        shipmentMatch = true;
+                    }
+
+                    var matchingOrders = shipment.orders.Where(order =>
+                        order.custname.ToLower().Contains(lowerSearchText) ||
+                        order.docuno.ToLower().Contains(lowerSearchText) ||
+                        order.remark.ToLower().Contains(lowerSearchText)
+                    ).ToList();
+
+                    if (shipmentMatch || matchingOrders.Any())
+                    {
+                        var newShipment = new Shipment
+                        {
+                            id = shipment.id,
+                            driver_name = shipment.driver_name,
+                            vehicle_name = shipment.vehicle_name,
+                            vehicle_color_hex = shipment.vehicle_color_hex,
+                            remark = shipment.remark,
+                            orders = shipmentMatch ? shipment.orders : matchingOrders // if shipment matches, show all orders, otherwise show only matching orders.
+                        };
+                        matchingShipments.Add(newShipment);
+                    }
+                }
+
+                if (matchingShipments.Any())
+                {
+                    filteredGroups.Add(new DateGroup { date = group.date, shipments = matchingShipments });
+                }
+            }
+        }
+        BuildUI(filteredGroups);
     }
 
     private void BuildUI(List<DateGroup> groups)
@@ -113,6 +184,8 @@ public class TransportationsController : CanvasController
 
         // clear previous content
         scroll.contentContainer.Clear();
+
+        if (groups == null) return;
 
         foreach (var group in groups)
         {
