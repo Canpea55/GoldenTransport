@@ -31,6 +31,10 @@ public class OrderDetailsController : CanvasController, IOverlayWithSubmit
     public TextField custname;
     public TextField remark;
 
+    private EventCallback<ChangeEvent<string>> docunoChanged;
+    private EventCallback<ChangeEvent<string>> custnameChanged;
+    private EventCallback<ChangeEvent<string>> remarkChanged;
+
     void Awake()
     {
         ui = GetComponent<UIDocument>().rootVisualElement;
@@ -51,6 +55,18 @@ public class OrderDetailsController : CanvasController, IOverlayWithSubmit
         StartCoroutine(cm.DisableOverlay("orderDetails", cm.currentOverlay.disablingDuration));
     }
 
+    public override void OnCanvasLoaded()
+    {
+        base.OnCanvasLoaded();
+        SetupValueChangedListeners();
+    }
+
+    public override void OnCanvasUnloaded()
+    {
+        base.OnCanvasUnloaded();
+        RemoveValueChangedListeners();
+    }
+
     public override void OnReceiveData(object data)
     {
         payload = data as Dictionary<string, object>;
@@ -69,10 +85,9 @@ public class OrderDetailsController : CanvasController, IOverlayWithSubmit
                     case "add":
                         submit.text = "เพิ่ม";
                         erease.style.display = DisplayStyle.None;
-                        docuno.value = "";
-                        custname.value = "";
-                        remark.value = "";
+                        ClearForm();
                         currentMode = Mode.Add;
+                        submit.SetEnabled(false);
                         break;
                     case "edit":
                         submit.text = "บันทึก";
@@ -80,11 +95,10 @@ public class OrderDetailsController : CanvasController, IOverlayWithSubmit
                         if (payload.TryGetValue("order", out object order))
                         {
                             var o = order as Order;
-                            docuno.value = o.docuno;
-                            custname.value = o.custname;
-                            remark.value = o.remark;
+                            LoadOrder(o);
                             order_id = o.id;
                         }
+                        submit.SetEnabled(false);
                         currentMode = Mode.Edit;
                         break;
                     default:
@@ -103,6 +117,63 @@ public class OrderDetailsController : CanvasController, IOverlayWithSubmit
             erease.clicked -= Erease;
             erease.clicked += Erease;
         }
+    }
+
+    private void SetupValueChangedListeners()
+    {
+        // Unregister existing (in case called multiple times)
+        RemoveValueChangedListeners();
+
+        // Define reusable callbacks
+        docunoChanged = evt => EnableSubmit();
+        custnameChanged = evt => EnableSubmit();
+        remarkChanged = evt => EnableSubmit();
+
+        // Register them
+        docuno.RegisterValueChangedCallback(docunoChanged);
+        custname.RegisterValueChangedCallback(custnameChanged);
+        remark.RegisterValueChangedCallback(remarkChanged);
+        Debug.Log(1);
+    }
+
+    private void RemoveValueChangedListeners()
+    {
+        if (docunoChanged != null)
+            docuno.UnregisterValueChangedCallback(docunoChanged);
+
+        if (custnameChanged != null)
+            custname.UnregisterValueChangedCallback(custnameChanged);
+
+        if (remarkChanged != null)
+            remark.UnregisterValueChangedCallback(remarkChanged);
+        Debug.Log(0);
+    }
+
+    private void EnableSubmit()
+    {
+        //// Optional: only enable when not empty
+        //bool isReady = !string.IsNullOrEmpty(docuno.value?.Trim()) &&
+        //               !string.IsNullOrEmpty(custname.value?.Trim());
+        submit.SetEnabled(true);
+    }
+
+    public void LoadOrder(Order o)
+    {
+        // Set values without triggering callbacks
+        docuno.SetValueWithoutNotify(o.docuno);
+        custname.SetValueWithoutNotify(o.custname);
+        remark.SetValueWithoutNotify(o.remark);
+
+        // Re-enable logic if needed
+        EnableSubmit();
+    }
+
+    public void ClearForm()
+    {
+        docuno.SetValueWithoutNotify("");
+        custname.SetValueWithoutNotify("");
+        remark.SetValueWithoutNotify("");
+        submit.SetEnabled(false);
     }
 
     public override void Submit()

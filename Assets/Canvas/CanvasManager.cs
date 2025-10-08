@@ -218,6 +218,7 @@ public class CanvasManager : MonoBehaviour
                     panel.style.display = DisplayStyle.Flex;
                     panel.SetEnabled(true);
                     currentOverlay = overlay;
+                    controller.OnCanvasLoaded();
                     yield break;
                 }
                 else
@@ -238,15 +239,16 @@ public class CanvasManager : MonoBehaviour
             if (overlay.screenName == name)
             {
                 var uidoc = overlay.screenObject.GetComponent<UIDocument>();
-                if (uidoc != null)
+                var controller = overlay.screenObject.GetComponent<CanvasController>();
+                if (uidoc != null && controller != null)
                 {
                     var root = uidoc.rootVisualElement;
                     var panel = root.Q<VisualElement>("Panel");
-
                     panel.SetEnabled(false);
                     panel.schedule.Execute(() =>
                     {
                         panel.style.display = DisplayStyle.None;
+                        controller.OnCanvasUnloaded();
                     }).StartingIn(duration);
                     foreach (Screen o in overlays)
                     {
