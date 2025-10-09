@@ -166,9 +166,16 @@ public class TransportationsController : CanvasController
     private void BuildUI(List<DateGroup> groups)
     {
         var tableData = ui.Q<VisualElement>("TableData");
+        var noDataMessage = ui.Q<VisualElement>("NoDataMessage");
+
         if (tableData == null)
         {
             Debug.LogError("TableData element not found in UXML.");
+            return;
+        }
+        if (noDataMessage == null)
+        {
+            Debug.LogError("NoDataMessage element not found in UXML.");
             return;
         }
 
@@ -185,160 +192,171 @@ public class TransportationsController : CanvasController
         // clear previous content
         scroll.contentContainer.Clear();
 
-        if (groups == null) return;
-
-        foreach (var group in groups)
+        if (groups == null || groups.Count == 0)
         {
-            // VisualElement name="2025-09-13"
-            var dateBlock = new VisualElement();
-            dateBlock.name = $"date-{group.date}";
-            dateBlock.AddToClassList("date_block");
+            // No data, show the message and hide the table
+            tableData.style.display = DisplayStyle.None;
+            noDataMessage.style.display = DisplayStyle.Flex;
+        }
+        else
+        {
+            tableData.style.display = DisplayStyle.Flex;
+            noDataMessage.style.display = DisplayStyle.None;
 
-            // VisualElement name="Date"
-            var dateLabelOuter = new VisualElement();
-            dateLabelOuter.AddToClassList("date_label_outer");
-
-            var dateLabel = new Label(group.date);
-            dateLabel.AddToClassList("date_label");
-            dateLabelOuter.Add(dateLabel);
-
-            dateBlock.Add(dateLabelOuter);
-
-            // VisualElement name="Shipments"
-            var shipmentsContainer = new VisualElement();
-            shipmentsContainer.AddToClassList("shipments_container");
-            dateBlock.Add(shipmentsContainer);
-
-            foreach (var shipment in group.shipments)
+            foreach (var group in groups)
             {
-                // Row: left = driver and vehicle, right = orders VisualElement name="2025-09-13-2"
-                var row = new VisualElement();
-                row.name = $"{group.date}-{shipment.id}";
-                row.AddToClassList("shipment");
+                // VisualElement name="2025-09-13"
+                var dateBlock = new VisualElement();
+                dateBlock.name = $"date-{group.date}";
+                dateBlock.AddToClassList("date_block");
 
-                Color vehColor = new Color(206, 96, 89, 100);
-                ColorUtility.TryParseHtmlString($"#{shipment.vehicle_color_hex}", out vehColor);
-                Color vehColorSecondary = new Color(vehColor.r, vehColor.g, vehColor.b, 0.5f);
+                // VisualElement name="Date"
+                var dateLabelOuter = new VisualElement();
+                dateLabelOuter.AddToClassList("date_label_outer");
 
-                // Left: Delivery (button) VisualElement name="Shipment"
-                var left = new VisualElement();
-                left.name = "Details";
-                left.AddToClassList("shipment_vehicle");
+                var dateLabel = new Label(group.date);
+                dateLabel.AddToClassList("date_label");
+                dateLabelOuter.Add(dateLabel);
 
-                var deliveryBtn = new Button();
-                deliveryBtn.name = $"{group.date}-{shipment.id}";
-                deliveryBtn.AddToClassList("transportation-delivery-button");
+                dateBlock.Add(dateLabelOuter);
 
-                // driver-vehicle label e.g. "ปอง (รถสี่ 23-2456)"
-                var driverVehicle = new Label($"{SafeText(shipment.driver_name)} ({SafeText(shipment.vehicle_name)})");
-                driverVehicle.name = "title";
-                driverVehicle.AddToClassList("shipment_vehicle_title");
-                driverVehicle.style.color = vehColor;
-                deliveryBtn.Add(driverVehicle);
+                // VisualElement name="Shipments"
+                var shipmentsContainer = new VisualElement();
+                shipmentsContainer.AddToClassList("shipments_container");
+                dateBlock.Add(shipmentsContainer);
 
-                // remark label
-                var remarkLabel = new Label(SafeText(shipment.remark));
-                remarkLabel.name = "remark";
-                remarkLabel.AddToClassList("shipment_vehicle_remark");
-                deliveryBtn.Add(remarkLabel);
-
-                // delivery click - navigate to shipment screen (you can modify to pass ID)
-                int capturedShipmentId = shipment.id;
-                deliveryBtn.clicked += () => {
-                    Debug.Log($"Delivery clicked for shipment {capturedShipmentId}");
-                    StartCoroutine(CanvasManager.Instance.SwitchScreen("shipment", 900));
-                    // TODO: set selected shipment id somewhere if you need to show details
-                };
-
-                left.Add(deliveryBtn);
-
-                // Right: Orders (column of buttons) VisualElement name="Orders"
-                var right = new VisualElement();
-                right.name = "Order";
-                right.AddToClassList("shipment_orders");
-
-                foreach (var order in shipment.orders)
+                foreach (var shipment in group.shipments)
                 {
-                    var orderBtn = new Button();
-                    orderBtn.name = $"{group.date}-{shipment.id}-{order.id}";
-                    orderBtn.AddToClassList("transportation-order-button");
-                    orderBtn.AddToClassList("shipment_order-button");
-                    orderBtn.style.backgroundColor = vehColor;
+                    // Row: left = driver and vehicle, right = orders VisualElement name="2025-09-13-2"
+                    var row = new VisualElement();
+                    row.name = $"{group.date}-{shipment.id}";
+                    row.AddToClassList("shipment");
 
-                    var custLabel = new Label(SafeText(order.custname));
-                    custLabel.name = "Custname";
-                    custLabel.AddToClassList("shipment_order-button-custname");
-                    orderBtn.Add(custLabel);
+                    Color vehColor = new Color(206, 96, 89, 100);
+                    ColorUtility.TryParseHtmlString($"#{shipment.vehicle_color_hex}", out vehColor);
+                    Color vehColorSecondary = new Color(vehColor.r, vehColor.g, vehColor.b, 0.5f);
 
-                    var docLabel = new Label(SafeText(order.docuno));
-                    docLabel.name = "Docuno";
-                    docLabel.AddToClassList("shipment_order-button-docuno");
-                    orderBtn.Add(docLabel);
+                    // Left: Delivery (button) VisualElement name="Shipment"
+                    var left = new VisualElement();
+                    left.name = "Details";
+                    left.AddToClassList("shipment_vehicle");
 
-                    var orderRemark = new Label(SafeText(order.remark));
-                    orderRemark.name = "Remark";
-                    orderRemark.AddToClassList("shipment_order-button-remark");
-                    orderBtn.Add(orderRemark);
+                    var deliveryBtn = new Button();
+                    deliveryBtn.name = $"{group.date}-{shipment.id}";
+                    deliveryBtn.AddToClassList("transportation-delivery-button");
 
-                    int capturedOrderId = order.id;
-                    var data = new Dictionary<string, object>
-                    {
-                        { "overlayType", "edit" },
-                        { "order", order },
+                    // driver-vehicle label e.g. "ปอง (รถสี่ 23-2456)"
+                    var driverVehicle = new Label($"{SafeText(shipment.driver_name)} ({SafeText(shipment.vehicle_name)})");
+                    driverVehicle.name = "title";
+                    driverVehicle.AddToClassList("shipment_vehicle_title");
+                    driverVehicle.style.color = vehColor;
+                    deliveryBtn.Add(driverVehicle);
+
+                    // remark label
+                    var remarkLabel = new Label(SafeText(shipment.remark));
+                    remarkLabel.name = "remark";
+                    remarkLabel.AddToClassList("shipment_vehicle_remark");
+                    deliveryBtn.Add(remarkLabel);
+
+                    // delivery click - navigate to shipment screen (you can modify to pass ID)
+                    int capturedShipmentId = shipment.id;
+                    deliveryBtn.clicked += () => {
+                        Debug.Log($"Delivery clicked for shipment {capturedShipmentId}");
+                        StartCoroutine(CanvasManager.Instance.SwitchScreen("shipment", 900));
+                        // TODO: set selected shipment id somewhere if you need to show details
                     };
-                    orderBtn.clicked += () =>
+
+                    left.Add(deliveryBtn);
+
+                    // Right: Orders (column of buttons) VisualElement name="Orders"
+                    var right = new VisualElement();
+                    right.name = "Order";
+                    right.AddToClassList("shipment_orders");
+
+                    foreach (var order in shipment.orders)
                     {
-                        StartCoroutine(CanvasManager.Instance.EnableOverlay("orderDetails", data, (result) =>
+                        var orderBtn = new Button();
+                        orderBtn.name = $"{group.date}-{shipment.id}-{order.id}";
+                        orderBtn.AddToClassList("transportation-order-button");
+                        orderBtn.AddToClassList("shipment_order-button");
+                        orderBtn.style.backgroundColor = vehColor;
+
+                        var custLabel = new Label(SafeText(order.custname));
+                        custLabel.name = "Custname";
+                        custLabel.AddToClassList("shipment_order-button-custname");
+                        orderBtn.Add(custLabel);
+
+                        var docLabel = new Label(SafeText(order.docuno));
+                        docLabel.name = "Docuno";
+                        docLabel.AddToClassList("shipment_order-button-docuno");
+                        orderBtn.Add(docLabel);
+
+                        var orderRemark = new Label(SafeText(order.remark));
+                        orderRemark.name = "Remark";
+                        orderRemark.AddToClassList("shipment_order-button-remark");
+                        orderBtn.Add(orderRemark);
+
+                        int capturedOrderId = order.id;
+                        var data = new Dictionary<string, object>
                         {
-                            var orderData = result["orderData"];
-                            var type = orderData.GetType();
-
-                            // Check if property "delete" exists
-                            var deleteProp = type.GetProperty("delete");
-
-                            if (deleteProp != null && (bool)deleteProp.GetValue(orderData))
+                            { "overlayType", "edit" },
+                            { "order", order },
+                        };
+                        orderBtn.clicked += () =>
+                        {
+                            StartCoroutine(CanvasManager.Instance.EnableOverlay("orderDetails", data, (result) =>
                             {
-                                // --- Delete Order ---
-                                int id = (int)type.GetProperty("id").GetValue(orderData);
-                                Order o = new Order { id = id };
+                                var orderData = result["orderData"];
+                                var type = orderData.GetType();
 
-                                StartCoroutine(DeleteOrder(o));
-                                StartCoroutine(LoadAndPopulate());
-                            }
-                            else
-                            {
-                                // --- Update Order ---
-                                int id = (int)type.GetProperty("id").GetValue(orderData);
-                                string docuno = (string)type.GetProperty("docuno").GetValue(orderData);
-                                string custname = (string)type.GetProperty("custname").GetValue(orderData);
-                                string remark = (string)type.GetProperty("remark").GetValue(orderData);
+                                // Check if property "delete" exists
+                                var deleteProp = type.GetProperty("delete");
 
-                                Order o = new Order
+                                if (deleteProp != null && (bool)deleteProp.GetValue(orderData))
                                 {
-                                    id = id,
-                                    docuno = docuno,
-                                    custname = custname,
-                                    remark = remark
-                                };
+                                    // --- Delete Order ---
+                                    int id = (int)type.GetProperty("id").GetValue(orderData);
+                                    Order o = new Order { id = id };
 
-                                StartCoroutine(UpdateOrder(o));
-                                StartCoroutine(LoadAndPopulate());
-                            }
-                        }));
-                    };
+                                    StartCoroutine(DeleteOrder(o));
+                                    StartCoroutine(LoadAndPopulate());
+                                }
+                                else
+                                {
+                                    // --- Update Order ---
+                                    int id = (int)type.GetProperty("id").GetValue(orderData);
+                                    string docuno = (string)type.GetProperty("docuno").GetValue(orderData);
+                                    string custname = (string)type.GetProperty("custname").GetValue(orderData);
+                                    string remark = (string)type.GetProperty("remark").GetValue(orderData);
 
-                    right.Add(orderBtn);
+                                    Order o = new Order
+                                    {
+                                        id = id,
+                                        docuno = docuno,
+                                        custname = custname,
+                                        remark = remark
+                                    };
+
+                                    StartCoroutine(UpdateOrder(o));
+                                    StartCoroutine(LoadAndPopulate());
+                                }
+                            }));
+                        };
+
+                        right.Add(orderBtn);
+                    }
+
+                    row.Add(left);
+                    row.Add(right);
+
+                    shipmentsContainer.Add(row);
                 }
 
-                row.Add(left);
-                row.Add(right);
-
-                shipmentsContainer.Add(row);
+                // add whole date block to scroll content
+                scroll.contentContainer.Add(dateBlock);
             }
-
-            // add whole date block to scroll content
-            scroll.contentContainer.Add(dateBlock);
         }
+
     }
 
     IEnumerator DeleteOrder(Order order)

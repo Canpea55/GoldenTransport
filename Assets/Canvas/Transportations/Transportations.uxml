@@ -58,11 +58,11 @@
                                 </ui:VisualElement>
                             </ui:VisualElement>
                         </ui:VisualElement>
-                        <ui:VisualElement name="ERROR404" style="flex-grow: 1; min-height: 100%; min-width: 100px; align-items: center; justify-content: center; align-self: stretch; margin-top: 16px; margin-bottom: 16px;">
-                            <ui:VisualElement style="flex-grow: 1; max-width: 256px; max-height: 256px; min-width: 128px; min-height: 128px; -unity-background-scale-mode: scale-to-fit; background-image: url(&quot;project://database/Assets/Textures/Flaticon%20-%20UI%20icon/404.png?fileID=2800000&amp;guid=089d86b3f5275994789c17adc45ad16e&amp;type=3#404&quot;); -unity-background-image-tint-color: rgb(9, 132, 227);" />
-                            <ui:Label text="ไม่พบข้อมูลการขนส่ง" name="Label" style="align-items: center; align-self: center; align-content: center; justify-content: center; -unity-text-align: middle-center; white-space: pre; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; color: rgb(9, 132, 227);" />
-                        </ui:VisualElement>
                     </ui:ScrollView>
+                </ui:VisualElement>
+                <ui:VisualElement name="NoDataMessage" style="flex-grow: 1; min-height: 100%; min-width: 100px; align-items: center; justify-content: center; align-self: stretch; margin-top: 0; margin-bottom: 0; margin-right: 0; margin-left: 0;">
+                    <ui:VisualElement style="flex-grow: 1; max-width: 128px; min-width: 128px; -unity-background-scale-mode: scale-to-fit; background-image: url(&quot;project://database/Assets/Textures/Flaticon%20-%20UI%20icon/404.png?fileID=2800000&amp;guid=089d86b3f5275994789c17adc45ad16e&amp;type=3#404&quot;); -unity-background-image-tint-color: rgb(9, 132, 227); min-height: 128px; max-height: 128px;" />
+                    <ui:Label text="ไม่พบข้อมูลการขนส่ง" name="Label" style="align-items: center; align-self: center; align-content: center; justify-content: center; -unity-text-align: middle-center; white-space: pre; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; color: rgb(9, 132, 227);" />
                 </ui:VisualElement>
             </ui:VisualElement>
             <ui:VisualElement name="Footer" style="flex-grow: 1; position: absolute; align-self: flex-end; bottom: 0;">
