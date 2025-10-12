@@ -281,20 +281,30 @@ public class TransportationsController : CanvasController
                         orderBtn.AddToClassList("shipment_order-button");
                         orderBtn.style.backgroundColor = vehColor;
 
+                        var detailGrp = new VisualElement();
+                        detailGrp.AddToClassList("shipment_order-button-detailgrp");
+
                         var custLabel = new Label(SafeText(order.custname));
                         custLabel.name = "Custname";
                         custLabel.AddToClassList("shipment_order-button-custname");
-                        orderBtn.Add(custLabel);
+                        detailGrp.Add(custLabel);
 
                         var docLabel = new Label(SafeText(order.docuno));
                         docLabel.name = "Docuno";
                         docLabel.AddToClassList("shipment_order-button-docuno");
-                        orderBtn.Add(docLabel);
+                        detailGrp.Add(docLabel);
 
                         var orderRemark = new Label(SafeText(order.remark));
                         orderRemark.name = "Remark";
                         orderRemark.AddToClassList("shipment_order-button-remark");
-                        orderBtn.Add(orderRemark);
+                        detailGrp.Add(orderRemark);
+
+                        orderBtn.Add(detailGrp);
+
+                        var checkbox = new Toggle();
+                        checkbox.name = $"TG{group.date}-{shipment.id}-{order.id}";
+                        checkbox.AddToClassList("transportation-order-checkbox");
+                        orderBtn.Add(checkbox);
 
                         int capturedOrderId = order.id;
                         var data = new Dictionary<string, object>

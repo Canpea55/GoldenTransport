@@ -190,7 +190,6 @@
     align-content: center;
     flex-shrink: 1;
     flex-grow: 1;
-    flex-direction: column;
     width: 100%;
     min-height: 60px;
     -unity-text-align: middle-left;
@@ -202,6 +201,19 @@
     border-top-right-radius: 16px;
     border-bottom-right-radius: 16px;
     border-bottom-left-radius: 16px;
+    flex-direction: row;
+}
+
+.shipment_order-button-detailgrp {
+    flex-grow: 1;
+    margin-top: 4px;
+    margin-right: 0;
+    margin-bottom: 4px;
+    margin-left: 0;
+    padding-top: 0;
+    padding-right: 0;
+    padding-bottom: 0;
+    padding-left: 0;
 }
 
 .shipment_order-button-custname {
@@ -220,6 +232,7 @@
     font-size: 16px;
     color: rgb(255, 255, 255);
     -unity-font-style: bold;
+    -unity-text-align: middle-left;
 }
 
 .shipment_order-button-docuno {
@@ -237,7 +250,7 @@
     padding-left: 8px;
     color: rgba(255, 255, 255, 0.64);
     font-size: 14px;
-    -unity-text-align: upper-left;
+    -unity-text-align: middle-left;
     -unity-font-style: normal;
 }
 
@@ -257,5 +270,19 @@
     color: rgb(178, 190, 195);
     font-size: 12px;
     min-height: 0;
-    -unity-text-align: lower-left;
+    -unity-text-align: upper-left;
+}
+
+.transportation-order-checkbox {
+    flex-grow: 1;
+    min-width: 64px;
+    min-height: 64px;
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+    max-width: 64px;
+    max-height: 64px;
+    align-self: center;
+    justify-content: center;
 }

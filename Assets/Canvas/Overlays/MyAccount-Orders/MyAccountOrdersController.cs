@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UIElements;
 
-public class OrderDetailsController : CanvasController, IOverlayWithSubmit
+public class MyAccountOrdersController : CanvasController, IOverlayWithSubmit
 {
     public VisualElement ui;
     CanvasManager cm;
@@ -40,19 +40,23 @@ public class OrderDetailsController : CanvasController, IOverlayWithSubmit
         ui = GetComponent<UIDocument>().rootVisualElement;
     }
 
+
     private void OnEnable()
     {
-        cm = CanvasManager.Instance;
-
         close = ui.Q<Button>("Close"); close.clicked += () => Close();
         docuno = ui.Q<TextField>("Docuno");
         custname = ui.Q<TextField>("Custname");
         remark = ui.Q<TextField>("Remark");
     }
 
+    private void Start()
+    {
+        cm = CanvasManager.Instance;
+    }
+
     void Close()
     {
-        StartCoroutine(cm.DisableOverlay("orderDetails", cm.currentOverlay.disablingDuration));
+        StartCoroutine(cm.DisableOverlay(cm.currentOverlay.screenName, cm.currentOverlay.disablingDuration));
     }
 
     public override void OnCanvasLoaded()
@@ -132,7 +136,8 @@ public class OrderDetailsController : CanvasController, IOverlayWithSubmit
         // Register them
         docuno.RegisterValueChangedCallback(docunoChanged);
         custname.RegisterValueChangedCallback(custnameChanged);
-        remark.RegisterValueChangedCallback(remarkChanged);;
+        remark.RegisterValueChangedCallback(remarkChanged);
+        Debug.Log(1);
     }
 
     private void RemoveValueChangedListeners()
@@ -145,6 +150,7 @@ public class OrderDetailsController : CanvasController, IOverlayWithSubmit
 
         if (remarkChanged != null)
             remark.UnregisterValueChangedCallback(remarkChanged);
+        Debug.Log(0);
     }
 
     private void EnableSubmit()

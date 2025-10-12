@@ -23,6 +23,7 @@ public class ShipmentFormController : CanvasController
 
     public Button close;
     public Button addOrder;
+    public Button loadOrders;
     public Button submitShipment;
 
     public TextField date;
@@ -90,10 +91,32 @@ public class ShipmentFormController : CanvasController
         close = ui.Q<Button>("Close");
         addOrder = ui.Q<Button>("AddOrder");
         submitShipment = ui.Q<Button>("Submit");
+        loadOrders = ui.Q<Button>("Load");
 
         close.clicked += Close;
         addOrder.clicked += AddOrder;
         submitShipment.clicked += Submit;
+        loadOrders.clicked += LoadOrders;
+    }
+
+    void LoadOrders()
+    {
+        StartCoroutine(CanvasManager.Instance.EnableOverlay("myAccountOrders", null, (result) =>
+        {
+            Debug.Log(result);
+            //var newOrder = result["newOrderData"];
+            //string docuno = (string)newOrder.GetType().GetProperty("docuno").GetValue(newOrder);
+            //string custname = (string)newOrder.GetType().GetProperty("custname").GetValue(newOrder);
+            //string remark = (string)newOrder.GetType().GetProperty("remark").GetValue(newOrder);
+
+            //Order a = new Order();
+            //a.docuno = docuno;
+            //a.custname = custname;
+            //a.remark = remark;
+
+            //orders.Add(a);
+            //UpdateUI();
+        }));
     }
 
     public override void Submit()
