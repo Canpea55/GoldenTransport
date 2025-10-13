@@ -42,3 +42,9 @@
     white-space: normal;
     width: 100%;
 }
+
+.unity-base-text-field__input--multiline {
+    width: 100%;
+    flex-grow: 1;
+    max-height: 128px;
+}

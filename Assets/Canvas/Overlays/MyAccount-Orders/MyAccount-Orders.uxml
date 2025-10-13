@@ -10,8 +10,14 @@
                 <ui:Button name="Close" class="header-close_btn" style="margin: 8px; padding: 0; overflow: visible; margin-top: 8px; margin-left: 8px; margin-bottom: 8px; margin-right: 8px; background-color: rgba(0, 0, 0, 0); align-self: center; justify-content: center; background-image: url(&quot;project://database/Assets/Textures/Ui%20Oval%20Interface%20Icons/x-close-svgrepo-com.svg?fileID=7388822144124034973&amp;guid=3ee1237d72d3fa645a7111a86f17026f&amp;type=3#x-close-svgrepo-com&quot;); -unity-background-scale-mode: scale-to-fit; flex-grow: 0; flex-shrink: 1; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; background-size: contain; border-left-color: rgba(0, 0, 0, 0); border-right-color: rgba(0, 0, 0, 0); border-top-color: rgba(0, 0, 0, 0); border-bottom-color: rgba(0, 0, 0, 0); border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0; min-width: 24px; max-width: 32px; min-height: 24px; max-height: 32px;" />
             </ui:VisualElement>
             <ui:VisualElement name="Body" style="flex-grow: 1; padding-top: 0; padding-right: 16px; padding-bottom: 0; padding-left: 16px; margin-top: 0; margin-bottom: 0;">
-                <ui:VisualElement name="Data" style="flex-grow: 1; display: none;" />
-                <ui:VisualElement name="NoDataMessage" style="flex-grow: 1; display: flex;">
+                <ui:MultiColumnListView name="Data" style="background-color: rgb(221, 0, 0);">
+                    <ui:Columns>
+                        <ui:Column name="Date" title="วันที่" visible="true" min-width="45px" />
+                        <ui:Column name="Docuno" title="เลขที่บิล" min-width="128px" />
+                        <ui:Column name="Custname" title="ชื่อ" />
+                    </ui:Columns>
+                </ui:MultiColumnListView>
+                <ui:VisualElement name="NoDataMessage" style="flex-grow: 1; display: none;">
                     <ui:VisualElement name="Body" style="flex-grow: 1; height: 70%; margin-top: 0; margin-bottom: 0; align-items: center; justify-content: center; align-self: center; margin-right: 0; margin-left: 0;">
                         <ui:VisualElement style="flex-grow: 1; background-image: url(&quot;project://database/Assets/Textures/Flaticon%20-%20UI%20icon/404.png?fileID=2800000&amp;guid=089d86b3f5275994789c17adc45ad16e&amp;type=3#404&quot;); -unity-background-image-tint-color: rgb(9, 132, 227); min-height: 32px; min-width: 32px; max-height: 128px; max-width: 128px; -unity-background-scale-mode: scale-to-fit; align-items: center; justify-content: center; align-self: center; width: 100%;" />
                         <ui:Label text="ไม่พบรายการออเดอร์" style="-unity-text-align: middle-center; align-items: center; justify-content: center; align-self: center; align-content: center; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; color: rgb(9, 132, 227); font-size: 18px;" />

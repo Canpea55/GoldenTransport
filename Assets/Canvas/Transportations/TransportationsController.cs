@@ -93,6 +93,14 @@ public class TransportationsController : CanvasController
 
             if (req.result == UnityWebRequest.Result.ConnectionError || req.result == UnityWebRequest.Result.ProtocolError)
             {
+                //try again
+                Debug.LogWarning("Failed to fetch shipments trying again.");
+                using (UnityWebRequest req2 = UnityWebRequest.Get(apiUrl))
+                {
+                    req2.timeout = 10;
+                    yield return req2.SendWebRequest();
+                }
+
                 Debug.LogError($"Failed to fetch shipments: {apiUrl} " + req.error);
                 yield break;
             }
