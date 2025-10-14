@@ -221,9 +221,9 @@
     flex-grow: 1;
     width: 100%;
     white-space: normal;
-    margin-top: 0;
+    margin-top: 4px;
     margin-right: 0;
-    margin-bottom: 0;
+    margin-bottom: 4px;
     margin-left: 0;
     padding-top: 0;
     padding-right: 8px;
@@ -233,6 +233,7 @@
     color: rgb(255, 255, 255);
     -unity-font-style: bold;
     -unity-text-align: middle-left;
+    max-height: 16px;
 }
 
 .shipment_order-button-docuno {
@@ -242,7 +243,7 @@
     white-space: normal;
     margin-top: 0;
     margin-right: 0;
-    margin-bottom: 0;
+    margin-bottom: 4px;
     margin-left: 0;
     padding-top: 0;
     padding-right: 0;
@@ -252,6 +253,7 @@
     font-size: 14px;
     -unity-text-align: middle-left;
     -unity-font-style: normal;
+    max-height: 14px;
 }
 
 .shipment_order-button-remark {

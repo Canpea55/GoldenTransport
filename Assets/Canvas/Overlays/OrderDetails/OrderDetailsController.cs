@@ -21,6 +21,8 @@ public class OrderDetailsController : CanvasController, IOverlayWithSubmit
     public Button submit;
     public Button erease;
 
+    private Order order;
+
     Dictionary<string, object> payload = null;
 
     private Mode currentMode = Mode.Add;
@@ -95,6 +97,7 @@ public class OrderDetailsController : CanvasController, IOverlayWithSubmit
                         if (payload.TryGetValue("order", out object order))
                         {
                             var o = order as Order;
+                            this.order = o;
                             LoadOrder(o);
                             order_id = o.id;
                         }
@@ -198,7 +201,8 @@ public class OrderDetailsController : CanvasController, IOverlayWithSubmit
                     id = order_id,
                     docuno = docuno.value,
                     custname = custname.value,
-                    remark = remark.value
+                    remark = remark.value,
+                    status = order.status
                 };
                 break;
             default : 

@@ -50,10 +50,10 @@
                                     </ui:VisualElement>
                                     <ui:VisualElement name="Orders" class="shipment_orders">
                                         <ui:Button name="2025-09-13-2-4" class="transportation-order-button shipment_order-button">
-                                            <ui:VisualElement class="shipment_order-button-detailgrp">
-                                                <ui:Label text="แมว" name="Custname" class="shipment_order-button-custname" />
-                                                <ui:Label text="SC68010001" name="Docuno" class="shipment_order-button-docuno" />
-                                                <ui:Label text="ทำไมแมว" name="Remark" class="shipment_order-button-remark" />
+                                            <ui:VisualElement class="shipment_order-button-detailgrp" style="margin-bottom: 0; margin-top: 0; margin-right: 0; margin-left: 0;">
+                                                <ui:Label text="แมว" name="Custname" class="shipment_order-button-custname" style="-unity-text-align: middle-left;" />
+                                                <ui:Label text="SC68010001" name="Docuno" class="shipment_order-button-docuno" style="-unity-text-align: middle-left;" />
+                                                <ui:Label name="Remark" class="shipment_order-button-remark" />
                                             </ui:VisualElement>
                                             <ui:Toggle class="transportation-order-checkbox" />
                                         </ui:Button>

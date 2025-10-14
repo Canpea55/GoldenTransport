@@ -6,9 +6,12 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.Networking;
 using UnityEngine.Profiling;
 using UnityEngine.UIElements;
+using static UnityEngine.Rendering.DebugUI;
+using Button = UnityEngine.UIElements.Button;
 
 [Serializable]
 public class DateGroup
@@ -51,7 +54,7 @@ public class TransportationsController : CanvasController
 
 
         // start loading
-        StartCoroutine(LoadAndPopulate());
+        StartCoroutine(LoadAndPopulate(false));
     }
 
     public override void OnCanvasUnloaded()
@@ -83,9 +86,12 @@ public class TransportationsController : CanvasController
         ui = GetComponent<UIDocument>().rootVisualElement;
     }
 
-    private IEnumerator LoadAndPopulate()
+    private IEnumerator LoadAndPopulate(bool silent)
     {
-        StartCoroutine(CanvasManager.Instance.EnableOverlay("loading"));
+        VisualElement data = ui.Q<VisualElement>("TableData");
+        VisualElement nodata = ui.Q<VisualElement>("NoDataMessage");
+
+        if(!silent) StartCoroutine(CanvasManager.Instance.EnableOverlay("loading"));
         using (UnityWebRequest req = UnityWebRequest.Get(apiUrl))
         {
             req.timeout = 10;
@@ -101,6 +107,9 @@ public class TransportationsController : CanvasController
                     yield return req2.SendWebRequest();
                 }
 
+                data.style.display = DisplayStyle.None;
+                nodata.style.display = DisplayStyle.Flex;
+                StartCoroutine(CanvasManager.Instance.DisableOverlay("loading", 600));
                 Debug.LogError($"Failed to fetch shipments: {apiUrl} " + req.error);
                 yield break;
             }
@@ -109,7 +118,10 @@ public class TransportationsController : CanvasController
             allGroups = JsonUtilityWrapper.FromJsonList<DateGroup>(json); // Store in allGroups
             BuildUI(allGroups);
         }
-        StartCoroutine(CanvasManager.Instance.DisableOverlay("loading", 600));
+
+        data.style.display = DisplayStyle.Flex;
+        nodata.style.display = DisplayStyle.None;
+        if(!silent) StartCoroutine(CanvasManager.Instance.DisableOverlay("loading", 600));
     }
 
     private void FilterAndBuildUI(string searchText)
@@ -310,9 +322,32 @@ public class TransportationsController : CanvasController
                         orderBtn.Add(detailGrp);
 
                         var checkbox = new Toggle();
+                        if (order.status == "completed")
+                        {
+                            checkbox.value = true;
+                            var a = new Color();
+                            ColorUtility.TryParseHtmlString($"#27AE60", out a);
+                            orderBtn.style.backgroundColor = a;
+                        }
                         checkbox.name = $"TG{group.date}-{shipment.id}-{order.id}";
                         checkbox.AddToClassList("transportation-order-checkbox");
+                        checkbox.RegisterValueChangedCallback(evt =>
+                        {
+                            StartCoroutine(ToggleStatus(order));
+                            var b = vehColor;
+                            if (order.status == "completed")
+                            {
+                                var a = new Color();
+                                ColorUtility.TryParseHtmlString($"#27AE60", out a);
+                                orderBtn.style.backgroundColor = a;
+                            }
+                            else
+                            {
+                                orderBtn.style.backgroundColor = b;
+                            }
+                        });
                         orderBtn.Add(checkbox);
+
 
                         int capturedOrderId = order.id;
                         var data = new Dictionary<string, object>
@@ -337,7 +372,6 @@ public class TransportationsController : CanvasController
                                     Order o = new Order { id = id };
 
                                     StartCoroutine(DeleteOrder(o));
-                                    StartCoroutine(LoadAndPopulate());
                                 }
                                 else
                                 {
@@ -346,17 +380,23 @@ public class TransportationsController : CanvasController
                                     string docuno = (string)type.GetProperty("docuno").GetValue(orderData);
                                     string custname = (string)type.GetProperty("custname").GetValue(orderData);
                                     string remark = (string)type.GetProperty("remark").GetValue(orderData);
+                                    string status = (string)type.GetProperty("status").GetValue(orderData);
 
                                     Order o = new Order
                                     {
                                         id = id,
                                         docuno = docuno,
                                         custname = custname,
-                                        remark = remark
+                                        remark = remark,
+                                        status = status
                                     };
 
+                                    custLabel.text = custname;
+                                    docLabel.text = docuno;
+                                    orderRemark.text = remark;
+
                                     StartCoroutine(UpdateOrder(o));
-                                    StartCoroutine(LoadAndPopulate());
+                                    StartCoroutine(LoadAndPopulate(true));
                                 }
                             }));
                         };
@@ -375,6 +415,43 @@ public class TransportationsController : CanvasController
             }
         }
 
+    }
+
+    IEnumerator ToggleStatus(Order order)
+    {
+
+        switch (order.status)
+        {
+            case "pending":
+                order.status = "completed";
+                break;
+            case "completed":
+                order.status = "pending";
+                break;
+        }
+
+        using (UnityWebRequest req = new UnityWebRequest("http://" + SettingsManager.Instance.GetServerIP() + "/api/order/status", "POST"))
+        {
+            string json = JsonUtility.ToJson(order);
+            Debug.Log(json);
+            byte[] bodyRaw = Encoding.UTF8.GetBytes(json);
+
+            req.uploadHandler = new UploadHandlerRaw(bodyRaw);
+            req.downloadHandler = new DownloadHandlerBuffer();
+            req.SetRequestHeader("Content-Type", "application/json");
+
+            yield return req.SendWebRequest();
+
+            if (req.result == UnityWebRequest.Result.ConnectionError ||
+                req.result == UnityWebRequest.Result.ProtocolError)
+            {
+                Debug.LogError("Error toggle status order: " + req.error + " - " + req.downloadHandler.text);
+            }
+            else
+            {
+                Debug.Log("Toggle order's status successfully: " + req.downloadHandler.text);
+            }
+        }
     }
 
     IEnumerator DeleteOrder(Order order)
