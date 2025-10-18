@@ -12,6 +12,7 @@ public class MainMenuController : CanvasController
     public Button transportations;
 
     Label version;
+    Label api;
 
     private void Awake()
     {
@@ -32,10 +33,9 @@ public class MainMenuController : CanvasController
         transportations.clicked += OnTransportationClicked;
 
         version = ui.Q<Label>("Version");
-        if(version != null)
-        {
-            version.text = Application.version;
-        }
+        api = ui.Q<Label>("API");
+        if(version != null) version.text = Application.version;
+        if(api != null) api.text = SettingsManager.Instance.GetServerIP();
     }
 
     private void OnTransportationClicked()

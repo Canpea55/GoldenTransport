@@ -23,8 +23,9 @@
                     </ui:Button>
                 </ui:VisualElement>
             </ui:VisualElement>
-            <ui:VisualElement name="Footer" style="flex-grow: 1; width: 100%; align-items: flex-start; align-self: flex-start; margin-top: 0; margin-right: 8px; margin-bottom: 0; margin-left: 8px;">
+            <ui:VisualElement name="Footer" style="flex-grow: 1; width: 100%; align-items: flex-start; align-self: flex-start; margin-top: 0; margin-right: 8px; margin-bottom: 0; margin-left: 8px; justify-content: space-between; flex-direction: row;">
                 <ui:Label text="Version" name="Version" style="color: rgb(99, 110, 114);" />
+                <ui:Label text="API" name="API" style="color: rgb(99, 110, 114);" />
             </ui:VisualElement>
         </ui:VisualElement>
     </ui:VisualElement>
