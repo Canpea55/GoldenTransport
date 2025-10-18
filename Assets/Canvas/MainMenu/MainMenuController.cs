@@ -11,6 +11,8 @@ public class MainMenuController : CanvasController
     public Button settingMenu;
     public Button transportations;
 
+    Label version;
+
     private void Awake()
     {
         ui = GetComponent<UIDocument>().rootVisualElement;
@@ -28,6 +30,12 @@ public class MainMenuController : CanvasController
 
         transportations = ui.Q<Button>("MainBtn");
         transportations.clicked += OnTransportationClicked;
+
+        version = ui.Q<Label>("Version");
+        if(version != null)
+        {
+            version.text = Application.version;
+        }
     }
 
     private void OnTransportationClicked()
