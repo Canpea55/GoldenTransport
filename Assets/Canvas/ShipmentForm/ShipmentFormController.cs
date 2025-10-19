@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using TMPro;
@@ -8,6 +9,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UIElements;
+using System.Globalization;
 
 public class ShipmentFormController : CanvasController
 {
@@ -34,7 +36,7 @@ public class ShipmentFormController : CanvasController
     {
         StartCoroutine(CanvasManager.Instance.EnableOverlay("loading"));
         date = ui.Q<TextField>("Date");
-        date.value = DateTime.Today.ToString("yyyy-MM-dd");
+        date.value = DateTime.Today.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
 
         using (UnityWebRequest req = UnityWebRequest.Get("http://" + settingController.getServerIP() + "/api/drivers"))
         {
@@ -130,7 +132,6 @@ public class ShipmentFormController : CanvasController
         shipment.orders = orders;
         
         StartCoroutine(PostShipment(shipment));
-        StartCoroutine(cm.SwitchScreen(cm.previousScreen.screenName, cm.currentScreen.disablingDuration));
     }
 
     [Serializable]
@@ -162,8 +163,20 @@ public class ShipmentFormController : CanvasController
         NewShipment s = new NewShipment(); 
         s.remark = shipment.remark; 
         s.vehicle_id = shipment.vehicle_id; 
-        s.driver_id = shipment.driver_id; 
-        s.delivery_date = shipment.delivery_date; 
+        s.driver_id = shipment.driver_id;
+
+        string dateString = shipment.delivery_date;
+        DateTime localDate;
+        if (DateTime.TryParseExact(dateString, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.AssumeLocal, out localDate))
+        {
+            s.delivery_date = localDate.ToString("yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture);
+        }
+        else
+        {
+            Debug.LogError("Invalid date format entered: " + dateString);
+            yield break;
+        }
+
         s.orders = new List<NewOrder>(); 
         foreach (var or in shipment.orders) 
         { 
@@ -189,6 +202,7 @@ public class ShipmentFormController : CanvasController
             }
             else
             {
+                StartCoroutine(cm.SwitchScreen(cm.previousScreen.screenName, cm.currentScreen.disablingDuration));
                 Debug.Log("Shipment posted successfully: " + req.downloadHandler.text);
             }
         }

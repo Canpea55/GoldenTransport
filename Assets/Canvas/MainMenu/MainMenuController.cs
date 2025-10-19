@@ -24,6 +24,14 @@ public class MainMenuController : CanvasController
         canvasManager = CanvasManager.Instance;
     }
 
+    [System.Serializable]
+    private class HandshakeResponse
+    {
+        public string version;
+        public string message;
+        public string datetime;
+    }
+
     private void OnEnable()
     {
         settingMenu = ui.Q<Button>("SettingBtn");
@@ -35,7 +43,25 @@ public class MainMenuController : CanvasController
         version = ui.Q<Label>("Version");
         api = ui.Q<Label>("API");
         if(version != null) version.text = Application.version;
-        if(api != null) api.text = SettingsManager.Instance.GetServerIP();
+        if (api != null)
+        {
+            api.text = SettingsManager.Instance.GetServerIP();
+
+            APIManager.Instance.Handshake(
+
+                (jsonResponse) =>
+                {
+                    HandshakeResponse a = JsonUtility.FromJson<HandshakeResponse>(jsonResponse);
+                    api.text = SettingsManager.Instance.GetServerIP() + $" ({a.version})";
+                },
+
+                // This is the onError callback
+                (errorMessage) =>
+                {
+                    Debug.LogError("Handshake Failed: " + errorMessage);
+                }
+            );
+        }
     }
 
     private void OnTransportationClicked()
