@@ -2,6 +2,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -234,7 +235,9 @@ public class TransportationsController : CanvasController
                 var dateLabelOuter = new VisualElement();
                 dateLabelOuter.AddToClassList("date_label_outer");
 
-                var dateLabel = new Label(group.date);
+                DateTime localDate;
+                DateTime.TryParseExact(group.date, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.AssumeLocal, out localDate);
+                var dateLabel = new Label(localDate.ToString("dd-MM-yyyy", CultureInfo.InvariantCulture));
                 dateLabel.AddToClassList("date_label");
                 dateLabelOuter.Add(dateLabel);
 

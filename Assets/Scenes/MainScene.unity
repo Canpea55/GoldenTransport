@@ -807,10 +807,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 289928bccdc9a4246afe49091660ed96, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SmoothScrolls
-  scrollClass: smooth-scroll
-  scrollSpeed: 32
-  lerpSpeed: 8
-  dragSensitivity: 1
 --- !u!1 &662473971
 GameObject:
   m_ObjectHideFlags: 0
@@ -969,10 +965,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 289928bccdc9a4246afe49091660ed96, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SmoothScrolls
-  scrollClass: smooth-scroll
-  scrollSpeed: 32
-  lerpSpeed: 8
-  dragSensitivity: 1
 --- !u!114 &713034883
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1355,10 +1347,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 289928bccdc9a4246afe49091660ed96, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  scrollClass: smooth-scroll
-  scrollSpeed: 32
-  lerpSpeed: 8
-  dragSensitivity: 1
 --- !u!114 &923729880
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1868,10 +1856,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 289928bccdc9a4246afe49091660ed96, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SmoothScrolls
-  scrollClass: smooth-scroll
-  scrollSpeed: 32
-  lerpSpeed: 8
-  dragSensitivity: 1
 --- !u!1 &1372116478
 GameObject:
   m_ObjectHideFlags: 0
@@ -2534,10 +2518,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 289928bccdc9a4246afe49091660ed96, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SmoothScrolls
-  scrollClass: smooth-scroll
-  scrollSpeed: 32
-  lerpSpeed: 8
-  dragSensitivity: 1
 --- !u!114 &1854466139
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2853,10 +2833,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 289928bccdc9a4246afe49091660ed96, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SmoothScrolls
-  scrollClass: smooth-scroll
-  scrollSpeed: 32
-  lerpSpeed: 8
-  dragSensitivity: 1
 --- !u!114 &2039593567
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3134,10 +3110,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 289928bccdc9a4246afe49091660ed96, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SmoothScrolls
-  scrollClass: smooth-scroll
-  scrollSpeed: 32
-  lerpSpeed: 8
-  dragSensitivity: 1
 --- !u!23 &5040834054828612771
 MeshRenderer:
   m_ObjectHideFlags: 0

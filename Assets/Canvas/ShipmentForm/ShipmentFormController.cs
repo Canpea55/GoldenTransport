@@ -36,7 +36,7 @@ public class ShipmentFormController : CanvasController
     {
         StartCoroutine(CanvasManager.Instance.EnableOverlay("loading"));
         date = ui.Q<TextField>("Date");
-        date.value = DateTime.Today.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
+        date.value = DateTime.Today.ToString("dd-MM-yyyy", CultureInfo.InvariantCulture);
 
         using (UnityWebRequest req = UnityWebRequest.Get("http://" + settingController.getServerIP() + "/api/drivers"))
         {
@@ -167,9 +167,10 @@ public class ShipmentFormController : CanvasController
 
         string dateString = shipment.delivery_date;
         DateTime localDate;
-        if (DateTime.TryParseExact(dateString, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.AssumeLocal, out localDate))
+        if (DateTime.TryParseExact(dateString, "dd-MM-yyyy", CultureInfo.InvariantCulture, DateTimeStyles.AssumeLocal, out localDate))
         {
             s.delivery_date = localDate.ToString("yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture);
+            Debug.Log(s.delivery_date);
         }
         else
         {
