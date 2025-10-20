@@ -117,6 +117,13 @@ public class TransportationsController : CanvasController
 
             string json = req.downloadHandler.text;
             allGroups = JsonUtilityWrapper.FromJsonList<DateGroup>(json); // Store in allGroups
+            foreach (DateGroup group in allGroups) 
+            {
+                DateTime a;
+                DateTime.TryParse(group.date, out a);
+                Debug.Log(group.date + $": {a.ToString("dd-MM-yyyy")}");
+                group.date = a.ToString("dd-MM-yyyy");
+            }
             BuildUI(allGroups);
         }
 
@@ -235,9 +242,7 @@ public class TransportationsController : CanvasController
                 var dateLabelOuter = new VisualElement();
                 dateLabelOuter.AddToClassList("date_label_outer");
 
-                DateTime localDate;
-                DateTime.TryParseExact(group.date, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.AssumeLocal, out localDate);
-                var dateLabel = new Label(localDate.ToString("dd-MM-yyyy", CultureInfo.InvariantCulture));
+                var dateLabel = new Label(group.date);
                 dateLabel.AddToClassList("date_label");
                 dateLabelOuter.Add(dateLabel);
 
