@@ -18,8 +18,14 @@
                     <ui:Label text="หมายเหตุ" style="color: rgb(178, 190, 195); margin-top: 0; margin-right: 8px; margin-bottom: 0; margin-left: 8px; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0;" />
                     <ui:TextField name="Remark" multiline="true" auto-correction="false" style="padding-bottom: 0; margin-left: 0; margin-right: 0; flex-grow: 1; padding-top: 0; padding-right: 0; padding-left: 0; margin-bottom: 8px;" />
                     <ui:VisualElement style="flex-grow: 1; flex-direction: row; width: 100%; max-height: 40px; min-height: 40px; flex-shrink: 0; align-items: center; justify-content: space-around; align-self: center; align-content: center;">
-                        <ui:Button text="บันทึก" name="Submit" style="border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0; background-color: rgb(116, 185, 255); color: rgb(255, 255, 255); width: auto; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; flex-grow: 1; border-top-left-radius: 4px; border-top-right-radius: 0; border-bottom-right-radius: 0; border-bottom-left-radius: 4px;" />
-                        <ui:Button text="ลบ" name="Erease" style="border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0; background-color: rgb(255, 118, 117); color: rgb(255, 255, 255); width: 20%; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; flex-shrink: 1; border-top-right-radius: 4px; border-bottom-right-radius: 4px;" />
+                        <ui:VisualElement name="SubmitBtn" enabled="true" style="flex-grow: 1;">
+                            <ui:Button text="&#10;" name="SubmitShade" class="submit" style="position: absolute; background-color: rgb(58, 92, 126); min-width: 100%; min-height: 100%; width: 100%; height: 100%;" />
+                            <ui:Button text="บันทึก" name="Submit" class="submit" />
+                        </ui:VisualElement>
+                        <ui:VisualElement name="EreaseBtn" enabled="true" style="flex-grow: 1; max-width: 20%;">
+                            <ui:Button name="EreaseShade" style="border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0; background-color: rgb(168, 78, 77); color: rgb(255, 255, 255); margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; flex-shrink: 1; border-top-right-radius: 4px; border-bottom-right-radius: 4px; width: 100%; height: 100%; position: absolute;" />
+                            <ui:Button text="ลบ" name="Erease" class="erease" />
+                        </ui:VisualElement>
                     </ui:VisualElement>
                 </ui:VisualElement>
                 <ui:VisualElement name="RightDetails" style="flex-grow: 1; padding-top: 0; padding-right: 16px; padding-bottom: 0; padding-left: 16px; margin-top: 0; margin-bottom: 0;">

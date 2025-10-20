@@ -124,6 +124,7 @@ public class ShipmentFormController : CanvasController
     public override void Submit()
     {
         base.Submit();
+        StartCoroutine(CanvasManager.Instance.EnableOverlay("loading"));
         //shipment.remark = remark.value;
         Shipment shipment = new Shipment();
         shipment.vehicle_id = vehicles[vehicle.index].id;
@@ -282,6 +283,52 @@ public class ShipmentFormController : CanvasController
         UpdateUI();
     }
 
+    void EditOrder(Order order)
+    {
+        var data = new Dictionary<string, object>
+        {
+            { "overlayType", "edit" },
+            { "order", order },
+        };
+
+        StartCoroutine(CanvasManager.Instance.EnableOverlay("orderDetails", data, (result) =>
+        {
+            var orderData = result["orderData"];
+            var type = orderData.GetType();
+
+            // Check if property "delete" exists
+            var deleteProp = type.GetProperty("delete");
+
+            if (deleteProp != null && (bool)deleteProp.GetValue(orderData))
+            {
+                RemoveOrder(order);
+            }
+            else
+            {
+                // --- Update Order ---
+                int id = (int)type.GetProperty("id").GetValue(orderData);
+                string docuno = (string)type.GetProperty("docuno").GetValue(orderData);
+                string custname = (string)type.GetProperty("custname").GetValue(orderData);
+                string remark = (string)type.GetProperty("remark").GetValue(orderData);
+                string status = (string)type.GetProperty("status").GetValue(orderData);
+
+                Order o = new Order
+                {
+                    id = id,
+                    docuno = docuno,
+                    custname = custname,
+                    remark = remark,
+                    status = status
+                };
+
+                order.custname = custname;
+                order.docuno = docuno;
+                order.remark = remark;
+            }
+            UpdateUI();
+        }));
+    }
+
     public void UpdateUI()
     {
         var items = ui.Q<VisualElement>("Items");
@@ -306,6 +353,8 @@ public class ShipmentFormController : CanvasController
                     var detailsBtn = new Button();
                     detailsBtn.name = $"Details{counter}";
                     detailsBtn.AddToClassList("item-details_button");
+                    detailsBtn.clicked -= () => EditOrder(order);
+                    detailsBtn.clicked += () => EditOrder(order);
                     item.Add(detailsBtn);
 
                     // Header

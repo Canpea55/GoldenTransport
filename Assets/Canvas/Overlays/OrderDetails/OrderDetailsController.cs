@@ -50,6 +50,9 @@ public class OrderDetailsController : CanvasController, IOverlayWithSubmit
         docuno = ui.Q<TextField>("Docuno");
         custname = ui.Q<TextField>("Custname");
         remark = ui.Q<TextField>("Remark");
+
+        ui.Q<Button>("SubmitShade").pickingMode = PickingMode.Ignore;
+        ui.Q<Button>("EreaseShade").pickingMode = PickingMode.Ignore;
     }
 
     void Close()
@@ -75,9 +78,10 @@ public class OrderDetailsController : CanvasController, IOverlayWithSubmit
 
         if (ui != null && payload != null)
         {
-            var root = ui;
-            submit = root.Q<Button>("Submit");
-            erease = root.Q<Button>("Erease");
+            var submitBtn = ui.Q<VisualElement>("SubmitBtn");
+            var ereaseBtn = ui.Q<VisualElement>("EreaseBtn");
+            submit = ui.Q<Button>("Submit");
+            erease = ui.Q<Button>("Erease");
 
             if (payload.TryGetValue("overlayType", out object overlayTypeObj))
             {
@@ -86,14 +90,15 @@ public class OrderDetailsController : CanvasController, IOverlayWithSubmit
                 {
                     case "add":
                         submit.text = "เพิ่ม";
-                        erease.style.display = DisplayStyle.None;
+                        ereaseBtn.style.display = DisplayStyle.None;
                         ClearForm();
                         currentMode = Mode.Add;
                         submit.SetEnabled(false);
+                        submit.pickingMode = PickingMode.Ignore;
                         break;
                     case "edit":
                         submit.text = "บันทึก";
-                        erease.style.display = DisplayStyle.Flex;
+                        ereaseBtn.style.display = DisplayStyle.Flex;
                         if (payload.TryGetValue("order", out object order))
                         {
                             var o = order as Order;
@@ -102,6 +107,7 @@ public class OrderDetailsController : CanvasController, IOverlayWithSubmit
                             order_id = o.id;
                         }
                         submit.SetEnabled(false);
+                        submit.pickingMode = PickingMode.Ignore;
                         currentMode = Mode.Edit;
                         break;
                     default:
@@ -156,6 +162,7 @@ public class OrderDetailsController : CanvasController, IOverlayWithSubmit
         //bool isReady = !string.IsNullOrEmpty(docuno.value?.Trim()) &&
         //               !string.IsNullOrEmpty(custname.value?.Trim());
         submit.SetEnabled(true);
+        submit.pickingMode = PickingMode.Position;
     }
 
     public void LoadOrder(Order o)

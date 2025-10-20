@@ -228,10 +228,6 @@
     background-color: rgb(116, 185, 255);
 }
 
-.unity-button:hover {
-    background-color: rgb(116, 185, 255);
-}
-
 .unity-scroll-view--scroll {
     margin-top: 0;
     margin-right: 0;

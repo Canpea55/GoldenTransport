@@ -63,3 +63,93 @@
     transition-delay: 0s, 0s;
     transition-timing-function: ease-in-back, ease-in-back;
 }
+
+.submit {
+    border-top-width: 0;
+    border-right-width: 0;
+    border-bottom-width: 0;
+    border-left-width: 0;
+    background-color: rgb(116, 185, 255);
+    color: rgb(255, 255, 255);
+    width: auto;
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+    flex-grow: 1;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 4px;
+    transform-origin: bottom;
+}
+
+.submit:inactive {
+    transition-property: translate;
+    transition-duration: 0.3s;
+    transition-timing-function: ease-out-back;
+    transform-origin: bottom;
+}
+
+.submit:hover {
+    transition-property: translate, border-top-left-radius, border-bottom-left-radius, border-top-right-radius;
+    transition-duration: 0.2s, 0.2s, 0.2s, 0.2s;
+    transition-timing-function: ease-out-back, ease-out-back, ease-out-back, ease-out-back;
+    scale: 1 1;
+    transform-origin: bottom;
+    border-top-left-radius: 4px;
+    border-bottom-left-radius: 0;
+    border-top-right-radius: 4px;
+    translate: 0 -4px;
+}
+
+.submit:active {
+    transition-property: translate, border-top-left-radius, border-top-right-radius, border-bottom-left-radius, scale;
+    transition-timing-function: ease-out-back, ease-out-back, ease-out-back, ease-out, ease-out-back;
+    transition-duration: 0.15s, 0.2s, 0.2s, 0.2s, 0.15s;
+    transform-origin: bottom;
+    translate: 0 0;
+    border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px;
+    border-top-right-radius: 4px;
+    scale: 1 0.9;
+}
+
+.erease {
+    border-top-width: 0;
+    border-right-width: 0;
+    border-bottom-width: 0;
+    border-left-width: 0;
+    background-color: rgb(255, 118, 117);
+    color: rgb(255, 255, 255);
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+    flex-shrink: 1;
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
+    transform-origin: bottom;
+}
+
+.erease:inactive {
+    transition-duration: 0.2s;
+    transition-timing-function: ease-out-back;
+}
+
+.erease:hover {
+    translate: 0 -4px;
+    transition-property: translate;
+    transition-duration: 0.2s;
+    transition-timing-function: ease-out-back;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+}
+
+.erease:active {
+    translate: 0 0;
+    transition-duration: 0.15s;
+    transition-timing-function: ease-out-back;
+    scale: 1 0.9;
+    border-top-right-radius: 4px;
+}

@@ -121,7 +121,6 @@ public class TransportationsController : CanvasController
             {
                 DateTime a;
                 DateTime.TryParse(group.date, out a);
-                Debug.Log(group.date + $": {a.ToString("dd-MM-yyyy")}");
                 group.date = a.ToString("dd-MM-yyyy");
             }
             BuildUI(allGroups);
@@ -129,7 +128,7 @@ public class TransportationsController : CanvasController
 
         data.style.display = DisplayStyle.Flex;
         nodata.style.display = DisplayStyle.None;
-        if(!silent) StartCoroutine(CanvasManager.Instance.DisableOverlay("loading", 600));
+        StartCoroutine(CanvasManager.Instance.DisableOverlay("loading", 600));
     }
 
     private void FilterAndBuildUI(string searchText)
@@ -378,7 +377,7 @@ public class TransportationsController : CanvasController
                                     // --- Delete Order ---
                                     int id = (int)type.GetProperty("id").GetValue(orderData);
                                     Order o = new Order { id = id };
-
+                                    StartCoroutine(CanvasManager.Instance.EnableOverlay("loading"));
                                     StartCoroutine(DeleteOrder(o));
                                 }
                                 else
@@ -402,9 +401,8 @@ public class TransportationsController : CanvasController
                                     custLabel.text = custname;
                                     docLabel.text = docuno;
                                     orderRemark.text = remark;
-
+                                    StartCoroutine(CanvasManager.Instance.EnableOverlay("loading"));
                                     StartCoroutine(UpdateOrder(o));
-                                    StartCoroutine(LoadAndPopulate(true));
                                 }
                             }));
                         };
@@ -485,6 +483,7 @@ public class TransportationsController : CanvasController
             {
                 Debug.Log("Order deleted successfully: " + req.downloadHandler.text);
             }
+            StartCoroutine(LoadAndPopulate(true));
         }
     }
 
@@ -511,6 +510,7 @@ public class TransportationsController : CanvasController
             {
                 Debug.Log("Order updated successfully: " + req.downloadHandler.text);
             }
+            StartCoroutine(LoadAndPopulate(true));
         }
     }
 
