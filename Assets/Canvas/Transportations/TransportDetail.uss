@@ -234,6 +234,8 @@
     -unity-font-style: bold;
     -unity-text-align: middle-left;
     max-height: 16px;
+    text-overflow: ellipsis;
+    overflow: hidden;
 }
 
 .shipment_order-button-docuno {
