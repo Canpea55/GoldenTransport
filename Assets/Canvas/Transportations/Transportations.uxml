@@ -46,6 +46,7 @@
                                         <ui:Button name="2025-09-13-1" class="transportation-delivery-button">
                                             <ui:Label text="ปอง (รถสี่ 23-2456)" name="title" class="shipment_vehicle_title" />
                                             <ui:Label text="ไปสถาพรที่เดียว แล้วขับกลับจากสิทธิโชคแบบไม่ซิ่ง แแาปผืฉษศ)่ผาสแ่ผปา๋ฉศป่ผส่แ่(ศ๋ฉป่ผสแ่ปผษศแ่ปผฉษศ)๋แาสผป่ฉษศ)๋ฉาสผ๋ฉาสปผ่ฉาสผ๋ฉาสปผ่ฉาแปผ๋แาปผ่าสแ" name="remark" class="shipment_vehicle_remark" />
+                                            <ui:Button name="Edit2025-09-13-1" class="shipment-edit" />
                                         </ui:Button>
                                     </ui:VisualElement>
                                     <ui:VisualElement name="Orders" class="shipment_orders">

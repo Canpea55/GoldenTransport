@@ -388,12 +388,17 @@ public class ShipmentFormController : CanvasController
                     detailRemark.style.whiteSpace = WhiteSpace.Normal;
                     headerLeft.Add(detailRemark);
 
-                    var listNo = new Label($"{counter}\n") { name = "ListNo" };
+                    var listNo = new Button() { name = "ListNo" };
+                    listNo.text = $"{counter}\n";
                     listNo.AddToClassList("item-details-header-list_no");
                     listNo.style.fontSize = 32;
                     listNo.style.unityFontStyleAndWeight = FontStyle.Bold;
                     listNo.style.unityTextAlign = TextAnchor.MiddleCenter;
                     listNo.style.whiteSpace = WhiteSpace.NoWrap;
+                    listNo.clicked += () =>
+                    {
+                        Debug.Log($"clicked {listNo.name}");
+                    };
 
                     header.Add(listNo);
 

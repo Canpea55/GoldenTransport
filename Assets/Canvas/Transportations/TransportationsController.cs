@@ -194,6 +194,8 @@ public class TransportationsController : CanvasController
     {
         var tableData = ui.Q<VisualElement>("TableData");
         var noDataMessage = ui.Q<VisualElement>("NoDataMessage");
+        tableData.style.display = DisplayStyle.None;
+        noDataMessage.style.display = DisplayStyle.None;
 
         if (tableData == null)
         {
@@ -284,6 +286,10 @@ public class TransportationsController : CanvasController
                     remarkLabel.name = "remark";
                     remarkLabel.AddToClassList("shipment_vehicle_remark");
                     deliveryBtn.Add(remarkLabel);
+
+                    var editBtn = new Button() { name = $"Edit{row.name}" };
+                    editBtn.AddToClassList("shipment-edit");    
+                    deliveryBtn.Add(editBtn);
 
                     // delivery click - navigate to shipment screen (you can modify to pass ID)
                     int capturedShipmentId = shipment.id;

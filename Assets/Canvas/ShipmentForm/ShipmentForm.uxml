@@ -38,7 +38,7 @@
                                             <ui:Label text="SC680900196" name="Detail_SubHeader" class="SeeTestcolor item-details-header-subtitle" style="font-size: 14px; -unity-text-align: upper-left;" />
                                             <ui:Label text="[ N ]&#10;โอน 8398 ยอด 10000 @30/8/2568" name="Detail_Descriptions" class="SeeTestcolor item-details-header-remark" style="font-size: 12px;" />
                                         </ui:VisualElement>
-                                        <ui:Label text="1&#10;" name="ListNo" class="item-details-header-list_no" style="font-size: 32px; -unity-font-style: bold;" />
+                                        <ui:Button text="1" name="ListNo" class="item-details-header-list_no" style="font-size: 32px; -unity-font-style: bold;" />
                                     </ui:VisualElement>
                                     <ui:VisualElement name="Body" class="item-details-body">
                                         <ui:VisualElement name="Item" style="flex-grow: 1; width: 100%; flex-direction: row; align-items: center;">
