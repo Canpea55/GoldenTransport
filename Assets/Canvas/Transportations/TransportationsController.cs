@@ -254,7 +254,7 @@ public class TransportationsController : CanvasController
                 shipmentsContainer.AddToClassList("shipments_container");
                 dateBlock.Add(shipmentsContainer);
 
-                foreach (var shipment in group.shipments)
+                foreach (var shipment in group.shipments.OrderByDescending(s => s.id))
                 {
                     // Row: left = driver and vehicle, right = orders VisualElement name="2025-09-13-2"
                     var row = new VisualElement();
@@ -290,6 +290,17 @@ public class TransportationsController : CanvasController
                     var editBtn = new Button() { name = $"Edit{row.name}" };
                     editBtn.AddToClassList("shipment-edit");    
                     deliveryBtn.Add(editBtn);
+                    editBtn.clicked += () =>
+                    {
+                        var s = shipment;
+                        s.delivery_date = group.date;
+                        var data = new Dictionary<string, object>
+                        {
+                            { "type", "edit" },
+                            { "shipment", s }
+                        };
+                        StartCoroutine(CanvasManager.Instance.SwitchScreen("shipmentForm", 900, data));
+                    };
 
                     // delivery click - navigate to shipment screen (you can modify to pass ID)
                     int capturedShipmentId = shipment.id;
