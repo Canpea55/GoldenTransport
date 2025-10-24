@@ -23,6 +23,8 @@ public class ShipmentFormController : CanvasController
     public List<Driver> drivers = new List<Driver>();
     public List<Order> orders = new List<Order>();
 
+    [SerializeField] private Shipment _currentShipment;
+
     public Button close;
     public Button addOrder;
     public Button loadOrders;
@@ -81,6 +83,7 @@ public class ShipmentFormController : CanvasController
     void Awake()
     {
         ui = GetComponent<UIDocument>().rootVisualElement;
+        _currentShipment = null;
     }
 
     private void Start()
@@ -125,69 +128,52 @@ public class ShipmentFormController : CanvasController
     {
         base.Submit();
         StartCoroutine(CanvasManager.Instance.EnableOverlay("loading"));
-        //shipment.remark = remark.value;
-        Shipment shipment = new Shipment();
-        shipment.vehicle_id = vehicles[vehicle.index].id;
-        shipment.driver_id = drivers[driver.index].id;
-        shipment.delivery_date = date.value;
-        shipment.orders = orders;
-        
-        StartCoroutine(PostShipment(shipment));
-    }
+        if (_currentShipment != null)
+        {
+            _currentShipment.vehicle_id = vehicles[vehicle.index].id;
+            _currentShipment.driver_id = drivers[driver.index].id;
+            _currentShipment.delivery_date = date.value;
+            //_currentShipment.remark = remark.value;
+            _currentShipment.orders = orders;
 
-    [Serializable]
-    class NewShipment { 
-        public string remark; 
-        public int vehicle_id; 
-        public int driver_id; 
-        public string delivery_date; 
-        public List<NewOrder> orders = new List<NewOrder>(); 
-    }
+            int counter = 1;
+            foreach(Order order in _currentShipment.orders)
+            {
+                if(order.pivot == null)
+                {
+                    order.pivot = new PivotData();
+                    order.pivot.list_number = counter; counter++;
+                } 
+                else
+                {
+                    order.pivot.list_number = counter; counter++;
+                }
+            }
 
-    [Serializable]
-    class NewOrder { 
-        public string docuno; 
-        public string custname; 
-        public string remark; 
-        public string status; 
-        public NewOrder(string docno, string custn, string rema, string stat) 
-        { 
-            docuno = docno; 
-            custname = custn; 
-            remark = rema; 
-            status = stat; 
-        } 
+            StartCoroutine(PostShipment(_currentShipment));
+        }
+        else
+        {
+            Debug.LogError("_currentShipment is null");
+        }
     }
 
     IEnumerator PostShipment(Shipment shipment)
     {
-        NewShipment s = new NewShipment(); 
-        s.remark = shipment.remark; 
-        s.vehicle_id = shipment.vehicle_id; 
-        s.driver_id = shipment.driver_id;
-
-        string dateString = shipment.delivery_date;
         DateTime localDate;
-        if (DateTime.TryParseExact(dateString, "dd-MM-yyyy", CultureInfo.InvariantCulture, DateTimeStyles.AssumeLocal, out localDate))
+        if (DateTime.TryParseExact(shipment.delivery_date, "dd-MM-yyyy", CultureInfo.InvariantCulture, DateTimeStyles.AssumeLocal, out localDate))
         {
-            s.delivery_date = localDate.ToString("yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture);
-            Debug.Log(s.delivery_date);
+            shipment.delivery_date = localDate.ToString("yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture);
         }
         else
         {
-            Debug.LogError("Invalid date format entered: " + dateString);
+            Debug.LogError("Invalid date format entered: " + shipment.delivery_date);
             yield break;
-        }
-
-        s.orders = new List<NewOrder>(); 
-        foreach (var or in shipment.orders) 
-        { 
-            s.orders.Add(new NewOrder(or.docuno, or.custname, or.remark, or.status)); 
         }
         
         using (UnityWebRequest req = new UnityWebRequest("http://" + SettingsManager.Instance.GetServerIP() + "/api/shipment", "POST"))
         {
-            string json = JsonUtility.ToJson(s);
+            string json = JsonUtility.ToJson(shipment);
             Debug.Log(json);
             byte[] bodyRaw = Encoding.UTF8.GetBytes(json);
 
@@ -220,10 +206,11 @@ public class ShipmentFormController : CanvasController
             itemsContainer.Clear();
             if (payload != null)
             {
+                orders.Clear();
                 switch (uiType)
                 {
                     case "add":
-                        orders.Clear();
+                        _currentShipment = new Shipment();
                         UpdateUI();
                         addOrder.SetEnabled(true);
                         addOrder.style.display = DisplayStyle.Flex;
@@ -249,6 +236,7 @@ public class ShipmentFormController : CanvasController
     public override void OnCanvasUnloaded()
     {
         cam.enabled = false;
+        _currentShipment = null;
     }
 
     public void Close()
