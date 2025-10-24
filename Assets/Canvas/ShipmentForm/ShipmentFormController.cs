@@ -19,10 +19,10 @@ public class ShipmentFormController : CanvasController
 
     public SettingController settingController;
     
-    [SerializeField] private Shipment _currentShipment;
+    private Shipment _currentShipment;
 
-    private List<Vehicles> vehicles = new List<Vehicles>();
-    private List<Driver> drivers = new List<Driver>();
+    [SerializeField] private List<Vehicles> vehicles = new List<Vehicles>();
+    [SerializeField] private List<Driver> drivers = new List<Driver>();
     private List<Order> orders = new List<Order>();
 
     public Button close;
@@ -34,10 +34,13 @@ public class ShipmentFormController : CanvasController
     public DropdownField vehicle;
     public DropdownField driver;
 
+    private EventCallback<ChangeEvent<string>> dateChanged;
+    private EventCallback<ChangeEvent<string>> vehicleChanged;
+    private EventCallback<ChangeEvent<string>> driverChanged;
+
     private IEnumerator LoadTransportationData()
     {
         StartCoroutine(CanvasManager.Instance.EnableOverlay("loading"));
-        date = ui.Q<TextField>("Date");
         date.value = DateTime.Today.ToString("dd-MM-yyyy", CultureInfo.InvariantCulture);
 
         using (UnityWebRequest req = UnityWebRequest.Get("http://" + settingController.getServerIP() + "/api/drivers"))
@@ -53,18 +56,16 @@ public class ShipmentFormController : CanvasController
 
             string json = req.downloadHandler.text;
             drivers = JsonUtilityWrapper.FromJsonList<Driver>(json);
-
-            driver = ui.Q<DropdownField>("Driver");
             driver.choices = drivers.Select(d => d.name).ToList();
             if(driver.choices.Count > 0)
             {
-                if(_currentShipment.driver_name != "")
+                if(_currentShipment.driver_name != "new")
                 {
-                    driver.value = _currentShipment.driver_name;
+                    driver.SetValueWithoutNotify(_currentShipment.driver_name);
                 }
                 else
                 {
-                    driver.index = 0;
+                    driver.SetValueWithoutNotify(driver.choices[0]);
                 }
             }
             else
@@ -86,18 +87,16 @@ public class ShipmentFormController : CanvasController
 
             string json = req.downloadHandler.text;
             vehicles = JsonUtilityWrapper.FromJsonList<Vehicles>(json);
-
-            vehicle = ui.Q<DropdownField>("Vehicle");
             vehicle.choices = vehicles.Select(d => d.name).ToList();
             if (vehicle.choices.Count > 0)
             {
-                if (_currentShipment.vehicle_name != "")
+                if (_currentShipment.vehicle_name != "new")
                 {
-                    vehicle.value = _currentShipment.vehicle_name;
+                    vehicle.SetValueWithoutNotify(_currentShipment.vehicle_name);
                 }
                 else
                 {
-                    vehicle.index = 0;
+                    vehicle.SetValueWithoutNotify(vehicle.choices[0]);
                 }
             }
             else
@@ -106,6 +105,8 @@ public class ShipmentFormController : CanvasController
             }
         }
         StartCoroutine(CanvasManager.Instance.DisableOverlay("loading", 600));
+        UpdateUI();
+        DisableSubmit();
     }
 
     void Awake()
@@ -126,10 +127,40 @@ public class ShipmentFormController : CanvasController
         submitShipment = ui.Q<Button>("Submit");
         loadOrders = ui.Q<Button>("Load");
 
+        date = ui.Q<TextField>("Date");
+        driver = ui.Q<DropdownField>("Driver");
+        vehicle = ui.Q<DropdownField>("Vehicle");
+
         close.clicked += Close;
         addOrder.clicked += AddOrder;
         submitShipment.clicked += Submit;
         loadOrders.clicked += LoadOrders;
+
+        dateChanged = evt => EnableSubmit();
+        driverChanged = evt => EnableSubmit();
+        driverChanged = evt => AutoLoadDriverVeh();
+        vehicleChanged = evt => EnableSubmit();
+        date.RegisterValueChangedCallback(dateChanged);
+        driver.RegisterValueChangedCallback(driverChanged);
+        vehicle.RegisterValueChangedCallback(vehicleChanged);
+    }
+
+    private void OnDisable()
+    {
+        // --- Unregister ALL Listeners ---
+        close.clicked -= Close;
+        addOrder.clicked -= AddOrder;
+        submitShipment.clicked -= Submit;
+        loadOrders.clicked -= LoadOrders;
+
+        if (dateChanged != null)
+            date.UnregisterValueChangedCallback(dateChanged);
+
+        if (driverChanged != null)
+            driver.UnregisterValueChangedCallback(driverChanged);
+
+        if (vehicleChanged != null)
+            vehicle.UnregisterValueChangedCallback(vehicleChanged);
     }
 
     void LoadOrders()
@@ -199,31 +230,28 @@ public class ShipmentFormController : CanvasController
             yield break;
         }
 
-        string json = JsonUtility.ToJson(shipment);
-        Debug.Log(json);
-        //using (UnityWebRequest req = new UnityWebRequest("http://" + SettingsManager.Instance.GetServerIP() + "/api/shipment", "POST"))
-        //{
-        //    string json = JsonUtility.ToJson(shipment);
-        //    Debug.Log(json);
-        //    byte[] bodyRaw = Encoding.UTF8.GetBytes(json);
+        using (UnityWebRequest req = new UnityWebRequest("http://" + SettingsManager.Instance.GetServerIP() + "/api/shipment", "POST"))
+        {
+            string json = JsonUtility.ToJson(shipment);
+            byte[] bodyRaw = Encoding.UTF8.GetBytes(json);
 
-        //    req.uploadHandler = new UploadHandlerRaw(bodyRaw);
-        //    req.downloadHandler = new DownloadHandlerBuffer();
-        //    req.SetRequestHeader("Content-Type", "application/json");
+            req.uploadHandler = new UploadHandlerRaw(bodyRaw);
+            req.downloadHandler = new DownloadHandlerBuffer();
+            req.SetRequestHeader("Content-Type", "application/json");
 
-        //    yield return req.SendWebRequest();
+            yield return req.SendWebRequest();
 
-        //    if (req.result == UnityWebRequest.Result.ConnectionError ||
-        //        req.result == UnityWebRequest.Result.ProtocolError)
-        //    {
-        //        Debug.LogError("Error posting shipment: " + req.error + " - " + req.downloadHandler.text);
-        //    }
-        //    else
-        //    {
-        //        StartCoroutine(cm.SwitchScreen(cm.previousScreen.screenName, cm.currentScreen.disablingDuration));
-        //        Debug.Log("Shipment posted successfully: " + req.downloadHandler.text);
-        //    }
-        //}
+            if (req.result == UnityWebRequest.Result.ConnectionError ||
+                req.result == UnityWebRequest.Result.ProtocolError)
+            {
+                Debug.LogError("Error posting shipment: " + req.error + " - " + req.downloadHandler.text);
+            }
+            else
+            {
+                StartCoroutine(cm.SwitchScreen(cm.previousScreen.screenName, cm.currentScreen.disablingDuration));
+                Debug.Log("Shipment posted successfully: " + req.downloadHandler.text);
+            }
+        }
     }
 
     public override void OnReceiveData(object data)
@@ -241,7 +269,8 @@ public class ShipmentFormController : CanvasController
                 {
                     case "add":
                         _currentShipment = new Shipment();
-                        UpdateUI();
+                        _currentShipment.driver_name = "new";
+                        _currentShipment.vehicle_name = "new";
                         addOrder.SetEnabled(true);
                         addOrder.style.display = DisplayStyle.Flex;
                         StartCoroutine(LoadTransportationData());
@@ -252,7 +281,6 @@ public class ShipmentFormController : CanvasController
                         {
                             _currentShipment = incomingShipment;
                             orders = _currentShipment.orders;
-                            UpdateUI();
                             addOrder.SetEnabled(true);
                             addOrder.style.display = DisplayStyle.Flex;
                             StartCoroutine(LoadTransportationData());
@@ -269,6 +297,40 @@ public class ShipmentFormController : CanvasController
                 }
             }
         }
+    }
+
+    private void AutoLoadDriverVeh()
+    {
+        foreach(var d in drivers)
+        {
+            if (d != null && d.name == driver.value && d.vehicle_id != null)
+            {
+                foreach(var v in vehicles)
+                {
+                    if(v.id.ToString() == d.vehicle_id)
+                    {
+                        vehicle.value = v.name; break;
+                    }
+                }
+            }
+        }
+    }
+
+    private void EnableSubmit()
+    {
+        //// Optional: only enable when not empty
+        //bool isReady = !string.IsNullOrEmpty(docuno.value?.Trim()) &&
+        //               !string.IsNullOrEmpty(custname.value?.Trim());
+        if(orders.Count > 0)
+        {
+            submitShipment.SetEnabled(true);
+            submitShipment.pickingMode = PickingMode.Position;
+        }
+    }
+    private void DisableSubmit()
+    {
+        submitShipment.SetEnabled(false);
+        submitShipment.pickingMode = PickingMode.Ignore;
     }
 
     public override void OnCanvasLoaded()
@@ -374,8 +436,6 @@ public class ShipmentFormController : CanvasController
 
             if (orders.Count > 0)
             {
-                submitShipment.SetEnabled(true);
-
                 var counter = 1;
                 foreach (var order in orders)
                 {
@@ -493,8 +553,9 @@ public class ShipmentFormController : CanvasController
 
                     counter++;
                 }
+                EnableSubmit();
             } else {
-                submitShipment.SetEnabled(false);
+                DisableSubmit();
             }
         }
     }

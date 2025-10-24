@@ -26,33 +26,35 @@ public class TransportationsController : CanvasController
     private string apiUrl;
     private VisualElement ui;
     private ScrollView scroll;
+    private TextField searchTextField;
+    private ProgressBar progressBar;
+    private Label progressLabel;
     private List<DateGroup> allGroups; // To store all the data from the server
+
+    void Awake()
+    {
+        ui = GetComponent<UIDocument>().rootVisualElement;
+    }
+
+    private void OnEnable()
+    {
+        var close = ui.Q<Button>("Close");
+        var addShipment = ui.Q<Button>("AddShipment");
+        searchTextField = ui.Q<TextField>("SearchTextField");
+        progressBar = ui.Q<ProgressBar>("Progress");
+        progressLabel = ui.Q<Label>("ProgressLabel");
+
+        if (close != null) close.clicked += OnCloseClicked;
+        if (addShipment != null) addShipment.clicked += () => {
+            StartCoroutine(CanvasManager.Instance.SwitchScreen("shipmentForm", 900, new Dictionary<string, object> { { "type", "add" } }));
+        };
+        if (searchTextField != null) searchTextField.RegisterValueChangedCallback(evt => FilterAndBuildUI(evt.newValue));
+    }
 
     public override void OnCanvasLoaded()
     {
         apiUrl = "http://" + PlayerPrefs.GetString("ServerIP") + "/api/shipments"; // <-- change to your URL
         base.OnCanvasLoaded();
-
-        // wire existing controls if any
-        var close = ui.Q<Button>("Close");
-        if (close != null) close.clicked += OnCloseClicked;
-
-        var addShipment = ui.Q<Button>("AddShipment");
-        var data = new Dictionary<string, object>
-        {
-            { "type", "add" }
-        };
-        if (addShipment != null) addShipment.clicked += () => {
-            StartCoroutine(CanvasManager.Instance.SwitchScreen("shipmentForm", 900, data));
-        };
-
-        // Search Box logic
-        var searchTextField = ui.Q<TextField>("SearchTextField");
-        if (searchTextField != null)
-        {
-            searchTextField.RegisterValueChangedCallback(evt => FilterAndBuildUI(evt.newValue));
-        }
-
 
         // start loading
         StartCoroutine(LoadAndPopulate(false));
@@ -80,11 +82,6 @@ public class TransportationsController : CanvasController
 
         // clear previous content
         scroll.contentContainer.Clear();
-    }
-
-    void Awake()
-    {
-        ui = GetComponent<UIDocument>().rootVisualElement;
     }
 
     private IEnumerator LoadAndPopulate(bool silent)
@@ -317,6 +314,7 @@ public class TransportationsController : CanvasController
                     right.name = "Order";
                     right.AddToClassList("shipment_orders");
 
+                    int counter = 0;
                     foreach (var order in shipment.orders)
                     {
                         var orderBtn = new Button();
@@ -348,26 +346,30 @@ public class TransportationsController : CanvasController
                         var checkbox = new Toggle();
                         if (order.status == "completed")
                         {
+                            counter++;
                             checkbox.value = true;
                             var a = new Color();
                             ColorUtility.TryParseHtmlString($"#27AE60", out a);
                             orderBtn.style.backgroundColor = a;
+
+                            if(counter == shipment.orders.Count())
+                            {
+                                a.a = 0.25f;
+                                row.style.backgroundColor = a;
+                            }
                         }
                         checkbox.name = $"TG{group.date}-{shipment.id}-{order.id}";
                         checkbox.AddToClassList("transportation-order-checkbox");
                         checkbox.RegisterValueChangedCallback(evt =>
                         {
                             StartCoroutine(ToggleStatus(order));
-                            var b = vehColor;
-                            if (order.status == "completed")
+                            if (searchTextField.value != "")
                             {
-                                var a = new Color();
-                                ColorUtility.TryParseHtmlString($"#27AE60", out a);
-                                orderBtn.style.backgroundColor = a;
+                                FilterAndBuildUI(SafeText(searchTextField.value));
                             }
                             else
                             {
-                                orderBtn.style.backgroundColor = b;
+                                BuildUI(allGroups);
                             }
                         });
                         orderBtn.Add(checkbox);
@@ -435,6 +437,30 @@ public class TransportationsController : CanvasController
 
                 // add whole date block to scroll content
                 scroll.contentContainer.Add(dateBlock);
+            }
+            if(progressBar != null && progressLabel != null)
+            {
+                float allCount = 0; float successCount = 0;
+                foreach(var g in allGroups)
+                {
+                    foreach(var s in g.shipments)
+                    {
+                        foreach(var o in s.orders)
+                        {
+                            allCount++;
+                            switch (o.status)
+                            {
+                                case "completed":
+                                    successCount++;
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
+                    }
+                }
+                progressBar.value = (successCount / allCount)*100;
+                progressLabel.text = $"{Math.Ceiling(((successCount / allCount)*10)*100)/10}% - {successCount}/{allCount}";
             }
         }
 

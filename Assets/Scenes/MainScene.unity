@@ -364,7 +364,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 330585543}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.27300525, y: 0.13252598, z: -0.038001213, w: 0.95208246}
+  m_LocalRotation: {x: 0.27289557, y: 0.13524626, z: -0.03878125, w: 0.9516998}
   m_LocalPosition: {x: -3, y: 5.239354, z: -3.7843847}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -2337,7 +2337,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1728363682}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.27300522, y: 0.13252597, z: -0.038001206, w: 0.95208246}
+  m_LocalRotation: {x: 0.27289554, y: 0.13524625, z: -0.038781237, w: 0.95169985}
   m_LocalPosition: {x: -3, y: -2.7606459, z: 6.2156153}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -2572,7 +2572,6 @@ MonoBehaviour:
   settingController: {fileID: 923729880}
   vehicles: []
   drivers: []
-  orders: []
 --- !u!1 &1961395902
 GameObject:
   m_ObjectHideFlags: 0

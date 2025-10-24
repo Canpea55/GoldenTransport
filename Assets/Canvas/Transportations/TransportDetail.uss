@@ -29,10 +29,10 @@
     margin-right: 8px;
     margin-bottom: 8px;
     margin-left: 8px;
-    padding-top: 0;
-    padding-right: 0;
-    padding-bottom: 0;
-    padding-left: 0;
+    padding-top: 8px;
+    padding-right: 8px;
+    padding-bottom: 8px;
+    padding-left: 8px;
     background-color: rgba(0, 0, 0, 0);
     align-self: flex-start;
     -unity-text-align: upper-left;
@@ -103,6 +103,10 @@
     justify-content: flex-start;
     width: 100%;
     max-width: 100%;
+    border-top-left-radius: 16px;
+    border-top-right-radius: 16px;
+    border-bottom-right-radius: 16px;
+    border-bottom-left-radius: 16px;
 }
 
 .shipment {
@@ -110,8 +114,16 @@
     min-width: 100%;
     max-width: 100%;
     flex-direction: row;
-    margin-top: 8px;
-    margin-bottom: 8px;
+    margin-top: 2px;
+    margin-bottom: 2px;
+    border-top-left-radius: 16px;
+    border-top-right-radius: 16px;
+    border-bottom-right-radius: 16px;
+    border-bottom-left-radius: 16px;
+    padding-top: 8px;
+    padding-right: 8px;
+    padding-bottom: 8px;
+    padding-left: 8px;
 }
 
 .shipment_vehicle {
@@ -137,9 +149,9 @@
     margin-bottom: 0;
     margin-left: 0;
     padding-top: 8px;
-    padding-right: 16px;
+    padding-right: 0;
     padding-bottom: 0;
-    padding-left: 16px;
+    padding-left: 0;
     color: rgb(9, 132, 227);
     max-height: 32px;
     -unity-font-style: bold;
@@ -156,9 +168,9 @@
     margin-bottom: 0;
     margin-left: 0;
     padding-top: 0;
-    padding-right: 16px;
+    padding-right: 0;
     padding-bottom: 0;
-    padding-left: 16px;
+    padding-left: 0;
     color: rgb(99, 110, 114);
     font-size: 14px;
     max-height: 28px;
@@ -173,6 +185,7 @@
     min-width: 50%;
     max-width: 50%;
     min-height: 50px;
+    padding-right: 8px;
 }
 
 .shipment_order-button {
@@ -202,6 +215,7 @@
     border-bottom-right-radius: 16px;
     border-bottom-left-radius: 16px;
     flex-direction: row;
+    display: flex;
 }
 
 .shipment_order-button-detailgrp {

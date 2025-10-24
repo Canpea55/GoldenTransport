@@ -16,8 +16,8 @@
                     <ui:VisualElement name="Progress" style="flex-grow: 0; overflow: visible; align-self: center; align-items: flex-start; align-content: center; height: auto; justify-content: center; margin-top: 8px; margin-right: 8px; margin-bottom: 8px; margin-left: 8px;">
                         <ui:Label text="ความคืบหน้าการขนส่ง" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; flex-shrink: 1; align-items: flex-start; align-self: center; color: rgb(99, 110, 114); align-content: flex-start;" />
                         <ui:VisualElement style="flex-grow: 0; flex-direction: row; align-self: flex-start;">
-                            <ui:ProgressBar value="73" style="width: 20px; height: 20px; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; justify-content: center; align-self: center;" />
-                            <ui:Label text="73% - 65/89" style="margin-top: 0; margin-right: 4px; margin-bottom: 0; margin-left: 4px; -unity-text-align: middle-left; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; align-self: center; align-content: center; justify-content: center; align-items: center;" />
+                            <ui:ProgressBar value="73" name="Progress" style="width: 20px; height: 20px; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; justify-content: center; align-self: center;" />
+                            <ui:Label text="73% - 65/89" name="ProgressLabel" style="margin-top: 0; margin-right: 4px; margin-bottom: 0; margin-left: 4px; -unity-text-align: middle-left; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; align-self: center; align-content: center; justify-content: center; align-items: center;" />
                         </ui:VisualElement>
                     </ui:VisualElement>
                     <ui:VisualElement name="SearchBox" style="flex-grow: 0; overflow: visible; align-self: center; align-items: flex-start; align-content: flex-start; height: 100%; justify-content: center; margin-top: 8px; margin-right: 8px; margin-bottom: 8px; margin-left: 8px;">
@@ -40,8 +40,8 @@
                             <ui:VisualElement name="Date" class="date_label_outer">
                                 <ui:Label text="2025-09-13" class="date_label" />
                             </ui:VisualElement>
-                            <ui:VisualElement name="Shipments" class="shipments_container">
-                                <ui:VisualElement name="2025-09-13-2" class="shipment">
+                            <ui:VisualElement name="Shipments" class="shipments_container" style="background-color: rgba(255, 255, 255, 0);">
+                                <ui:VisualElement name="2025-09-13-2" class="shipment" style="background-color: rgba(39, 174, 96, 0.5);">
                                     <ui:VisualElement name="Vehicle" class="shipment_vehicle">
                                         <ui:Button name="2025-09-13-1" class="transportation-delivery-button">
                                             <ui:Label text="ปอง (รถสี่ 23-2456)" name="title" class="shipment_vehicle_title" />

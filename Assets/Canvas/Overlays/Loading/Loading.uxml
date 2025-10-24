@@ -1,6 +1,6 @@
 <ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
     <Style src="project://database/Assets/Canvas/Overlays/Loading/Loading.uss?fileID=7433441132597879392&amp;guid=cddef6371acbdfc43b46f26c1bd9b4a2&amp;type=3#Loading" />
-    <ui:VisualElement name="Panel" enabled="false" class="panel" style="flex-grow: 1; background-color: rgba(116, 185, 255, 0.75);">
+    <ui:VisualElement name="Panel" enabled="false" class="panel" style="flex-grow: 1; background-color: rgba(116, 185, 255, 0.7);">
         <ui:VisualElement name="Container" style="flex-grow: 1; align-content: center; align-self: center; justify-content: center; align-items: center; width: 100%;">
             <ui:VisualElement name="LoadingAnim" class="loadinganim" />
         </ui:VisualElement>
