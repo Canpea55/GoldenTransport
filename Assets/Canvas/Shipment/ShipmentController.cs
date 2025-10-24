@@ -31,7 +31,8 @@ public class ShipmentController : CanvasController
 
     public override void OnCanvasLoaded()
     {
-        cam.enabled = true;
+        //cam.enabled = true;
+        cam.enabled = false;
     }
 
     public override void OnCanvasUnloaded()

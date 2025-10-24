@@ -2,7 +2,7 @@
     <Style src="project://database/Assets/Canvas/Shipment/Shipment.uss?fileID=7433441132597879392&amp;guid=e44e410d4122a5e47b1aef37bf766724&amp;type=3#Shipment" />
     <Style src="project://database/Assets/Canvas/Panel.uss?fileID=7433441132597879392&amp;guid=2269da2f2b1e03147bd7dc9fcc8eff51&amp;type=3#Panel" />
     <Style src="project://database/Assets/Canvas/Shipment/MinimalScrollbarShipment.uss?fileID=7433441132597879392&amp;guid=b7a89542e4330b447880dd884dc91305&amp;type=3#MinimalScrollbarShipment" />
-    <ui:VisualElement name="Panel" enabled="true" class="panel" style="flex-grow: 1; background-color: rgba(255, 255, 255, 0);">
+    <ui:VisualElement name="Panel" enabled="true" class="panel" style="flex-grow: 1; background-color: rgb(255, 250, 250);">
         <ui:VisualElement name="Container" style="flex-grow: 1; align-self: center; width: 90%; align-items: center; margin-top: 16px; margin-bottom: 16px;">
             <ui:VisualElement name="TransportData" style="flex-grow: 1; width: 45%; align-self: flex-end; padding-top: 16px; padding-right: 16px; padding-bottom: 16px; padding-left: 16px; background-color: rgb(116, 185, 255); border-top-left-radius: 16px; border-top-right-radius: 16px; border-bottom-right-radius: 16px; border-bottom-left-radius: 16px;">
                 <ui:VisualElement style="flex-grow: 1; flex-direction: row; align-items: center; flex-shrink: 0; justify-content: space-between; max-height: 32px; margin-bottom: 4px;">

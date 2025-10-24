@@ -220,18 +220,21 @@ public class ShipmentFormController : CanvasController
             itemsContainer.Clear();
             if (payload != null)
             {
-                if (uiType == "add")
+                switch (uiType)
                 {
-                    orders.Clear();
-                    UpdateUI();
-                    addOrder.SetEnabled(true);
-                    addOrder.style.display = DisplayStyle.Flex;
-                    StartCoroutine(LoadTransportationData());
-                }
-                else
-                {
-                    addOrder.SetEnabled(false);
-                    addOrder.style.display = DisplayStyle.None;
+                    case "add":
+                        orders.Clear();
+                        UpdateUI();
+                        addOrder.SetEnabled(true);
+                        addOrder.style.display = DisplayStyle.Flex;
+                        StartCoroutine(LoadTransportationData());
+                        break;
+                    case "edit":
+                        break;
+                    default:
+                        addOrder.SetEnabled(false);
+                        addOrder.style.display = DisplayStyle.None;
+                        break;
                 }
             }
         }
@@ -239,7 +242,8 @@ public class ShipmentFormController : CanvasController
 
     public override void OnCanvasLoaded()
     {
-        cam.enabled = true;
+        //cam.enabled = true;
+        cam.enabled = false;
     }
 
     public override void OnCanvasUnloaded()
