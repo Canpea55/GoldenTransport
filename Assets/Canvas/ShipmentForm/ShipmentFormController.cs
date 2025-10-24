@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using TMPro;
@@ -9,7 +10,6 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UIElements;
-using System.Globalization;
 
 public class ShipmentFormController : CanvasController
 {
@@ -18,12 +18,12 @@ public class ShipmentFormController : CanvasController
     public Camera cam;
 
     public SettingController settingController;
-
-    public List<Vehicles> vehicles = new List<Vehicles>();
-    public List<Driver> drivers = new List<Driver>();
-    public List<Order> orders = new List<Order>();
-
+    
     [SerializeField] private Shipment _currentShipment;
+
+    private List<Vehicles> vehicles = new List<Vehicles>();
+    private List<Driver> drivers = new List<Driver>();
+    private List<Order> orders = new List<Order>();
 
     public Button close;
     public Button addOrder;
@@ -56,7 +56,21 @@ public class ShipmentFormController : CanvasController
 
             driver = ui.Q<DropdownField>("Driver");
             driver.choices = drivers.Select(d => d.name).ToList();
-            driver.index = 0;
+            if(driver.choices.Count > 0)
+            {
+                if(_currentShipment.driver_name != "")
+                {
+                    driver.value = _currentShipment.driver_name;
+                }
+                else
+                {
+                    driver.index = 0;
+                }
+            }
+            else
+            {
+                Debug.LogError("There is no driver choices.");
+            }
         }
 
         using (UnityWebRequest req = UnityWebRequest.Get("http://" + settingController.getServerIP() + "/api/vehicles"))
@@ -75,7 +89,21 @@ public class ShipmentFormController : CanvasController
 
             vehicle = ui.Q<DropdownField>("Vehicle");
             vehicle.choices = vehicles.Select(d => d.name).ToList();
-            vehicle.index = 0;
+            if (vehicle.choices.Count > 0)
+            {
+                if (_currentShipment.vehicle_name != "")
+                {
+                    vehicle.value = _currentShipment.vehicle_name;
+                }
+                else
+                {
+                    vehicle.index = 0;
+                }
+            }
+            else
+            {
+                Debug.LogError("There is no driver choices.");
+            }
         }
         StartCoroutine(CanvasManager.Instance.DisableOverlay("loading", 600));
     }
@@ -170,30 +198,32 @@ public class ShipmentFormController : CanvasController
             Debug.LogError("Invalid date format entered: " + shipment.delivery_date);
             yield break;
         }
-        
-        using (UnityWebRequest req = new UnityWebRequest("http://" + SettingsManager.Instance.GetServerIP() + "/api/shipment", "POST"))
-        {
-            string json = JsonUtility.ToJson(shipment);
-            Debug.Log(json);
-            byte[] bodyRaw = Encoding.UTF8.GetBytes(json);
 
-            req.uploadHandler = new UploadHandlerRaw(bodyRaw);
-            req.downloadHandler = new DownloadHandlerBuffer();
-            req.SetRequestHeader("Content-Type", "application/json");
+        string json = JsonUtility.ToJson(shipment);
+        Debug.Log(json);
+        //using (UnityWebRequest req = new UnityWebRequest("http://" + SettingsManager.Instance.GetServerIP() + "/api/shipment", "POST"))
+        //{
+        //    string json = JsonUtility.ToJson(shipment);
+        //    Debug.Log(json);
+        //    byte[] bodyRaw = Encoding.UTF8.GetBytes(json);
 
-            yield return req.SendWebRequest();
+        //    req.uploadHandler = new UploadHandlerRaw(bodyRaw);
+        //    req.downloadHandler = new DownloadHandlerBuffer();
+        //    req.SetRequestHeader("Content-Type", "application/json");
 
-            if (req.result == UnityWebRequest.Result.ConnectionError ||
-                req.result == UnityWebRequest.Result.ProtocolError)
-            {
-                Debug.LogError("Error posting shipment: " + req.error + " - " + req.downloadHandler.text);
-            }
-            else
-            {
-                StartCoroutine(cm.SwitchScreen(cm.previousScreen.screenName, cm.currentScreen.disablingDuration));
-                Debug.Log("Shipment posted successfully: " + req.downloadHandler.text);
-            }
-        }
+        //    yield return req.SendWebRequest();
+
+        //    if (req.result == UnityWebRequest.Result.ConnectionError ||
+        //        req.result == UnityWebRequest.Result.ProtocolError)
+        //    {
+        //        Debug.LogError("Error posting shipment: " + req.error + " - " + req.downloadHandler.text);
+        //    }
+        //    else
+        //    {
+        //        StartCoroutine(cm.SwitchScreen(cm.previousScreen.screenName, cm.currentScreen.disablingDuration));
+        //        Debug.Log("Shipment posted successfully: " + req.downloadHandler.text);
+        //    }
+        //}
     }
 
     public override void OnReceiveData(object data)
@@ -217,6 +247,20 @@ public class ShipmentFormController : CanvasController
                         StartCoroutine(LoadTransportationData());
                         break;
                     case "edit":
+                        if (payload.TryGetValue("shipment", out object shipmentObject) 
+                            && shipmentObject is Shipment incomingShipment)
+                        {
+                            _currentShipment = incomingShipment;
+                            orders = _currentShipment.orders;
+                            UpdateUI();
+                            addOrder.SetEnabled(true);
+                            addOrder.style.display = DisplayStyle.Flex;
+                            StartCoroutine(LoadTransportationData());
+                        }
+                        else
+                        {
+                            Debug.LogError($"cant get shipment from payload, or incoming shipment is not a Shipment");
+                        }
                         break;
                     default:
                         addOrder.SetEnabled(false);
