@@ -51,6 +51,11 @@ public class TransportationsController : CanvasController
         if (searchTextField != null) searchTextField.RegisterValueChangedCallback(evt => FilterAndBuildUI(evt.newValue));
     }
 
+    private void Start()
+    {
+        BuildUI(allGroups);
+    }
+
     public override void OnCanvasLoaded()
     {
         apiUrl = "http://" + PlayerPrefs.GetString("ServerIP") + "/api/shipments"; // <-- change to your URL
